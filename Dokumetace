@@ -10,3 +10,30 @@ Neuron
     Přeposílaná data se nazi vají imput.
     Výsledek neuronu zjistíme tím že imput vynásobýme váhou (weight) a 
     přičteme bias.
+    neuron = imput*weight + bias
+
+Bias a weight
+    Pomocí těchto dvou hodnot nastavujeme neuronovou síť.
+    Tyto dvě hodnoty upravují výsledek pravě z neurono a tím síť v
+    tom lepčí případě zdokonalují a opravijí předešlé chyby. 
+Tvar / Shape
+    Tvar určuje jak velký je list a kolik listů je v listu.     
+    Prozor záleží na typu listu.
+    List = [1, 2, 3]        Shape: (3)          1D, List        List ==     Array ==        Vektor
+    List = [[1, 2, 3],      Shape: (2, 3)       2D, Matrix      Python      Programování    Matematika
+            [1, 2, 3]]
+    List = [[[1, 2, 3],     Shape: (3, 2, 3) = tři listy po dvou listech s třemi hodnotami
+                [1, 2, 3]],                     3D, Array
+            [[1, 2, 3],
+                [1, 2, 3]],
+            [[1, 2, 3],
+                [1, 2, 3]]]
+Tensor
+    předmět který jze zobrazyt jako list
+Dot product
+    Sčítání listů.
+    Končí jednou skalární veličinou.
+    a = [1, 2, 3]
+    b = [2, 3, 4]
+    dot_product = a[0]*b[0] + a[1]*b[1] + a[2]*b[2]
+    dot_product = [1, 2, 3] * [2, 3, 4] = 1*2 + 2*3 + 3*4 = 20
