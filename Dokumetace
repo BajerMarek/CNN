@@ -1,0 +1,12 @@
+Neuronova síť dokumentace
+
+Cíl:
+spracovávat fotky 
+
+Neuron
+    Neuron je spojen s ostatnimy neurony v síť.
+    Každý neuroun masvýj vysledek který posílá dál dasším neuronům,
+    až se eventuleně dostane k výsledku.
+    Přeposílaná data se nazi vají imput.
+    Výsledek neuronu zjistíme tím že imput vynásobýme váhou (weight) a 
+    přičteme bias.
