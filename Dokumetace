@@ -37,3 +37,22 @@ Dot product
     b = [2, 3, 4]
     dot_product = a[0]*b[0] + a[1]*b[1] + a[2]*b[2]
     dot_product = [1, 2, 3] * [2, 3, 4] = 1*2 + 2*3 + 3*4 = 20
+Imput
+    Pro imputy je vhodné dávat je neuronům v menších dávkách
+    než po jednom
+    Idealní velikost jedné davky je 32 naráz. (batch size)
+Produkt matrixu 
+    Jedná so o sčítání dvou matryxů (2D listů).
+    Tímto způsobem :
+        Pro získání první hodnoty se musí vynásobyt první hodnota v prvním
+        řádku listu v jednom metrixu s první hodnotou prvního sloupce
+        v listu druhém. A stejným spusobem to pokračuje na druhé hodnoty a třetí a ...
+        Takto zíáskané hodnoty se navtájem sečtou a výsledným součtem těch to hodnot je 
+        první pole v novém metrixu.
+    Sčítání pokračuje tímto způsobem:
+        Nejprve se musí sečíts první řádek se všemi sloupci v metrixu.
+        Nasledně drůhý řádek se všemi sloupci pak třetí ...
+Transpose
+    Zmnění v metrixu řádky na sloupce
+    Volání: .T
+
