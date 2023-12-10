@@ -55,4 +55,17 @@ Produkt matrixu
 Transpose
     Zmnění v metrixu řádky na sloupce
     Volání: .T
-
+Nastavení vah /weight
+    Idealní je, je nastavit v rozmezí -1 až 1.
+    Problem je vrom že pokud je váha větší než 1 tak imputy rostou
+    exponencionálně.
+Nastaveni biasu
+    Biasi se obyčejně nastavují jako 0 - pro jejich lepší inicializaci a 
+    za cílem hledání chyb.
+np.random.randn()
+    Vytváří lysty nebo matrixi s nahodnými za pomocí - Gaussovo rozdělení
+    nebo normální rozdělení s průměrem 0 a směrodatnou odchylkou 1 
+    (Počet hodnot v jednom lystu, Počet lystů)
+np.zeros()
+    Vytvoří lyst plný nul stím že do závorky se musí zadar Tvar / Shape 
+    
