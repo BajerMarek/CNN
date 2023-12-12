@@ -55,17 +55,45 @@ Produkt matrixu
 Transpose
     Zmnění v metrixu řádky na sloupce
     Volání: .T
+
 Nastavení vah /weight
     Idealní je, je nastavit v rozmezí -1 až 1.
     Problem je vrom že pokud je váha větší než 1 tak imputy rostou
     exponencionálně.
+
 Nastaveni biasu
     Biasi se obyčejně nastavují jako 0 - pro jejich lepší inicializaci a 
     za cílem hledání chyb.
+
 np.random.randn()
     Vytváří lysty nebo matrixi s nahodnými za pomocí - Gaussovo rozdělení
     nebo normální rozdělení s průměrem 0 a směrodatnou odchylkou 1 
     (Počet hodnot v jednom lystu, Počet lystů)
+
 np.zeros()
     Vytvoří lyst plný nul stím že do závorky se musí zadar Tvar / Shape 
-    
+np.maximum()
+    Porovnává dvě hodnoty nebo lysty a vypysuje největší hodnoty na stejném místě
+    např.   array1 = np.array([1, 5, 2, 7])
+            array2 = np.array([3, 2, 8, 1])
+            vysledek = [3 5 8 7]
+            
+Activation function
+    Funkce přes kterou upravujeme output neuronu.
+    Využívají se proto že samotný output nemusí vyhovovat požadavkum na danou CNN.
+    Aktivační funkce tedy output upravý tak aby vyhovoval požadavkům lépe
+    a přispůsobyl se.
+
+Step function
+        Pokud je imput větší než 0 tak se rovná 1.
+        Pokud ne tak se rovná 0
+
+Sigmoid function
+    Rozdíl mezi Step function a touto funkce je že dostaneme 
+    output s rozptylem.
+    Např. misto 1 nebo 0 muže me dosta hodnotu mezi 1 nebo 0 => 0,5.
+
+Rectified linear unit
+    Pokud je neznámá větší než 0 tak output je neznámá.
+    Ale pokud je menší než 0 tak se rovná nule
+
