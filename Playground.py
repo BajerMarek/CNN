@@ -2,6 +2,23 @@ import numpy as np
 import matplotlib as plt
 np.random.seed(0)
 
+layer_otput = [4.8, 1.2, 2.385]
+
+layer_otput = [4.8, 4.79, 4.25]
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
 # data set pro CNN => nahodný data.
 #https://cs231n.github.io/neural-networks-case-study/
 def spiral_data(points, classes):
@@ -23,3 +40,14 @@ plt.show()
 
 plt.scatter(X[:,0], X[:.1], c=y, camp="brg")
 
+#print(0.10 * np.random.randn(4, 3)) # vysvětleni v dokumetaci
+
+inputs = [0, 2, -1, 3.3, -2.7, 1.1, 2.2, -100]
+output = []
+for i in inputs:
+    if i > 0:
+        output.append(i)
+    elif i <= 0:
+        output.append(0)
+print(output)
+"""
