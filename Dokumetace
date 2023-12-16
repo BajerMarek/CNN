@@ -38,7 +38,7 @@ Dot product
     dot_product = a[0]*b[0] + a[1]*b[1] + a[2]*b[2]
     dot_product = [1, 2, 3] * [2, 3, 4] = 1*2 + 2*3 + 3*4 = 20
 Imput
-    Pro imputy je vhodné dávat je neuronům v menších dávkách
+    Pro imputy je vhodné dávat je neuronům v větších dávkách
     než po jednom
     Idealní velikost jedné davky je 32 naráz. (batch size)
 Produkt matrixu 
@@ -97,3 +97,36 @@ Rectified linear unit
     Pokud je neznámá větší než 0 tak output je neznámá.
     Ale pokud je menší než 0 tak se rovná nule
 
+Softmax activation function
+    Převádí čísla na pravděpodobnost. 
+    Suma všech pravděpodobností je vždi 1.
+    Softmax se použí vá proto aby sme se vyvarovaly problému s zápornýmy hodnotami 
+    ve výsledku.
+    Tedy abychom mohly správně určit jak špatný byl výsledek.
+    Proto použijeme exponencialní funkce se zakladem eulerova čísla. (e)
+    Protože vždy bude rozdíl mezi e^2 a e^-2.
+    Softmax je kombynace normalizace a exponecializace. 
+
+Normalizace
+    V našem případě to bude output jednoho neuronu dělono sumou outputů 
+    všech ostatních neouronů v dané vrstvě.
+    Tím získáme probability distribution => rovnoměrné rozdělení pravděpodobnost
+Parametr axis
+    V numpy se pužívá pro většínou pro funkci np.sum().
+    Ur čuje jakým spůsobem se bude s 2D listem počítat.
+    Např. pri použítí np.sum():                 X = 2D list
+    Když se axis=0 tak se sčítají sloupce       np.sum(X, axis=0):
+    Ale pokud se axis=1 tak se sčítají řádky    np.sum(X, axis=1):
+Parametr keepdims=True
+    Zaručí že hodnota z dané funkce bude ve stejném tvaru jako její imput.
+    Tedy pokud do funkce zadáme 2D list ta zní získame znovu 2D list.
+Zabránění přsicení
+    Aby se zabránilo přesicení funkce je potřeba převést nejvýší hodnotu
+    ze zadaných hodnot na 0 a a všechny ostatní hodnoty na menší než nula.
+    Př.  X = [1,2,3] hodnoty v funkci před upravou
+         X = [-2,-1,0] hodnoty v funkci po ůpravě
+    Výsledkem tto upravy je to že z funkce nyní získáme data v rožmezí 0 až 1
+    a ne 0 až ∞ (nekonečno)
+    Duležité je že po propojení takto upravených hodnot a Softmax funkce získáme
+    ulně stejné hodnoty jak kdybycho data vůbec neupravovaly.
+    A proč? No protože poměr zůstává stejný.
