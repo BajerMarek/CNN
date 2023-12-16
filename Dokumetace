@@ -130,3 +130,26 @@ Zabránění přsicení
     Duležité je že po propojení takto upravených hodnot a Softmax funkce získáme
     ulně stejné hodnoty jak kdybycho data vůbec neupravovaly.
     A proč? No protože poměr zůstává stejný.
+Loss function / optimalizace na základě chyb, aktivyční funkce na outputové vrstvě
+    Jedná se o funkci která optimalizuje neuronovou síť na základě chyb které dělá.
+    Pro naší síť která využívá Softmax je vhodná Loss funkce s názvem categorical cross entropy.
+    (take pro neuronové sítě s cílem klasifikovat)
+Mean absolute error
+    Vytvoří hodnotu která říká jak moc je výsledek neuronové sítě špatně na základě
+    průměru vzdálenosti chybné hodnoty od té správné.
+    Hodnota absolute error se snižuje tehdy pokud se výsledek přibližuje požadované hodnotě.
+One-hot encoding
+    Jedná se o list s délkou n, (n = počet class),  kdy  je tento lit plný nul kromně 
+    jedné hodnoty která bude 1.
+    Tu to hohonotu = Label (jedná se o index v listu One-hot ) si nasastavýme předem.
+Categorical cross entropy
+    Je funkce pro kterou vužíváme One-hot  a pravděpodobnost z Softmax.
+    Jedná se o zápornou sumu z hodnot One-hot  kdy každou hodnotu než ji přičteme
+    k jiné platí že ji vynásobýme přirozeným logaritmem se zkladem jako hodnota z 
+    pravděpodobnosti se stejným indexem jako One-hot . 
+    Př. X = výsledek 
+        Class: 3 
+        Label: 0
+        One-hot:            [1, 0, 0]
+        pravděpodobnost:    [0,7, 0.1, 0.2]
+        X = -(1 * log(0,7) + 0 * log(0,1)+ 0 * log(0,2))
