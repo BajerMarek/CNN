@@ -1,4 +1,4 @@
-#https://www.youtube.com/watch?v=omz_NdFgWyU&t=1328s&ab_channel=sentdex
+#https://www.youtube.com/watch?v=levekYbxauw&t=192s&ab_channel=sentdex
 import numpy as np
 import matplotlib
 import nnfs
@@ -25,6 +25,23 @@ class Activation_Softmax:
         propabilities = exp_values / np.sum(exp_values,axis=1, keepdims=True )
         self.output = propabilities
 
+class Loss:
+    def calculate(self, output, y ):
+        sample_losses = self.forward(output,y)
+        data_loss = np.mean(sample_losses)
+        return data_loss
+    
+class Loss_CategoriCalcrossEntropy(Loss):
+    def forward(self,y_pred,y_true):
+        samples = len(y_pred)
+        y_pred_clipped = np.clip(y_pred, 1e-7, 1-1e-7)
+
+        if len(y_true.shape) == 1:
+            correcr_confidence = y_pred_clipped[range(samples), y_true]
+        elif len(y_true.shape) == 1:
+            correcr_confidence = np.sum(y_pred_clipped*y_true, axis=1)
+        negative_log_likelihoods = -np.log(correcr_confidence)
+        return negative_log_likelihoods
 
 X,y = spiral_data(samples=100, classes=3)
 
@@ -42,8 +59,10 @@ activation2.forward(dense2.output)
 
 print(activation2.output[:5])
 
+loss_function= Loss_CategoriCalcrossEntropy()
+loss = loss_function.calculate(activation2.output, y)
 
-
+print("Loss:", loss)
 
 
 
