@@ -62,7 +62,7 @@ print(activation2.output[:5])
 loss_function= Loss_CategoriCalcrossEntropy()
 loss = loss_function.calculate(activation2.output, y)
 
-print("Loss:", loss)
+print("Loss:",loss)
 
 
 
