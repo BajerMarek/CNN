@@ -134,6 +134,8 @@ Loss function / optimalizace na základě chyb, aktivyční funkce na outputové
     Jedná se o funkci která optimalizuje neuronovou síť na základě chyb které dělá.
     Pro naší síť která využívá Softmax je vhodná Loss funkce s názvem categorical cross entropy.
     (take pro neuronové sítě s cílem klasifikovat)
+    Jakou hodnotu získáve pomocí této funkce? Získáme hodnotu která vyjadřuje míru
+    správnosti našich výsledků s výsledky správnými.
 Mean absolute error
     Vytvoří hodnotu která říká jak moc je výsledek neuronové sítě špatně na základě
     průměru vzdálenosti chybné hodnoty od té správné.
@@ -153,3 +155,16 @@ Categorical cross entropy
         One-hot:            [1, 0, 0]
         pravděpodobnost:    [0,7, 0.1, 0.2]
         X = -(1 * log(0,7) + 0 * log(0,1)+ 0 * log(0,2))
+Linearni funkce - skol
+    Sklon spočítáme jeako rozdíl rodlílů Δy a rodlílů Δx
+    Př. p1 = [0, 0] Δx = p2x - p1x = 1 - 0 = 1
+        p2 = [1, 2] Δy = p2y - p1y = 2 - 0 = 2
+Sklon tečny
+    Sklon tečny je v našem případě přímka mezi body které jsou odsebe skoro 0 vzdálené.
+    Jsou si nekonečně blízko.
+    Tento sklon je také derivatem přímky. čím dále by odsebe byly ty to body tím nepřesněší bude derivát
+    lze to provézt pouze na nelámané přímce.
+np.arrange()
+    Vytváří listy s náhodnýmy hodnotami v předem zadaném rozmezí.
+    np.arrange(minimalni hodnota, maximalni hodnota, rozdíl mezi jednotlivými hodnotami, datatyp)
+    
