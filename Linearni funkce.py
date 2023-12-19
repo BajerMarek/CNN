@@ -1,5 +1,5 @@
 
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import numpy as np
 
 def f (x) :
@@ -8,20 +8,30 @@ def f (x) :
 x = np.array(range(5))
 y = f(x)
 
-p2_delta = 0.0001
+plt.plot(x, y)
 
-x1 = 1
-x2 = x1+p2_delta
+colors = ['k', 'g', 'r', 'b', 'c',]
 
-y1 = f(x1)
-y2 = f(x2)
+def approximate_tangent_line(x, approximate_derivate, b) :
+    return approximate_derivate*x + b           # y = m*x + b
 
-approcimare_derivative = (y2 - y1) / (x2 - x1)
-print(approcimare_derivative)
-print(x)
-print(y)
-print((y[1] - y[0] / (x[1] - x[0])))
+for i in range (5):
+    p2_delta = 0.0001
+    x1 = i
+    x2 = x1 + p2_delta
+
+    y1 = f(x1)
+    y2 = f(x2)
+    print((x1, x2), (x2, x1))
+                                                    # b = y -m*x
+    approximate_derivate = (y1 - y2) / (x1 - x2)    # b = y2 - approximate_derivate * x2
+
+    b = y2 - approximate_derivate * x2              # vytvoří odhad pomocí přímky kteréá je derivat?
 
 
+    to_plot = [x1-0.9, x1, x1+0.9]
+    plt.scatter(x1, y1, c=colors[i])
+    plt.plot(to_plot, [approximate_tangent_line(point, approximate_derivate, b) for point in to_plot])
+    print('Aproximate derivate for f(x)', f'where x ={x1} is {approximate_derivate}')
 
-
+plt.show()
