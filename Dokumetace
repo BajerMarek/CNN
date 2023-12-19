@@ -2,10 +2,43 @@ Neuronova síť dokumentace
 
 Cíl:
 spracovávat fotky 
+CNN = convolutional neural network
+    = konvoluční neuronová síť
+Neuronová síť
+    Neuronová síť je program který spracovává číselná data a hledá v nich souvisloti.
+    Nazákladě techto souvyslotí pracuje s daty a vyprodukuje výsledek který lze 
+    převézt do námi požadovaného formátu (slova, pravděpodobnost, odhad, překlad...)
+    Neurovoá síť je složená z neuronů.
+    Neurony jsou naskládány do tří vrstev :
+    Vstupová => přijímá a převádí data na čísla 
+    Skrytá => provádí matematické operace na datech, hledá souvyslosti ... upravuje data
+    tak aby jsme získali náš výsledek
+    výstupní => překládá a u ukazuje data ze skryté vrstvy ve formně námy požadovaného 
+    výsledku.
+
+Typy učení neuronových sítí 
+    Supervised learnig / Kontrolované učení
+        Využívá se v případě že máme data a popiss dat -> recept v kuchařce.
+        Nebo fotka a popys to ho ce je na fotce -> Fotka1 ... pes
+    Unsupervised learnig & Self-supervised learning / Nekontrolované učení & Samokontrolované učení
+        Používá se v případě že neexistuhe popis dat.
+        Naučí so poznavat rozdily mezi jednotlivými souvyslosti a zařadí souvysloti
+        => Fotka1 ... není to pes je to kočka protože má delší ocas ... má delší ocas tak je to kočka
+    Transfer learning / učení zdílením
+        Neuronové sítě mezi sebou zdílí na co přišli a tím si navzájem pomáhaji
+        Např. skonbinujeme jednu síť která funguje ja na základě Kontrolované učení a 
+        druhou která využívá Nekontrolované učení & Samokontrolované učení.
+
+Využití neuronových sítí & deep learnig 
+    Dají se využí na vše pokud se povede převést vstupní data na čísla.
+    V ten moment vnich neuronová síť vždi může najít nějáké souvyslosti a eventuelně 
+    mužete získat nějáké výsledky.
+    Určité využití : 
+        Překlad, doporučení, computer vision 
 
 Neuron
     Neuron je spojen s ostatnimy neurony v síť.
-    Každý neuroun masvýj vysledek který posílá dál dasším neuronům,
+    Každý neuroun ma svůj vysledek který posílá dál dasším neuronům,
     až se eventuleně dostane k výsledku.
     Přeposílaná data se nazi vají imput.
     Výsledek neuronu zjistíme tím že imput vynásobýme váhou (weight) a 
@@ -16,6 +49,7 @@ Bias a weight
     Pomocí těchto dvou hodnot nastavujeme neuronovou síť.
     Tyto dvě hodnoty upravují výsledek pravě z neurono a tím síť v
     tom lepčí případě zdokonalují a opravijí předešlé chyby. 
+
 Tvar / Shape
     Tvar určuje jak velký je list a kolik listů je v listu.     
     Prozor záleží na typu listu.
@@ -28,8 +62,13 @@ Tvar / Shape
                 [1, 2, 3]],
             [[1, 2, 3],
                 [1, 2, 3]]]
+
 Tensor
-    předmět který jze zobrazyt jako list
+    Předmět který se zobrazuje jako list v Pythonu.
+    Je dna se o čísla která jsou v nějákem tvaru.
+    Např. List, Matrix, 3D List
+    
+
 Dot product
     Sčítání listů.
     Končí jednou skalární veličinou.
@@ -37,10 +76,12 @@ Dot product
     b = [2, 3, 4]
     dot_product = a[0]*b[0] + a[1]*b[1] + a[2]*b[2]
     dot_product = [1, 2, 3] * [2, 3, 4] = 1*2 + 2*3 + 3*4 = 20
+
 Imput
     Pro imputy je vhodné dávat je neuronům v větších dávkách
     než po jednom
     Idealní velikost jedné davky je 32 naráz. (batch size)
+
 Produkt matrixu 
     Jedná so o sčítání dvou matryxů (2D listů).
     Tímto způsobem :
@@ -52,6 +93,7 @@ Produkt matrixu
     Sčítání pokračuje tímto způsobem:
         Nejprve se musí sečíts první řádek se všemi sloupci v metrixu.
         Nasledně drůhý řádek se všemi sloupci pak třetí ...
+
 Transpose
     Zmnění v metrixu řádky na sloupce
     Volání: .T
@@ -111,15 +153,18 @@ Normalizace
     V našem případě to bude output jednoho neuronu dělono sumou outputů 
     všech ostatních neouronů v dané vrstvě.
     Tím získáme probability distribution => rovnoměrné rozdělení pravděpodobnost
+
 Parametr axis
     V numpy se pužívá pro většínou pro funkci np.sum().
     Ur čuje jakým spůsobem se bude s 2D listem počítat.
     Např. pri použítí np.sum():                 X = 2D list
     Když se axis=0 tak se sčítají sloupce       np.sum(X, axis=0):
     Ale pokud se axis=1 tak se sčítají řádky    np.sum(X, axis=1):
+
 Parametr keepdims=True
     Zaručí že hodnota z dané funkce bude ve stejném tvaru jako její imput.
     Tedy pokud do funkce zadáme 2D list ta zní získame znovu 2D list.
+
 Zabránění přsicení
     Aby se zabránilo přesicení funkce je potřeba převést nejvýší hodnotu
     ze zadaných hodnot na 0 a a všechny ostatní hodnoty na menší než nula.
@@ -130,20 +175,24 @@ Zabránění přsicení
     Duležité je že po propojení takto upravených hodnot a Softmax funkce získáme
     ulně stejné hodnoty jak kdybycho data vůbec neupravovaly.
     A proč? No protože poměr zůstává stejný.
+
 Loss function / optimalizace na základě chyb, aktivyční funkce na outputové vrstvě
     Jedná se o funkci která optimalizuje neuronovou síť na základě chyb které dělá.
     Pro naší síť která využívá Softmax je vhodná Loss funkce s názvem categorical cross entropy.
     (take pro neuronové sítě s cílem klasifikovat)
     Jakou hodnotu získáve pomocí této funkce? Získáme hodnotu která vyjadřuje míru
     správnosti našich výsledků s výsledky správnými.
+
 Mean absolute error
     Vytvoří hodnotu která říká jak moc je výsledek neuronové sítě špatně na základě
     průměru vzdálenosti chybné hodnoty od té správné.
     Hodnota absolute error se snižuje tehdy pokud se výsledek přibližuje požadované hodnotě.
+
 One-hot encoding
     Jedná se o list s délkou n, (n = počet class),  kdy  je tento lit plný nul kromně 
     jedné hodnoty která bude 1.
     Tu to hohonotu = Label (jedná se o index v listu One-hot ) si nasastavýme předem.
+
 Categorical cross entropy
     Je funkce pro kterou vužíváme One-hot  a pravděpodobnost z Softmax.
     Jedná se o zápornou sumu z hodnot One-hot  kdy každou hodnotu než ji přičteme
@@ -155,16 +204,29 @@ Categorical cross entropy
         One-hot:            [1, 0, 0]
         pravděpodobnost:    [0,7, 0.1, 0.2]
         X = -(1 * log(0,7) + 0 * log(0,1)+ 0 * log(0,2))
+
 Linearni funkce - skol
     Sklon spočítáme jeako rozdíl rodlílů Δy a rodlílů Δx
     Př. p1 = [0, 0] Δx = p2x - p1x = 1 - 0 = 1
         p2 = [1, 2] Δy = p2y - p1y = 2 - 0 = 2
+
 Sklon tečny
     Sklon tečny je v našem případě přímka mezi body které jsou odsebe skoro 0 vzdálené.
     Jsou si nekonečně blízko.
     Tento sklon je také derivatem přímky. čím dále by odsebe byly ty to body tím nepřesněší bude derivát
     lze to provézt pouze na nelámané přímce.
+
 np.arrange()
     Vytváří listy s náhodnýmy hodnotami v předem zadaném rozmezí.
     np.arrange(minimalni hodnota, maximalni hodnota, rozdíl mezi jednotlivými hodnotami, datatyp)
-    
+
+Derivace - zjednodušeně
+    Vytvoří přímku z dvou bodů na grafu jteré jsou si nekonečně blízko.
+    Na základě této příky se dá předpokládat jak se by se graf dále v průměru vyvýjel 
+    pokud by se nic nezmněnilo.
+    Čím blíže jsou k sbě body potřebmné pro vytvoření této přímky tím krátkodobější je náš
+    předpoklad.
+    => Pímku lze také udělat ze dvou od sebe vzdálenějších bodů.
+    V tom případě platí že čím dále odsebe budoubody potřebné pro vytvoření přímky 
+    tím nepřesnější přímka bude v ten moment ale tím přisněší bude její odhad 
+    vývoje grafu.
