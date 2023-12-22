@@ -1,5 +1,5 @@
 Tato dokumentace by mněla obsahovat vše potebné k mim pytoch projektům
-
+https://www.learnpytorch.io/00_pytorch_fundamentals/
 Tensors / listy
     Jedná se o číselné hodnoty v různých formátech.
     V této knihovně se tensory vytváří pomocí příkazu -> torch.tensor()
@@ -7,12 +7,36 @@ Tensors / listy
 
     Scalar / Skalár
         Bez žádných dimenzí čistě jedno číslo.
-    
+            Bod
+        Je potřeba použít metodu .item() abych získali scalar jako normální číslov Pythonu
+
     Vector / 1D lyst / Vector
         Má jednu dimenzi -> jakoby jeden směr.
+            Čára
         Klasický lyst v Pythonu.
         Slkádá se z vícce čísel v hrantých závorkách.
         Např. [1, 2, 3]
+    
+    Matrix / 2D list
+    Má dvě dimenze -> dva různé směry
+        čtverec
+
+    Tensor / 3D list
+    Má tři dimenze -> má tři různé směry
+        Krychle
+
+Tvar / Shape
+    Tvar určuje jak velký je list a kolik listů je v listu.     
+    Prozor záleží na typu listu.
+    List = [1, 2, 3]        Shape: (3)          1D, List        List ==     Array ==        Vektor
+    List = [[1, 2, 3],      Shape: (2, 3)       2D, Matrix      Python      Programování    Matematika
+            [1, 2, 3]]
+    List = [[[1, 2, 3],    Shape: (3, 2, 3) = tři listy po dvou listech s třemi hodnotami
+                [1, 2, 3]],                     3D, Array
+            [[1, 2, 3],
+                [1, 2, 3]],
+            [[1, 2, 3],
+                [1, 2, 3]]]
 
 torch.tensor(X)         X, Y = zvolená hodnota
     Vytvoří tenzor na základě X.
@@ -22,4 +46,14 @@ torch.tensor(X)         X, Y = zvolená hodnota
     Vector -> torch.tensor([X, Y]) 
     V případě že se jedná o skalar je potřeba použít metodu .item()
 
+torch.rand(X)           X = zvolená hodnota
+    Vytvoří tenzor s tvarem X.
+    Tento tensor v sobě budemít náhodné hodnoty.
+
+torch.zeros(X)          X = zvolená hodnota
+    Vytvoří tenzor o velikosti X pouze s nulami.
+
+torch.arange(X)         X = zvolená hodnota
+    Vytvoří řadu čísel. 
+    Lze aplikovat tůzné parametry -> torch.arange(start=0, end=1000, step=77)
 

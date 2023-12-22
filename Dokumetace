@@ -63,11 +63,34 @@ Tvar / Shape
             [[1, 2, 3],
                 [1, 2, 3]]]
 
-Tensor
-    Předmět který se zobrazuje jako list v Pythonu.
-    Je dna se o čísla která jsou v nějákem tvaru.
-    Např. List, Matrix, 3D List
+Tensors / listy
+    Jedná se o číselné hodnoty v různých formátech.
+    Existují 3 základní typy :
+
+    Scalar / Skalár
+        Bez žádných dimenzí čistě jedno číslo.
+            Bod
+        Je potřeba použít metodu .item() abych získali scalar jako normální číslov Pythonu
+
+    Vector / 1D lyst / Vector
+        Má jednu dimenzi -> jakoby jeden směr.
+            Čára
+        Klasický lyst v Pythonu.
+        Slkádá se z vícce čísel v hrantých závorkách.
+        Např. [1, 2, 3]
     
+    Matrix / 2D list
+    Má dvě dimenze -> dva různé směry
+        čtverec
+
+    Tensor / 3D list
+    Má tři dimenze -> má tři různé směry
+        Krychle
+  
+Tensory / listy a učení neuronových sítí
+    Jedním ze základních postupů učení neuronových sítí je to že síti jsou dány
+    náhodné hodnoty (obvykle v tenzorech) které se upravují za cílem dosáhnutí
+    co nejlepšího výsledku
 
 Dot product
     Sčítání listů.
