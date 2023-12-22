@@ -1,0 +1,25 @@
+Tato dokumentace by mněla obsahovat vše potebné k mim pytoch projektům
+
+Tensors / listy
+    Jedná se o číselné hodnoty v různých formátech.
+    V této knihovně se tensory vytváří pomocí příkazu -> torch.tensor()
+    Existují 3 základní typy :
+
+    Scalar / Skalár
+        Bez žádných dimenzí čistě jedno číslo.
+    
+    Vector / 1D lyst / Vector
+        Má jednu dimenzi -> jakoby jeden směr.
+        Klasický lyst v Pythonu.
+        Slkádá se z vícce čísel v hrantých závorkách.
+        Např. [1, 2, 3]
+
+torch.tensor(X)         X, Y = zvolená hodnota
+    Vytvoří tenzor na základě X.
+    Pro každý typ tenzoru je nutné zdat X jinak :
+
+    Scalar -> torch.tensor(X) 
+    Vector -> torch.tensor([X, Y]) 
+    V případě že se jedná o skalar je potřeba použít metodu .item()
+
+
