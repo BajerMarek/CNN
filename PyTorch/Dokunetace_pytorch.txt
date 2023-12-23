@@ -1,5 +1,14 @@
 Tato dokumentace by mněla obsahovat vše potebné k mim pytoch projektům
 https://www.learnpytorch.io/00_pytorch_fundamentals/
+
+Nejčastjší errory v PyToch a v deeplearnig
+    Tensors not right datatype
+        Navzájem se soubou můžou pracovat jen tensory se stejným datatypem
+    Tensors not right shape
+        Špatná velikost tenzoru -> tenzory nejsou stejně velké
+    Tensor not on the right device
+        Tensory nejsou uloženy na stejném místě. Místa -> CPU, GPU, CUDA
+
 Tensors / listy
     Jedná se o číselné hodnoty v různých formátech.
     V této knihovně se tensory vytváří pomocí příkazu -> torch.tensor()
@@ -24,6 +33,17 @@ Tensors / listy
     Tensor / 3D list
     Má tři dimenze -> má tři různé směry
         Krychle
+
+Datatypy Tensorů
+    Jednotlivé tensory můžou mít různé data typy (bolean, float16, float32, ...)
+    Jedná se to s jakou přesností se ukládají data tensoru
+    float32 = jedno číslo bude zabírat 32 bitu v pamněti.
+
+Získávání dat z tensoru
+    Pro získání datatypu ->         tensor.dtype
+    Pro získání shape / tvar ->     tensor.shape
+    Pro získání device ->           tensor.device
+
 
 Tvar / Shape
     Tvar určuje jak velký je list a kolik listů je v listu.     
