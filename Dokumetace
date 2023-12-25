@@ -105,7 +105,7 @@ Imput
     než po jednom
     Idealní velikost jedné davky je 32 naráz. (batch size)
 
-Produkt matrixu 
+Dot produkt matrixu 
     Jedná so o sčítání dvou matryxů (2D listů).
     Tímto způsobem :
         Pro získání první hodnoty se musí vynásobyt první hodnota v prvním

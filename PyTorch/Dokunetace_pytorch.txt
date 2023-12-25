@@ -44,6 +44,25 @@ Získávání dat z tensoru
     Pro získání shape / tvar ->     tensor.shape
     Pro získání device ->           tensor.device
 
+Manipuleace s tensory
+    Existuje základních pět operací u které lze provádět při vytváření euronových sítí:
+        Přidání                     Addition
+        Odčítání (odebírání)        Subtraction
+        Násobení - elemetary-wise   Mutipication - elemetary-wise 
+        Dělení                      Division
+        Násobení matrixů            Matrix multiplication
+
+Násobení matrixu -> https://www.mathsisfun.com/algebra/matrix-multiplying.html
+    Jedná so o sčítání dvou matryxů (2D listů).
+    Tímto způsobem :
+        Pro získání první hodnoty se musí vynásobyt první hodnota v prvním
+        řádku listu v jednom metrixu s první hodnotou prvního sloupce
+        v listu druhém. A stejným spusobem to pokračuje na druhé hodnoty a třetí a ...
+        Takto zíáskané hodnoty se navtájem sečtou a výsledným součtem těch to hodnot je 
+        první pole v novém metrixu.
+    Sčítání pokračuje tímto způsobem:
+        Nejprve se musí sečíts první řádek se všemi sloupci v metrixu.
+        Nasledně drůhý řádek se všemi sloupci pak třetí ...
 
 Tvar / Shape
     Tvar určuje jak velký je list a kolik listů je v listu.     
@@ -77,3 +96,5 @@ torch.arange(X)         X = zvolená hodnota
     Vytvoří řadu čísel. 
     Lze aplikovat tůzné parametry -> torch.arange(start=0, end=1000, step=77)
 
+torch.matmul(tensor1, tensor2)
+    Vynásobí mezi sebou zadané tenzory (v tomto případě tensor1 a tensor2)
