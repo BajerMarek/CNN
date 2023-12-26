@@ -1,6 +1,42 @@
 Tato dokumentace by mněla obsahovat vše potebné k mim pytoch projektům
 https://www.learnpytorch.io/00_pytorch_fundamentals/
 
+Neuronová síť
+    Neuronová síť je program který spracovává číselná data a hledá v nich souvisloti.
+    Nazákladě techto souvyslotí pracuje s daty a vyprodukuje výsledek který lze 
+    převézt do námi požadovaného formátu (slova, pravděpodobnost, odhad, překlad...)
+    Neurovoá síť je složená z neuronů.
+    Neurony jsou naskládány do tří vrstev :
+    Vstupová => přijímá a převádí data na čísla 
+    Skrytá => provádí matematické operace na datech, hledá souvyslosti ... upravuje data
+    tak aby jsme získali náš výsledek
+    výstupní => překládá a u ukazuje data ze skryté vrstvy ve formně námy požadovaného 
+    výsledku.
+
+Zkráceně fungování neuronové sítě
+    Začínají s náhodnýmy daty -> operace s tensory -> uprava dat tak aby lépe 
+    představovaly požadovaný výsledk -> celé znovu -> celé znovu....
+
+Typy učení neuronových sítí 
+    Supervised learnig / Kontrolované učení
+        Využívá se v případě že máme data a popiss dat -> recept v kuchařce.
+        Nebo fotka a popys to ho ce je na fotce -> Fotka1 ... pes
+    Unsupervised learnig & Self-supervised learning / Nekontrolované učení & Samokontrolované učení
+        Používá se v případě že neexistuhe popis dat.
+        Naučí so poznavat rozdily mezi jednotlivými souvyslosti a zařadí souvysloti
+        => Fotka1 ... není to pes je to kočka protože má delší ocas ... má delší ocas tak je to kočka
+    Transfer learning / učení zdílením
+        Neuronové sítě mezi sebou zdílí na co přišli a tím si navzájem pomáhaji
+        Např. skonbinujeme jednu síť která funguje ja na základě Kontrolované učení a 
+        druhou která využívá Nekontrolované učení & Samokontrolované učení.
+
+Využití neuronových sítí & deep learnig 
+    Dají se využí na vše pokud se povede převést vstupní data na čísla.
+    V ten moment vnich neuronová síť vždi může najít nějáké souvyslosti a eventuelně 
+    mužete získat nějáké výsledky.
+    Určité využití : 
+        Překlad, doporučení, computer vision 
+
 Nejčastjší errory v PyToch a v deeplearnig
     Tensors not right datatype
         Navzájem se soubou můžou pracovat jen tensory se stejným datatypem
@@ -102,11 +138,13 @@ Násobení matrixu -> https://www.mathsisfun.com/algebra/matrix-multiplying.html
                                             [4]])
               torch.hsack((A, B)) = tensor([[1], [2], [3], [4]])
     Squeeze 
-        Odstraní 1 dimezi z tensoru (řadek)
+        Odstraní všechny dimenze o velikosti 1 z tensoru (odstraní hranaté zavorky)
+        Udělá z matrixu [1, 9] -> [9]
+                        [1, 9, 3, 1, 1] -> [9, 3]
     Unsqueeze
-        Přidá 1 dimenzi do tensoru
+        Přidá dimenzi o velikosti 1 do tensoru
     Permute 
-        Vrátí view vstupní hodnoty s nějak přehozenými demenzemi.
+        Vrátí view vstupní hodnoty se specificky pěmněněným pořadím dimenzí,
     
 Tvar / Shape
     Tvar určuje jak velký je list a kolik listů je v listu.     
@@ -142,11 +180,41 @@ torch.arange(X)         X = zvolená hodnota
 
 torch.matmul(tensor1, tensor2) = torch.mm(tensor1, tensor2)  # je to stejné
     Vynásobí mezi sebou zadané tenzory (v tomto případě tensor1 a tensor2)
+
 Transpose
     Zmnění v metrixu řádky na sloupce -> X -> Y a Y -> X
     Volání: .T
+
 Agregace
     Agregace =  hledání: sumi, min, max, mean...
     mean = průměr
     argmin(tensor) - najde idenx minimalni hodnoty v tensoru
     argmax(tensor) - najde idex maximalni hodnoty v tesnoru
+
+Převá dění tenzoru z a do numpy
+    Pro převedení numpy array na pytorch tenzor se používa metoda torch.from_numpy()
+    Metoda from_numpy převede původní array tedy => pokud array upravíme sejně dostaneme puvodni verzi (ta kterou jsem vygenerovali)
+    To stejné platí i pro převrácenou metodu torch.Tensor.numpy()
+    Pro převrácen proces se používá torch.Tensor.numpy()
+    Numpy ma defaultně formát float64 -> Long
+    PyTorch ma defaultně formát float32 -> None
+
+Reprodukce 
+    Cílem reprodukce je vytvořit náhodná data která se ale pokaždé vyvoří stejná pokud jsou stejné i podmínky
+    Pro reprodukci je dobré si vyvořit konstantu RANDOM_SEED = X (X = nahodné číslo, často 42)
+    Poté se zavolá funkce torch.manual_seed(RANDOM_SEED) 
+    Atímto se nastavý že pokud se vygenerují tenzory s náhodnýmy čísli o stejném tvaru tak budou mít identické hodnoty
+    Tedy: 
+        torch.manual_seed(RANDOM_SEED)
+        random_tensor_C = torch.randn(3, 4)
+        torch.manual_seed(RANDOM_SEED)
+        random_tensor_D = torch.randn(3, 4) 
+    v tomto případě bue platit že : random_tensor_C = random_tensor_D
+
+Spouštění PyTorch programů na GPU
+    Velmi se vyplatí spouště programi na GPU prože matematické operace budou probíhat výrazně rychleji.
+    POZOR -> Numpy fnguje pouze na CPU 
+
+Přesouvání dat mezi CPU a GPU
+    Pro převedení na GPU -> tensor.to(device)      # device = "cuda"
+    Pro převedení na CPU -> tensor.cpu()
