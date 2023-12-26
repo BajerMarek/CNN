@@ -100,8 +100,8 @@ Dot product
     dot_product = a[0]*b[0] + a[1]*b[1] + a[2]*b[2]
     dot_product = [1, 2, 3] * [2, 3, 4] = 1*2 + 2*3 + 3*4 = 20
 
-Imput
-    Pro imputy je vhodné dávat je neuronům v větších dávkách
+Input
+    Pro inputy je vhodné dávat je neuronům v větších dávkách
     než po jednom
     Idealní velikost jedné davky je 32 naráz. (batch size)
 

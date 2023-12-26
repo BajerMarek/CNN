@@ -218,3 +218,36 @@ Spouštění PyTorch programů na GPU
 Přesouvání dat mezi CPU a GPU
     Pro převedení na GPU -> tensor.to(device)      # device = "cuda"
     Pro převedení na CPU -> tensor.cpu()
+
+Workflow / Pracovní popis
+    Obsah:
+        1. Příprava dat 
+        2. Stavba modelu
+        3. Učení modelu na připravených datech datech
+        4. Dělání předpovědí a hodnocení modelu
+        5. Ukládání a vkládání modelu
+        6. Kombinování všeho předešlého dohromady
+    from torch import nn -> vše co PyTorch nabýzí pro neuronové sítě.
+   
+Data
+    Data můžou bít skoro vše např.: video, fotka, text...
+    Deeplearnig se skládá z vou hlavních kroků:
+        Převedení dat na čísla.
+        Vytvoření modelu aby mezi těmito čísli našel spojitosti
+    Jeden z nejdůležitějších konceptů v práci s daty je(generalizace):
+        Rozděleni dat na trénigové ,ohodnocené a testové data:
+        Trénigové data / training st/split 60-80% všech dat
+            Data na kterýchs e model učí.
+        Ohodnocená data / validation set 10-20% všech dat    (není nutné mít tyto data ale je to občas lepší.)
+            Zde hodnotíme jak dobře model data zpracoval.
+        Testová data / test set/split    10-20% všech dat
+            Z těcto zpracovaných dat nám model dá finální výsledek.     Předvede svou generalizaci
+    Generalizace
+        Schopnost modelu dobře spracovat data která jesše neviděl
+
+Linear regression
+    Vzorec: Y = f(X,B) + e
+
+Parametr
+    Je součást rovnice/vzorce se se modelu učí.
+    Např.: weight, bias....
