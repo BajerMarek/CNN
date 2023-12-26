@@ -45,3 +45,27 @@ def plot_prediction(train_data=X_train,
 plot_prediction()
 plt.show()
 
+# vytvoření linearne regeresivního modulu
+class LinearRegressionModel(nn.Module): # <- skoro vše (co se týče neuronových sítí) vpřebírá z nn.Module
+    def __init__(self):
+        super().__init__()
+        self.weights = nn.parameter(torch.randn(1,
+                                                requires_grad=True, # získá gradinat
+                                                dtype=float))
+        self.bias = nn.Parameter(torch.randn(1,
+                                             requires_grad=True,    # získá gradinat
+                                             dtype=torch.float))
+        # forward metoda určuje počítání modelu
+        def forward(self, x: torch.Tensor) -> torch.Tensor: # <- "x" je input
+            return self.weights * x + self.bias     # Vzorec pro linearni regresi Y = X * B + e
+"""
+Co model LinearRegressionModel dělá?
+1. Ze začátku dostane náhodná čísla.
+2. Podívá se na treniková data a pak upravý svá náhodná čísla tak aby se jeho výsledná data 
+   co nejépe podobala trenigovým datům.
+
+Jak se to děje?
+1. Gradiant desent (algoritmus)
+2. Backpropagation (algoritmus)
+pomocí těchto algoritmů upravujeme ná gradiant
+"""
