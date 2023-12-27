@@ -1,3 +1,4 @@
+from typing import Self
 import torch
 from torch import nn # nn -> vše co je v PyTorch pro neuronové sítě
 import matplotlib.pyplot as plt
@@ -43,21 +44,51 @@ def plot_prediction(train_data=X_train,
         plt.scatter(test_data, predictions, c="r", s=4, label="Predictions")
     plt.legend(prop={"size": 14})
 plot_prediction()
-plt.show()
+#plt.show()
 
 # vytvoření linearne regeresivního modulu
 class LinearRegressionModel(nn.Module): # <- skoro vše (co se týče neuronových sítí) vpřebírá z nn.Module
     def __init__(self):
         super().__init__()
-        self.weights = nn.parameter(torch.randn(1,
+        self.weights = nn.Parameter(torch.randn(1,      # vytvoří parametr weights
                                                 requires_grad=True, # získá gradinat
                                                 dtype=float))
-        self.bias = nn.Parameter(torch.randn(1,
+        self.bias = nn.Parameter(torch.randn(1,         # vytvoří parametr bias
                                              requires_grad=True,    # získá gradinat
                                              dtype=torch.float))
         # forward metoda určuje počítání modelu
-        def forward(self, x: torch.Tensor) -> torch.Tensor: # <- "x" je input
-            return self.weights * x + self.bias     # Vzorec pro linearni regresi Y = X * B + e
+    def forward(self, x: torch.Tensor) -> torch.Tensor: # <- "x" je input
+        return self.weights * x + self.bias     # Vzorec pro linearni regresi Y = X * B + e
+# mytvoření seedu
+torch.manual_seed(42)
+
+# vyvoření modelu (subclass of nnmodel)
+model_0 = LinearRegressionModel()
+
+# zijsitíme jaké parametry máme v modelu
+#print(list(model_0.parameters()))
+
+# pojmenování parametrů
+#print(model_0.state_dict())
+
+# první předdpovědí y_test na základě X_test
+# když posíláme data přěs náš model tak forward data spracovává
+
+# predikce
+
+with torch.inference_mode():
+    y_preds = model_0(X_test)
+plot_prediction(predictions=y_preds)
+plt.show()
+
+# Treainig mode
+# cílem je aby data se kterými síť pracuje nebyly  od nikud alu uz data které zná
+# a také určit jak špatně to je určené
+
+
+
+
+
 """
 Co model LinearRegressionModel dělá?
 1. Ze začátku dostane náhodná čísla.

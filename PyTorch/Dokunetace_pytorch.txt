@@ -30,6 +30,14 @@ Typy učení neuronových sítí
         Např. skonbinujeme jednu síť která funguje ja na základě Kontrolované učení a 
         druhou která využívá Nekontrolované učení & Samokontrolované učení.
 
+Co je potřeba k učení neuronové sítě
+    Loss funkce -> zjištuje jak špatný je výsledek neuronové sítě
+    Optimazer -> za pomocí loss funkce upravuje parametry za cíle získat lepší výsledek.
+                Lepší výsledek = nižší hodnota loss funkce
+    Dále specificky pro PyTorch:
+        1. Trenigová smíčka/loop
+        2. Testová smička/loop
+
 Využití neuronových sítí & deep learnig 
     Dají se využí na vše pokud se povede převést vstupní data na čísla.
     V ten moment vnich neuronová síť vždi může najít nějáké souvyslosti a eventuelně 
@@ -181,6 +189,8 @@ torch.arange(X)         X = zvolená hodnota
 torch.matmul(tensor1, tensor2) = torch.mm(tensor1, tensor2)  # je to stejné
     Vynásobí mezi sebou zadané tenzory (v tomto případě tensor1 a tensor2)
 
+model.state_dict()              model = model / neuronová síť
+    Vypíše jednotlivé parametry modelu i s jejich názvy.
 Transpose
     Zmnění v metrixu řádky na sloupce -> X -> Y a Y -> X
     Volání: .T
@@ -228,7 +238,34 @@ Workflow / Pracovní popis
         5. Ukládání a vkládání modelu
         6. Kombinování všeho předešlého dohromady
     from torch import nn -> vše co PyTorch nabýzí pro neuronové sítě.
-   
+
+                                        MODEL  =  NEURONOVÁ SÍŤ
+tahák -> https://pytorch.org/tutorials/beginner/ptcheat.html
+Forward metoda / def forward()
+    Jedná se o součást většiny class, funkcí a modelů.
+    Forward je ta část která realě dělá výpočet výsledku dané claass nebo modelu.
+    Všechny podkategorie nn.Module (nn.Parametr...) požadují po svém připsání přepsání forward metody.
+
+from torch import nn
+    Obsahuje všechny před nastavené funkce a modele potřebné ke konstrukci neuronové sítě 
+    které může pytoch nabýdnout.
+
+torch.nn.Parametr
+    Které parametry by se síť mněla naučit a vyskoušet
+    => hodnoty které za nás síť sama dosadí a by dosáhla požadovaného výsledku.
+
+torch.nn.module
+    Základni class pro všechny moduly (neuronové sítě)
+    Pokud zní necháváme dědit date (subclass) je nutné přepsat forward metodu
+
+torch.optim
+    Místo kde jsou uloženy optimazeri daného modulu.
+    (např. pomáhá s gradial desent)
+
+with torch.inference_mode():    inference = predikce
+    Určí že výsledky této "funkce".
+    Odpojí všechny kontroly a zbýraní dat které se dělá při učení sítě na jejích výsledcích.
+    Výsledk? -> rychlejší získání výsledků (predikcí)
 Data
     Data můžou bít skoro vše např.: video, fotka, text...
     Deeplearnig se skládá z vou hlavních kroků:
@@ -251,3 +288,18 @@ Linear regression
 Parametr
     Je součást rovnice/vzorce se se modelu učí.
     Např.: weight, bias....
+
+Cost funkce = Loss funkce = criterion
+    Funkce ketá porovnává výsledek neouronové síť s požadovaným / správným  výsledkem.
+    Toho dosahuje odečtem požadovaných hodnot od hodnout výsledných sítě a následným umocněním výsledku na 2
+    => určuje jak špetné jsou výsledky neuronové sítě (čím menší číslo tím lepší)
+
+Gradiant desent
+    Jedná se o algoritmus za cílem najít lokální minimum funkce.
+    Tedy hledá nejnižší možný bod na grafu funkce.
+    Tohto leze dosáhnout pomocí takzvané cost funkce která určuje chybnost výpočtu neruronové sítě
+    Zároveň tento algoritmus využívá derivce ((takové té tenčny na grafu ;) )
+
+Back propagation
+    Jedná se o algoritmus který pomáhá učit neuronovou síť a upřesňuje její výsledky.
+    Tohoto dosahuje pomocí určování duležitosti -> míra vlivu na cost funkci jednotlyvých parametrů.
