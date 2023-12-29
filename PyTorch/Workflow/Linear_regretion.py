@@ -42,7 +42,7 @@ def plot_prediction(train_data=X_train,
 # vykteslí trenigová data modře
     plt.scatter(train_data, train_labels, c="b", s=4, label="Trainig data")
 # vykteslí trenigová data modře
-    plt.scatter(test_data, test_labels, s=4, label="Testing data")
+    plt.scatter(test_data, test_labels,c="g", s=4, label="Testing data")
     # mamé nějáké predikce?
     if predictions is not None:
         # pokud nějaké predikce exitují vykresli je červeně

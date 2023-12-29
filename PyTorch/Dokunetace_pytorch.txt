@@ -343,5 +343,20 @@ Ukládání a nahrávání modelů v pytorch - https://pytorch.org/tutorials/beg
     2. torch.load() - umožní nahrát předmnět v pytoch
     3. torch.nn.Module.load_state_dict() - umožní uložit všechny parametry modelu
     Po uložení čistě parametru modelu je vhodné udělat nový model a nahrát parametry tam
-pth 
-    formát pro pythorch
+    pth -> formát pro pythorch
+
+Postup Ukládání + nahrávání (state_dict -> parametry)
+    1. Je nutné importovat knihonu pathlib a následně zní pathlib
+        import pathlib 
+        from pathlib import Path
+    2. Vytvoří se a pojmenuje místo kam se bude model ukládat (pomocí Path)
+        MODEL_PATH = Path("models")
+        MODEL_PATH.mkdir(parents=True, exist_ok=True)
+    3. Pojmenování modelu
+        MODEL_NAME = "___"
+    4. Určí se místo uložení (pomocí cesty /path)
+        MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
+    5. Samotné uložení
+        torch.save(obj=model_0.state_dict(), f=MODEL_SAVE_PATH)
+    6. Je vhodné parametry nahrát do nového modelu ale jinak :
+        Loaded_model.load_state_dict(torch.load(f=MODEL_SAVE_PATH))
