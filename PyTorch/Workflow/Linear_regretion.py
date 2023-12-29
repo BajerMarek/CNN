@@ -2,6 +2,11 @@ from typing import Self
 import torch
 from torch import nn # nn -> vše co je v PyTorch pro neuronové sítě
 import matplotlib.pyplot as plt
+import numpy as np
+
+epoch_count = []
+loss_value = []
+test_loss_value = []
 
 #Známé parametry
 weight = 0.7
@@ -93,7 +98,7 @@ optimizer = torch.optim.SGD(params=model_0.parameters(),    # co se má optimali
     z loss funkce. - (Gradiant desent)
 """
 # epocha = 1 opakování ciklu
-epochs = 1000
+epochs = 200
                                                             # 0. Proskenovat dat
 for epochs in range(epochs):
     model_0.train() # nastavý všechny parametry které potřebukí sklon aby potřebovaly sklon
@@ -109,12 +114,23 @@ for epochs in range(epochs):
         test_pred = model_0(X_test)                                 # 1. Forward pass
         test_loss = loss_fn(test_pred,y_test)                       # 2. Loss funkce   
     if epochs % 10 ==0:
+        epoch_count.append(epochs)
+        loss_value.append(loss)
+        test_loss_value.append(test_loss)
         print(f"Epoch: {epochs} | Loss: {loss} | Test loss: {test_loss}")
         print(model_0.state_dict())                                      # 5. Optimizer step
 
 with torch.inference_mode():
     y_preds = model_0(X_test)
 plot_prediction(predictions=y_preds)
+plt.show()
+
+plt.plot(epoch_count, np.array(torch.tensor(loss_value).cpu().numpy()), label="Train loss")
+plt.plot(epoch_count, np.array(torch.tensor(test_loss_value).cpu().numpy()), label=("Test loss"))
+plt.title("trainig and test loss curves")
+plt.ylabel("Loss")
+plt.xlabel("Epochs")
+plt.legend()
 plt.show()
 """
 Co model LinearRegressionModel dělá?
