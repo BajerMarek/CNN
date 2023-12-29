@@ -338,3 +338,10 @@ epocha /epoch
 model.train()       Model = neuronová sít
     Nastavý všechny parametry které potřebukí sklon aby potřebovaly sklon
 
+Ukládání a nahrávání modelů v pytorch - https://pytorch.org/tutorials/beginner/saving_loading_models.html
+    1. pomocí torch.save() - uložený předmnět v pytorch do formatů pickle od Pythonu
+    2. torch.load() - umožní nahrát předmnět v pytoch
+    3. torch.nn.Module.load_state_dict() - umožní uložit všechny parametry modelu
+    Po uložení čistě parametru modelu je vhodné udělat nový model a nahrát parametry tam
+pth 
+    formát pro pythorch
