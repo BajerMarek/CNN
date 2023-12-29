@@ -294,6 +294,12 @@ Cost funkce = Loss funkce = criterion
     Toho dosahuje odečtem požadovaných hodnot od hodnout výsledných sítě a následným umocněním výsledku na 2
     => určuje jak špetné jsou výsledky neuronové sítě (čím menší číslo tím lepší)
 
+Optimazer
+    Optimazer využí vá loss funkce a na jejím základě upravuje model tak aby co nejefektivnějí
+    snížil hodnotu loss funkce.
+    Jako optimizeri se používa spousta algoritmů 
+    V PyToch je najdeme pod torch.optim -> https://pytorch.org/docs/stable/optim.html
+
 Gradiant desent
     Jedná se o algoritmus za cílem najít lokální minimum funkce.
     Tedy hledá nejnižší možný bod na grafu funkce.
@@ -303,3 +309,32 @@ Gradiant desent
 Back propagation
     Jedná se o algoritmus který pomáhá učit neuronovou síť a upřesňuje její výsledky.
     Tohoto dosahuje pomocí určování duležitosti -> míra vlivu na cost funkci jednotlyvých parametrů.
+
+lr=X        X -> zvolená hodnota (defaultnš je 0.1)
+    Jedná se o learnig rate.
+    Určuje jak moc se zmnění parametry během jednoho opakování
+
+prams=model.Parametr()                  model = neuronová síť
+    Určí optimizeru které parametry má upravit
+
+Hyperparamet
+    Parametr nastavený člověkem.
+
+training loop
+    Jak funguje:
+    0. Proskenování dat
+    1. Forward pass (prohnání dat skrz metodu forward()) - také nazívané jako forwad propagation
+        za cílem vytvořit nějákou před předpovědí
+    2. Zpočítání loss funkce - (srovnání výsledku modelu s správnýmy výsledky)
+    3. Optimazer zero grad  nastavý hodnotu optimazeru na 0 aby se nezpomaloval výpočet (jak? nevím)
+    4. Loss backkwards -> pohybuje se od výsledku aby zjistíl spád jednolivých parametrů
+        => (spád -> míra významnosti pro výsledek)  - (Back propagation)
+    5. Optimazer step - Využití optimizeru k upravě parametrů tak aby se snížila hodnota 
+        z loss funkce. - (Gradiant desent)
+
+epocha /epoch
+    Je jedno opakování cyklu
+
+model.train()       Model = neuronová sít
+    Nastavý všechny parametry které potřebukí sklon aby potřebovaly sklon
+
