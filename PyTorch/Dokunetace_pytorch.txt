@@ -245,6 +245,9 @@ Forward metoda / def forward()
     Jedná se o součást většiny class, funkcí a modelů.
     Forward je ta část která realě dělá výpočet výsledku dané claass nebo modelu.
     Všechny podkategorie nn.Module (nn.Parametr...) požadují po svém připsání přepsání forward metody.
+    přiklad forward metody :
+        def foorward(self, x: torch.Tensor) -> torch.Tensor:    vysvětlení:
+        říká že x má format torch tensor a ze funkce vrátí torch tensor
 
 from torch import nn
     Obsahuje všechny před nastavené funkce a modele potřebné ke konstrukci neuronové sítě 
@@ -257,6 +260,13 @@ torch.nn.Parametr
 torch.nn.module
     Základni class pro všechny moduly (neuronové sítě)
     Pokud zní necháváme dědit date (subclass) je nutné přepsat forward metodu
+
+nn.Linear()
+    Vytvoří vrstvu pro linearni model.
+    K tomu potřebuje mit nadefinovány parametry 
+    nn.Linear(in_features=1,    # kolik hodnotot dostane vyrstva -> 1 X_train
+            out_features=1)   # kolik hodnotot vyplinve vyrstva -> 1 y_train
+    Využívá pro vypočet rovnici -> Y = weight * x + bias
 
 torch.optim
     Místo kde jsou uloženy optimazeri daného modulu.
@@ -360,3 +370,4 @@ Postup Ukládání + nahrávání (state_dict -> parametry)
         torch.save(obj=model_0.state_dict(), f=MODEL_SAVE_PATH)
     6. Je vhodné parametry nahrát do nového modelu ale jinak :
         Loaded_model.load_state_dict(torch.load(f=MODEL_SAVE_PATH))
+
