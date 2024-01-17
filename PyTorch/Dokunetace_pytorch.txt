@@ -371,3 +371,32 @@ Postup Ukládání + nahrávání (state_dict -> parametry)
     6. Je vhodné parametry nahrát do nového modelu ale jinak :
         Loaded_model.load_state_dict(torch.load(f=MODEL_SAVE_PATH))
 
+Data sety 
+    Imagenet -> https://www.image-net.org/index.php
+
+Klasifikace
+    Je proces kdy musíme rzhodnout o kterou z možností se jedná / určit o co se jedná
+    Pro klasifikaci je nutné reprezentvat data jako čísla (data = např. fotky)
+    Binari classification
+        Rozhodnutí mezi dvěma možnostmi.    -> je spam / není spam
+    Multiclass classification
+        Více než dvě možnosti pro Rozhodnutí.
+        Každá class ma ale pouze jedno jmeno (popis /tag)
+    Multilabel classification
+        Více než dvě možnosti pro Rozhodnutí.
+        Každá class ma více jmen (popisu /tagu)
+
+Konstrukce klasifikačního modelu
+    Struktura:
+        Input layer - přijímá data
+        Hidden layer('s) - zpracovává data
+            Neurons per hidden layer - počet neuronů na zkrytou vrstvu
+        Hidden layer activation function - zpusob zpracování dat
+        Output layer - vydává výsledky a převádí ho do čitelné podoby
+        Output activation - počítá výsledek
+        Loss function - počítá nesprávnost výpočtu
+        Optimizer - snižuje nesprávnost výpočetu
+
+Toy Dataset
+    Malí dataset na kterém se dá experimentovat ale dost velký
+    nato aby se na něm daly trénovat základy
