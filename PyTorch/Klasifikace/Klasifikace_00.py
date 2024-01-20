@@ -86,6 +86,51 @@ class CircleModelV0(nn.Module):
     
 #! přesun modelu na správné zařízení (místo kde se bude počítat)
 model_0 = CircleModelV0().to(device)
-print2(model_0)
+#print2(model_0)
+
+#! Rychlejší forma konstrukce modelu (optimalizace procesu)
+"""
+model_1 = nn.Sequential(    #? model_1 == CircleModelV0
+    nn.Linear(in_features=2, out_features=5),
+    nn.Linear(in_features=5, out_features=1)
+).to(device)
+"""
+#! Predikce s model_0
+with torch.inference_mode():
+    untrained_preds = model_0(X_test.to(device))
+
+print2(f"Lenght of predictions: {len(untrained_preds.shape)}, Shape: {untrained_preds.shape}")
+print2(f"Lenght of test samples: {len(X_test)}, Shape: {X_test.shape}")
+print2(f"\nFirst 10 predictions:\n{torch.round(untrained_preds[:10])}")
+print2(f"\nFirst 10 labels:\n{y_test[:10]}")
+
+#!loss funkce a optimizer
+#todo Kterou loss funkci vybrat?
+#_ Vždy záleží na specifickém problému
+#_ Pro linearni regresi -> MAE nebo MSE (mean absolute error / mean squared error)
+#_ Pro klacifikaci -> binary cross entropy or categorical cross entropy (cross entropy) 
+#? Pro připomenutí - loss funkce počítá nesprávnost výpočtu sítě
+
+#todo Jaký optimizer vybrat?
+#_ Zase záleží na daném problému problému 
+#_ Nejpoužívanější (pro kategorizaci) jsou SGD(Stochastic gradient descent) a Adam
+#_ Každopádně PyTorch má spoustu vbudovaných optimizeru takze stací vybrat na základě potřeby
+#_
+
+#! Nastavení loss funkce optimizeru
+loss_fn = nn.BCEWithLogitsLoss()  #? nn.BCELoss() = potřebuje hodnoty které uz prosli přes sigmoid
+optimizer = torch.optim.SGD(params=model_0.parameters(),
+                            lr=0.1)
+
+#! Výpočet přesnosti
+#? kolik budemít náš model správných výsldků ze celku
+def accuracy_fn(y_true,y_pred):
+    correct = torch.eq(y_true,y_pred).sum().item()
+    acc=(correct / len(y_pred)) * 100
+    return acc
+
+
+
+
 
 

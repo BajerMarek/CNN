@@ -165,12 +165,12 @@ Rectified linear unit
 Softmax activation function
     Převádí čísla na pravděpodobnost. 
     Suma všech pravděpodobností je vždi 1.
-    Softmax se použí vá proto aby sme se vyvarovaly problému s zápornýmy hodnotami 
+    Softmax se používá proto aby jsme se vyvarovaly problému s zápornýmy hodnotami 
     ve výsledku.
     Tedy abychom mohly správně určit jak špatný byl výsledek.
     Proto použijeme exponencialní funkce se zakladem eulerova čísla. (e)
     Protože vždy bude rozdíl mezi e^2 a e^-2.
-    Softmax je kombynace normalizace a exponecializace. 
+    Softmax je kombinace normalizace a exponecializace. 
 
 Normalizace
     V našem případě to bude output jednoho neuronu dělono sumou outputů 
