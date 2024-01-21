@@ -294,6 +294,7 @@ Data
 
 Linear regression
     Vzorec: Y = f(X,B) + e
+    je matematická metoda používaná pro proložení souboru bodů v grafu přímkou.
 
 Parametr
     Je součást rovnice/vzorce se se modelu učí.
@@ -400,3 +401,63 @@ Konstrukce klasifikačního modelu
 Toy Dataset
     Malí dataset na kterém se dá experimentovat ale dost velký
     nato aby se na něm daly trénovat základy
+
+Jak vybrat loss funkci?
+    Vždy záleží na specifickém problému
+    Pro linearni regresi -> MAE nebo MSE (mean absolute error / mean squared error)
+    Pro klacifikaci -> binary cross entropy or categorical cross entropy (cross entropy) 
+    Pro připomenutí - loss funkce počítá nesprávnost výpočtu sítě
+
+Jak vybrat optimizer ?
+    Zase záleží na daném problému problému 
+    Nejpoužívanější (pro kategorizaci) jsou SGD(Stochastic gradient descent) a Adam
+    Každopádně PyTorch má spoustu vbudovaných optimizeru takze stací vybrat na základě potřeby
+
+
+Binary cross entropy 
+    https://towardsdatascience.com/understanding-binary-cross-entropy-log-loss-a-visual-explanation-a3ac6025181a
+    Jedná se o loss funkci které počítá loss za pomoci záporné sumi z logarytmu pravděpodobnosti.
+    Zjednodušeně -> počítá loss pomocí logaritmů.
+    Využívá se pro binární klasifikaci.
+
+Categorical cross entropy
+    Je funkce pro kterou vužíváme One-hot  a pravděpodobnost z Softmax.
+    Jedná se o zápornou sumu z hodnot One-hot  kdy každou hodnotu než ji přičteme
+    k jiné platí že ji vynásobýme přirozeným logaritmem se zkladem jako hodnota z 
+    pravděpodobnosti se stejným indexem jako One-hot . 
+    Př. X = výsledek 
+        Class: 3 
+        Label: 0
+        One-hot:            [1, 0, 0]
+        pravděpodobnost:    [0,7, 0.1, 0.2]
+        X = -(1 * log(0,7) + 0 * log(0,1)+ 0 * log(0,2))
+    V kosce, se jedná o kombinaci Softmax a Cross entropy využívanou pro muticlass kategorizaci
+
+Softmax activation function
+    Převádí čísla na pravděpodobnost. 
+    Suma všech pravděpodobností je vždi 1.
+    Softmax se používá proto aby jsme se vyvarovaly problému s zápornýmy hodnotami 
+    ve výsledku.
+    Tedy abychom mohly správně určit jak špatný byl výsledek.
+    Proto použijeme exponencialní funkce se zakladem eulerova čísla. (e)
+    Protože vždy bude rozdíl mezi e^2 a e^-2.
+    Softmax je kombinace normalizace a exponecializace. 
+
+Logit
+    Výsledek neuronové sítě před předání dat do poslední vrstvy
+    => hodnoty ze kterých síť vypočítá pravděpodobnost  pro daný výsledek.
+    Tedy hodnoty které používápe pro Softmax a další podobné normalizace.(podbné funkce)
+
+Sigmoid function 
+    Sigmoidní funkce je každá matematická funkce, jejíž graf má charakteristickou křivku ve tvaru písmene S neboli sigmoidu.
+    Běžným příkladem sigmoidní funkce je logistická funkce
+    Je omezená, diferencovatelná, reálná funkce, která je definována pro všechny reálné vstupní hodnoty a má
+    v každém bodě nezápornou derivaci a přesně jeden inflexní bod
+
+Přechod z čistích logitu -> předpovězené šance -> předpovězené popisy
+Going from raw lgits -> prediction prapabilitiess -> prediction labels 
+    Výsledky našeho modelu budou čisté /raw logity
+    Logity mužeme převést na prediction prapabilitiess (předpovězené šance) použitím 
+     nějáké aktivační funkce (Sigmoid -> binarní klasifikace a softmax -> multiclass klasifikace)
+    Následně můžeme prediction prapabilitiess(předpovězené šance) převést na prediction labels(předpovězené popisy)
+     pomocí zaokrouhlení nebo argmax()

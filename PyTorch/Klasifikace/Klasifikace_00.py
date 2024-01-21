@@ -11,6 +11,7 @@ import pandas as pd
 import sklearn
 from sklearn.datasets import make_circles
 from sklearn.model_selection import train_test_split
+import requests
 #! oddělí text caramy
 def print2(*args):
     print("=======================================")
@@ -37,7 +38,7 @@ plt.scatter(x=X[:, 0],
             y=X[:, 1],
             c=y,
             cmap=plt.cm.RdYlBu)
-#plt.show()
+plt.show()
 
 #! 1.1 Převod dat do tensoru
 print(f"Tvar X: {X.shape} | Tvar y: {y.shape}")
@@ -129,8 +130,107 @@ def accuracy_fn(y_true,y_pred):
     acc=(correct / len(y_pred)) * 100
     return acc
 
+#! Traing
 
+#todo Postup
+#_1. Forward pass
+#_2. Výpočet loss
+#_3. Optimizer zero grad
+#_4. Loss backward (backpropagation)
+#_5. Optimizer (gradiant descent)
 
+#todo Přechod z čistích logitu -> předpovězené šance -> předpovězené popisy
+#todo Going from raw lgits -> prediction prapabilities -> prediction labels 
+#_ Výsledky našeho modelu budou čisté /raw logity
+#_ Logity mužeme převést na prediction prapabilities (předpovězené šance) použitím 
+#_  nějáké aktivační funkce (Sigmoid -> binarní klasifikace a softmax -> multiclass klasifikace)
+#_ Následně můžeme prediction prapabilities(předpovězené šance) převést na prediction labels(předpovězené popisy)
+#_  pomocí zaokrouhlení nebo argmax()
 
+#! nahled na prvních 5 hodnot forward pass
+model_0.eval()
+with torch.inference_mode():
+    y_logits = model_0(X_test.to(device))[:5]
+print(y_logits)
 
+#! použití sigmoidu na logity
+y_pred_probs = torch.sigmoid(y_logits)  #? přemnění logyty na prediction prapabilities
+print(y_pred_probs)
+print(torch.round(y_pred_probs))
+
+#todo Pro naše hodnoty aby byly prediction prapabilitiess tak nanich musíme provézd zaokrouhleni na celá čísla
+#? y_pred_probs >= 0.5 y=1 (class 1)
+#? y_pred_probs < 0.5 y=0 (class 0)
+
+#! Hledání prediction labels 
+#? zaokrouhleni
+y_preds = torch.round(y_pred_probs)
+#? prediction labels        lgits -> prediction prapabilities -> prediction labels
+y_pred_labels = torch.round(torch.sigmoid(model_0(X_test.to(device))[:5]))
+print(torch.eq(y_preds.squeeze(), y_pred_labels.squeeze()))
+#? zbaveni se zbytečne dimenze
+print(y_preds.squeeze())
+
+#! Trainig loop
+torch.manual_seed(42)
+#torch.cuda.manual_seed(42)
+epochs = 500
+#?  převod dat  na device
+X_train, y_train = X_train.to(device), y_train.to(device)
+X_test, y_test = X_test.to(device), y_test.to(device)
+
+#?samotný loop
+for epochs in range(epochs):
+    model_0.train()
+    #? forward pass
+    y_logits = model_0(X_train).squeeze()
+    y_pred = torch.round(torch.sigmoid(y_logits))  #? zmněna z logitu na šance předpovědi na popisy
+    #? výpočet loss a přesnosti
+    loss = loss_fn(y_logits,    #? nn.BCEWithLogitsLoss potřebuje jako vstupní data logity
+                   y_train)
+    acc = accuracy_fn(y_true=y_train,
+                      y_pred=y_pred)  
+    #? Optimizer zero grad
+    optimizer.zero_grad()
+    #? Loss backward   (backpropagation)
+    loss.backward()
+    #? Optimizer step   (gradient desent)
+    optimizer.step()
+    #! Testing
+    with torch.inference_mode():
+        #? Forward pass
+        test_logits = model_0(X_test).squeeze()
+        test_pred = torch.round(torch.sigmoid(test_logits))
+        #? Výpočet test loss a accuracy
+        test_loss = loss_fn(test_logits,
+                            y_test)
+        test_acc = accuracy_fn(y_true=y_test,
+                               y_pred=test_pred)
+    #! Vizualizace
+    if epochs % 10 ==0:
+        print(f"Epoch: {epochs} | Loss: {loss:.5f}, Acc: {acc:.2f}% | Test loss: {test_loss:.5f}, Test acc: {test_acc}%") 
+        
+#todo předpovědi a hodnocení mmodelu
+#_  Vypadá to že se  model nic neučí jen typuje a ještě špatně
+#_  Řešení -> grafická vizualizace pro odhalení problému
+#_  Aby jsem to dokazali importujeme funkci "plot_decision_boundary()"
+#_  Vytáhneme si ji z githabu
+        
+#! Stažení pomocných funkcí pokud nejsou již stažené
+if Path("helper_functions.py").is_file():
+    print("helper_functions.py již staženo, nestahuji znovu")
+else:
+    print("Stahuji helper_functions.py")
+    request = requests.get("https://raw.githubusercontent.com/mrdbourke/pytorch-deep-learning/main/helper_functions.py")
+    with open("helper_functions.py", "wb") as f:
+        f.write(request.content)
+from helper_functions import plot_predictions, plot_decision_boundary
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)
+plt.title("Train")
+plot_decision_boundary(model_0, X_train, y_train)
+plt.subplot(1, 2, 2)
+plt.title("Test")
+plot_decision_boundary(model_0, X_test, y_test)
+plt.show()
 
