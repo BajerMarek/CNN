@@ -174,7 +174,7 @@ print(y_preds.squeeze())
 #! Trainig loop
 torch.manual_seed(42)
 #torch.cuda.manual_seed(42)
-epochs = 500
+epochs = 5000
 #?  převod dat  na device
 X_train, y_train = X_train.to(device), y_train.to(device)
 X_test, y_test = X_test.to(device), y_test.to(device)
@@ -209,7 +209,7 @@ for epochs in range(epochs):
     #! Vizualizace
     if epochs % 10 ==0:
         print(f"Epoch: {epochs} | Loss: {loss:.5f}, Acc: {acc:.2f}% | Test loss: {test_loss:.5f}, Test acc: {test_acc}%") 
-        
+#! Grafivká vizualizace
 #todo předpovědi a hodnocení mmodelu
 #_  Vypadá to že se  model nic neučí jen typuje a ještě špatně
 #_  Řešení -> grafická vizualizace pro odhalení problému
@@ -233,4 +233,41 @@ plt.subplot(1, 2, 2)
 plt.title("Test")
 plot_decision_boundary(model_0, X_test, y_test)
 plt.show()
+
+#todo Způsoby vylepšení modelu
+#_ Přidat výse vrstev - model má víc šancí nato se naučit data
+#_ Zvíšit počet neouronů
+#_ Zvětšit počet epoch - déle může zkoumat data
+#_ Zmněnit aktivační funkci
+#_ Upravit lernig rate
+#_ Změnit loss funkci nebo optimizer nebo obojí
+#_ Všechny tyto upravy jsou z hlediska modelu protože upravují pouze moedl a ne data
+#_ protože vše věci výše zmíněné jsou věci které můžeme přepsat runě tak se nazívají hyperparametrs
+
+#!optimalizovaný model
+#? co se zmnění:
+#? z 5 -> 10 neuronů
+#? z 2 -> 3 vrstvy
+#? z 100 -> 1000 epoch
+class CirculeModelV1(nn.Module):
+    def __init__(self) -> None:
+        super().__init__()
+        self.layer_1 = nn.Linear(in_features=2, out_features=10)  
+        self.layer_2 = nn.Linear(in_features=10, out_features=10)
+        self.layer_3 = nn.Linear(in_features=10, out_features=1)
+    def forward(self,x):
+        #z = self.layer_1(x)
+        #z = self.layer_2(z)
+        #z = self.layer_3(z)
+        return self.layer_3(self.layer_2(self.layer_1(x)))  #? richlejší sintax
+model_1 = CirculeModelV1().to(device)
+
+
+
+
+
+
+
+
+
 

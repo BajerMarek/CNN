@@ -461,3 +461,14 @@ Going from raw lgits -> prediction prapabilitiess -> prediction labels
      nějáké aktivační funkce (Sigmoid -> binarní klasifikace a softmax -> multiclass klasifikace)
     Následně můžeme prediction prapabilitiess(předpovězené šance) převést na prediction labels(předpovězené popisy)
      pomocí zaokrouhlení nebo argmax()
+
+Způsoby vylepšení modelu
+    Přidat výse vrstev - model má víc šancí nato se naučit data
+    Zvíšit počet neouronů
+    Zvětšit počet epoch - déle může zkoumat data
+    Zmněnit aktivační funkci
+    Upravit lernig rate
+    Změnit loss funkci nebo optimizer nebo obojí
+
+    Všechny tyto upravy jsou z hlediska modelu protože upravují pouze moedl a ne data
+    protože vše věci výše zmíněné jsou věci které můžeme přepsat runě tak se nazívají hyperparametrs
