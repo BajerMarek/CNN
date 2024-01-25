@@ -72,7 +72,6 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 #! Tvorba optimalizovaného modelu
 
-
 class CirculeModelV1(nn.Module):
     def __init__(self) -> None:
         super().__init__()

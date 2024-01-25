@@ -56,7 +56,7 @@ model_2 = nn.Sequential(
 #! Loss a Optimizer
 loss_fn = nn.L1Loss()
 optimzer = torch.optim.SGD(params=model_2.parameters(),
-                           lr=0.1)
+                           lr=0.0001)
 
 #! Trainig model
 torch.manual_seed(42)
@@ -64,3 +64,48 @@ torch.cuda.manual_seed(42)
 
 X_train_regresion, y_train_regretion = X_train_regresion.to(device), y_train_regretion.to(device)
 X_test_regresion, y_test_regresion = X_test_regresion.to(device), y_test_regresion.to(device)
+
+#! Trainig
+epoch = 20000
+
+for epoch in range(epoch):
+    y_pred = model_2(X_train_regresion)
+    loss = loss_fn(y_pred, y_train_regretion)
+    optimzer.zero_grad()
+    loss.backward()
+    optimzer.step()
+
+    #? Testing
+    model_2.eval()
+    with torch.inference_mode():
+        test_pred = model_2(X_test_regresion)
+        test_loss = loss_fn(test_pred, y_test_regresion)
+
+    #? Vizualizace (text)
+    if epoch % 100==0:
+        print(f"Epoch : {epoch} | Loss: {loss:.5f} | Test loss: {test_loss:.5f}")
+
+
+model_2.eval()
+
+#! Predikce
+with torch.inference_mode():
+    y_preds = model_2(X_test_regresion)
+
+#! Grafická vizualizace
+from helper_functions import plot_predictions, plot_decision_boundary
+plot_predictions(train_data=X_train_regresion,
+                 train_labels=y_train_regretion,
+                 test_data=X_test_regresion,
+                 test_labels=y_test_regresion,
+                 predictions=y_preds)
+plt.show()
+
+
+
+
+
+
+
+
+
