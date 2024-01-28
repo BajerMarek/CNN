@@ -13,6 +13,10 @@ Neuronová síť
     výstupní => překládá a u ukazuje data ze skryté vrstvy ve formně námy požadovaného 
     výsledku.
 
+Neuronová síť V2
+    Neuronové sí tě jsou velké konbinace linearní ch a nelinearních funkcí
+    Které jsou potencialné schopné hledat souvyslosti v datech
+
 Zkráceně fungování neuronové sítě
     Začínají s náhodnýmy daty -> operace s tensory -> uprava dat tak aby lépe 
     představovaly požadovaný výsledk -> celé znovu -> celé znovu....
@@ -472,3 +476,9 @@ Způsoby vylepšení modelu
 
     Všechny tyto upravy jsou z hlediska modelu protože upravují pouze moedl a ne data
     protože vše věci výše zmíněné jsou věci které můžeme přepsat runě tak se nazívají hyperparametrs
+
+Nelinearní model
+    Linear = tovné čáry
+    Nelinearní = křivky
+    Obsahuje nelinearní a linearni funkce např. ReLu
+    Ty mu dávají schopnost lépe hledat souvyslosti v datech -> lepší a rychlejší učení.
