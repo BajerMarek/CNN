@@ -9,7 +9,7 @@ from sklearn.datasets import make_blobs
 from sklearn.model_selection import train_test_split
 
 #! Nastavené hyperparametrů
-NUM_CLASSES = 4
+NUM_CLASSES = 4                #! zde upravyt v případě potřby pro více dat a níže v kódu též
 NUM_FEATURES = 2
 RANDOM_SEED =42
 
@@ -65,7 +65,7 @@ class BlobModel(nn.Module):
         return self.linear_layer_stack(x)
 
 model_4 = BlobModel(input_features=2,
-                    output_features=4,
+                    output_features=4,                                  #! zde upravyt v případě potřby pro více dat
                     hidden_units=8).to(device)
 
 #! Loss funkce a optimizer
@@ -110,7 +110,7 @@ torch.manual_seed(42)
 torch.cuda.manual_seed(42)
 
 #? počet opakování
-epochs = 10000
+epochs = 1000
 
 #? data na spravne zařízení
 X_blob_train,y_blob_train = X_blob_train.to(device),y_blob_train.to(device)
@@ -145,6 +145,21 @@ for epochs in range(epochs):
     if epochs % 10 == 0:
         print(f"Epochs: {epochs} | Loss: {loss:.4f}, Acc: {acc:.2f}% | Test loss: {test_loss:.4f} | Test acc: {test_acc:.2f}%")  
 
+#! Predikce
+#? logity / predikce
+model_4.eval()
+with torch.inference_mode():
+    y_logits = model_4(X_blob_test)
+print(y_logits[:10])
+#? logit -> prediction propability
+
+y_pred_probs = torch.softmax(y_logits, dim=1)
+print(y_pred_probs[:10])
+#? prediction propability -> pred labels
+y_pred_probs = torch.argmax(y_pred_probs,dim=1)
+print(y_pred_probs[:10])
+
+#! vizualizace
 from helper_functions import plot_predictions, plot_decision_boundary
 plt.figure(figsize=(12, 6))
 plt.subplot(1, 2, 1)
@@ -156,6 +171,10 @@ plot_decision_boundary(model_4, X_blob_test, y_blob_test)
 plt.show()
 
 
-
-
-
+#todo Možnosti vyhodnocení výkonu modelu
+#_ Accuracy - ze 100 bodů kolik jich je správně
+#_ Precision -
+#_ Recall
+#_ F1-score
+#_ Confusion matrix
+#_ Classification report
