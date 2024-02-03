@@ -9,7 +9,7 @@ from sklearn.datasets import make_blobs
 from sklearn.model_selection import train_test_split
 
 #! Nastavené hyperparametrů
-NUM_CLASSES = 4                #! zde upravyt v případě potřby pro více dat a níže v kódu též
+NUM_CLASSES = 6                #! zde upravyt v případě potřby pro více dat a níže v kódu též
 NUM_FEATURES = 2
 RANDOM_SEED =42
 
@@ -65,7 +65,7 @@ class BlobModel(nn.Module):
         return self.linear_layer_stack(x)
 
 model_4 = BlobModel(input_features=2,
-                    output_features=4,                                  #! zde upravyt v případě potřby pro více dat
+                    output_features=6,                                  #! zde upravyt v případě potřby pro více dat
                     hidden_units=8).to(device)
 
 #! Loss funkce a optimizer
@@ -74,7 +74,7 @@ loss_fn = nn.CrossEntropyLoss()
 
 #? Optimizer
 optimizer = torch.optim.SGD(params=model_4.parameters(),
-                            lr=0.1)                                     #! Lr
+                            lr=0.01)                                     #! Lr
 
 def accuracy_fn(y_true,y_pred):
     correct = torch.eq(y_true, y_pred).sum().item()
@@ -110,7 +110,7 @@ torch.manual_seed(42)
 torch.cuda.manual_seed(42)
 
 #? počet opakování
-epochs = 1000
+epochs = 20000
 
 #? data na spravne zařízení
 X_blob_train,y_blob_train = X_blob_train.to(device),y_blob_train.to(device)
