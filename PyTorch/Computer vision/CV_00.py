@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import requests
 from pathlib import Path
 from timeit import default_timer as timer
+from tqdm.auto import tqdm 
 #! Data set
 #? Fasion mnist z torch vision
 #? trainig data
@@ -167,7 +168,99 @@ def print_train_time(start: float,
     total_time = end -start
     print(f"Train time on {device}: {total_time} sekund")
     return total_time
-start_time = timer()
+
+#start_time = timer()
 #? nějáký kód
-end_time =timer()
-print_train_time(start=start_time,end=end_time, device="cpu")
+#end_time =timer()
+#print_train_time(start=start_time,end=end_time, device="cpu")
+
+#! Trainig loop
+#todo Trainig loop je o trochu jiný pro CV a pro kasifikaci
+#_ Loop trough epochs - projít epochy
+#_ Loop trough trainig batches, perform traing step, calculate rain loss 
+#_  per batch - projít dávky, zoptimalizovat data, spočítat loss
+#_ Loop trough testing batches, perform traing step, calculate rain loss 
+#_  per batch - to stejné akorát pro testové dávky
+#_ Vizualizae
+#_ Zmněřit čas 
+
+#! Seed + zapnuti timeru
+torch.manual_seed(42)
+train_time_start_on_cpu = timer()
+
+#! Trainig loop
+epochs = 3
+
+for epochs in tqdm(range(epochs)):
+    print(f" Epoch: {epochs}\n======")
+    #? Trainig
+    train_loss = 0
+    # přidá loop pro přidání loss pro batche
+    for batch, (X, y) in enumerate(train_dataloader):
+        model_0.train()
+        #? Forward pass
+        y_pred = model_0(X)
+        #? Loss per bach
+        loss = loss_fn(y_pred,y)
+        train_loss += loss      #? přidává do promněné 
+        #? Optimize zero grad
+        optimizer.zero_grad()
+        #? Back propagation
+        loss.backward()
+        #? Optimizer step
+        optimizer.step()
+        if batch % 400 == 0:
+            print(f"Looked at {batch*len(X)}/{len(train_dataloader.dataset)} sampels.")
+
+    #? Dělení train_loss  dékou dataloaderu(batches)
+    train_loss /= len(train_dataloader)
+    #! Test loop
+    test_loss,test_acc = 0,0
+    model_0.eval()
+    with torch.inference_mode():
+        for X_test,y_test in test_dataloader:
+            #? Forward pass
+            test_pred = model_0(X_test)                              #!
+            #? Test loss
+            test_loss += loss_fn(test_pred,y_test)                    #!
+            #? Přesnost
+            test_acc += accuracy_fn(y_true=y_test,y_pred=test_pred.argmax(dim=1))   #!
+        #? Průměená test loss
+        test_loss /= len(test_dataloader)
+        test_acc /= len(test_dataloader)
+    #! Vizualizace
+print(f"\nTrain loss: {train_loss:.4f} | Test loss: {test_loss:.4f} | Test acc: {test_acc:.4f}")
+#! Vypnutí timeru
+train_time_end_on_cpu = timer()
+total_train_time_model_0 = print_train_time(start=train_time_start_on_cpu,
+                                            end=train_time_end_on_cpu,
+                                            device=str(next(model_0.parameters()).device))
+
+#! Vytváření predikcí
+torch.manual_seed(42)
+def eval_model(model: torch.nn.Module,
+               data_loader: torch.utils.data.DataLoader,
+               loss_fn: torch.nn.Module,
+               accuracy_fn):
+    """ Vrací dictonary s výsledky modelu předpovídajícího na data_loader"""
+    loss, acc = 0,0
+    model.eval()
+    with torch.inference_mode():
+        for X, y in tqdm(data_loader):
+            #? Forward pass -> predikce
+            y_pred = model(X)
+            #? kumulace loss a acc za každé opakování
+            loss += loss_fn(y_pred,y)
+            acc += accuracy_fn(y_true= y,
+                               y_pred=y_pred.argmax(dim=1))
+            #? Prumněrná loss a acc
+        loss /=len(data_loader)
+        acc /=len(data_loader)
+    return{"model_name": model.__class__.__name__,
+           "model_loss": loss.item(),
+           "model_acc": acc}
+model_0_results = eval_model(model=model_0,
+                             data_loader=test_dataloader,
+                             loss_fn=loss_fn,
+                             accuracy_fn = accuracy_fn)
+print(model_0_results)
