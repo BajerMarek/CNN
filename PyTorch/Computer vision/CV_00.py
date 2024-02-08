@@ -264,3 +264,14 @@ model_0_results = eval_model(model=model_0,
                              loss_fn=loss_fn,
                              accuracy_fn = accuracy_fn)
 print(model_0_results)
+
+#! Převod na správné zařízení ( místo kde se bude model pocitat)
+
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
+
+
+
+
+
+

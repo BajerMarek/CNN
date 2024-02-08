@@ -503,7 +503,10 @@ CNN - convolutinonal neural network
     Konstrukace / stavba (běžná):
     Input layer                 Output layer
     convolutinonal layer        Hidden layer
-                
+    Umí dobře spracovat data v obrazové formně
+
+
+
 Knihovný pro computer vision
     torchvision - hlavní a základní knihovna pro pytorch v případě CV
     torchvision.datasets - data sety a funkce pro nahrávání dat
@@ -527,4 +530,14 @@ Trainig loop pro CV
     Zmněřit čas 
 
 Tqdm
-    knihovna pomáhající s vizualizací progersu sítě
+    Knihovna pomáhající s vizualizací progersu sítě
+    Přidává zobrazení načítání (takový ten ptogers bar který lze videt kdykoliv se ckoliv stahuje)
+Výkon modelu na CPU a GPU   
+    Někdy se může státt ýe model bude fungovat rychleni/lépe na cpu naý na gpu
+    ,přoč se to může stát?:
+        1. Proto aby model mohl fungovat na gpu musíse na gpu překopírovat
+            tedy se může stát že přidaná hodnoty z rychlejěího výpočtu na gpu 
+            bude zastíněna spomalením díky překopírování.
+        2. CPU v hardveru má lepší výpočetní rychůpst než GPU
+            https://horace.io/brrr_intro.html
+
