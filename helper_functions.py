@@ -16,6 +16,8 @@ from pathlib import Path
 
 import requests
 
+#! moje importy
+from tqdm.auto import tqdm
 # Walk through an image classification directory and find out how many files (images)
 # are in each subdirectory.
 import os

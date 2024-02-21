@@ -506,7 +506,6 @@ CNN - convolutinonal neural network
     Umí dobře spracovat data v obrazové formně
 
 
-
 Knihovný pro computer vision
     torchvision - hlavní a základní knihovna pro pytorch v případě CV
     torchvision.datasets - data sety a funkce pro nahrávání dat

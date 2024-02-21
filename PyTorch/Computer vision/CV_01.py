@@ -71,7 +71,7 @@ from helper_functions import accuracy_fn
 loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model_1.parameters(),
                             lr = 0.01)
-epochs = 10
+epochs = 3
 
 for epochs in tqdm(range(epochs)):
     print(f" Epoch: {epochs}\n======")
