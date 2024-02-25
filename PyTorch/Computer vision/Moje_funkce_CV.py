@@ -92,3 +92,25 @@ def eval_model(model:torch.nn.Module,
     return {"model_name":model.__class__.__name__,
             "model_loss":loss.item(),
             "model_acc":acc}
+
+def make_predictions(model:torch.nn.Module,
+                     data:list,
+                     device:torch.device=device):
+    pred_probs = []
+    model.to(device)
+    model.eval()
+    with torch.inference_mode():
+        for sample in data:
+            #? příprava dat (přidá dimenzu probatch a převede na správné device)
+            sample=torch.unsqueeze(sample,dim=0).to(device)
+            #? Forward pass
+            pred_logits = model(sample)
+
+            #? predicrion propability
+            pred_prob = torch.softmax(pred_logits.squeeze(),dim=0)
+
+            #? pred prob na cpu
+            pred_probs.append(pred_prob.cpu())
+
+#? Naskládaní listu do tenzoru
+    return torch.stack(pred_probs)

@@ -540,3 +540,8 @@ Výkon modelu na CPU a GPU
         2. CPU v hardveru má lepší výpočetní rychůpst než GPU
             https://horace.io/brrr_intro.html
 
+Confusion matrix
+    Meto da vizualní ho hodnocení modelu
+    https://www.dataschool.io/simple-guide-to-confusion-matrix-terminology/
+    nebo: https://lightning.ai/docs/torchmetrics/stable/pages/quickstart.html
+    Pro zobrazení pomocí mlxtend: https://rasbt.github.io/mlxtend/user_guide/plotting/plot_confusion_matrix/
