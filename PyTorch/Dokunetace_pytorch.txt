@@ -545,3 +545,14 @@ Confusion matrix
     https://www.dataschool.io/simple-guide-to-confusion-matrix-terminology/
     nebo: https://lightning.ai/docs/torchmetrics/stable/pages/quickstart.html
     Pro zobrazení pomocí mlxtend: https://rasbt.github.io/mlxtend/user_guide/plotting/plot_confusion_matrix/
+
+Overfitting - https://aws.amazon.com/what-is/overfitting/
+    Problém v modelu kdy docházi ktomu že model má dobré výsledky
+    v datasetu ale v moment kdy mu jsou dána kdyzpozici nějáká
+    realná data, tak jeho výsledek není dobrý
+    Jak tomu zabránít? Pomocí těchto metod: 
+        Early stopping - zastavení učení dřív než se model naučí šum (nepotřebná data) v datech
+        Pruning - určí důležitá a neduležitá data a ty neduležitá eliminuje
+        Regularization - řadí data podle významu pro výsledek
+        Ensembling - konbinuje výsledky víse slabšich modelů
+        Data augmentation - pokaždé co model data zúracuje se zpracovaná data trochu zmnění

@@ -125,11 +125,11 @@ plt.imshow(image.squeeze(), cmap="gray" )
 plt.show()
 
 #todo Pokus
-"""
+
 rand_image_tensor = torch.randn(size=(1,28,28))
 print(rand_image_tensor.shape)
 print(model_4(rand_image_tensor.unsqueeze(0).to(device)))
-"""
+
 
 #! Loss funkce eval metrics optimizer
 from helper_functions import accuracy_fn
@@ -249,3 +249,43 @@ fig, ax = plot_confusion_matrix(
     figsize=(10,7)
 )
 plt.show()
+
+#! Ukládání a nahrávání modelu
+#? místo ulozeni
+MODEL_PATH = Path("models")
+MODEL_PATH.mkdir(parents=True, exist_ok=True)
+
+#? Cesta pro model
+MODEL_NAME = "CNN_2.pth"
+MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
+print(MODEL_SAVE_PATH)
+
+#? uložení parametrů
+print(f"ukládání modelu do: {MODEL_SAVE_PATH}")
+torch.save(obj=model_4.state_dict(),
+           f=MODEL_SAVE_PATH)
+print("hotovo")
+
+#! Test nahraného modelu
+torch.manual_seed(42)
+
+loaded_model = FasionMNISTModelV4(input_shape=1,
+                                  hidden_units=10,
+                                  output_shape=len(class_names))
+
+#? nahrání modelu
+loaded_model.load_state_dict(torch.load(f=MODEL_SAVE_PATH))
+loaded_model.to(device)
+
+#! Vyhodnocení nahrného modelu
+print(model_4_results)
+torch.manual_seed(42)
+loaded_model_results = eval_model(model=loaded_model,
+                                  data_loader=test_dataloader,
+                                  loss_fn=loss_fn,
+                                  accuracy_fn=accuracy_fn)
+print(loaded_model_results)
+#? zjištějí pomocí pytorch jestly jsou výsledky stejné
+print(torch.isclose(torch.tensor(model_4_results["model_loss"]),
+              torch.tensor(loaded_model_results["model_loss"]),
+              atol=1e-02) )  #? míra tolerance
