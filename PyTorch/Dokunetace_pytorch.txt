@@ -531,6 +531,7 @@ Trainig loop pro CV
 Tqdm
     Knihovna pomáhající s vizualizací progersu sítě
     Přidává zobrazení načítání (takový ten ptogers bar který lze videt kdykoliv se ckoliv stahuje)
+
 Výkon modelu na CPU a GPU   
     Někdy se může státt ýe model bude fungovat rychleni/lépe na cpu naý na gpu
     ,přoč se to může stát?:
