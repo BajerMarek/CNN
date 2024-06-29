@@ -112,8 +112,9 @@ data_transform = transforms.Compose([
 print(data_transform(img).shape)
 
 def plot_transformed_images(image_paths, transform,n=3, seed=42):
-
-    
+    """
+    Vybere náhodné fotky a po transformaci je zobrazí
+    """
     random.seed(seed)
     random_image_paths = random.sample(image_paths,k=n)
     for image_path in random_image_paths:
@@ -136,4 +137,48 @@ plot_transformed_images(image_path_list,
                         transform=data_transform,
                         n=3,
                         seed=42)
-                        
+
+#! Nahrávání fote pomocí funkce ImageFolder
+from torchvision import datasets
+train_data = datasets.ImageFolder(root=train_dir,
+                                  transform=data_transform,         #? přemnění dat
+                                  target_transform=None)        #? pemnění nazve dat
+test_data = datasets.ImageFolder(root=test_dir,
+                                 transform=data_transform)
+print(train_data)
+print(test_data)
+
+#? získávání class jmeno dat jako list
+class_names =train_data.classes
+print(class_names)
+
+#? získávání class jmeno dat jako dict
+class_dict = train_data.class_to_idx
+print(class_dict)
+
+#? zišťování velikosti datasetu
+print(len(train_data))
+print(len(test_data))
+print(train_data.samples[0])
+
+#! Vizualizace dat z našeho datasetu
+#? můžeme dát učitému indexu daný název a fotku
+img, label = train_data[0][0],train_data[0][1]
+print(f"Image tensor:\n{img}")
+print(f"Image shape: {img.shape}")
+print(f"Image datatype: {img.dtype}")
+print(f"Image label: {label}")
+print(f"Lable datatype: {type(label)}")
+#! matplotlib
+#? zmně pozic v listu
+img_permute = img.permute(1,2,0)
+
+print(f"Original shape: {img.shape} -> [color_channels, height,width]")
+print(f"Image permute: {img_permute.shape} -> [height,width,color_channels]")
+
+#? zobrazení fotky
+plt.figure(figsize=(10,7))
+plt.imshow(img_permute)
+plt.axis("off")
+plt.title(class_names[label], fontsize=16)
+plt.show()
