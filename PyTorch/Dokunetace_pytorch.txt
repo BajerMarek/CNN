@@ -557,3 +557,12 @@ Overfitting - https://aws.amazon.com/what-is/overfitting/
         Regularization - řadí data podle významu pro výsledek
         Ensembling - konbinuje výsledky víse slabšich modelů
         Data augmentation - pokaždé co model data zúracuje se zpracovaná data trochu zmnění
+
+Transforms
+    Jedná se o funkce které jsou schopné nějákým způsobem upravovat fotky (data) v datasetu ->
+        transforms.Resize(size=(64,64)) -> zmnění velikost na 64 ku 64,
+        transforms.RandomHorizontalFlip(p=0.5) -> horizontálně otočí,
+        transforms.ToTensor() -> převede data na PyToch tensor
+    Tyto transformace se  provadějí v -> data_transform = transforms.Compose([])
+    kde se skládají dohromady
+    => Augmentace dat

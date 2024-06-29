@@ -54,7 +54,7 @@ test_dir = image_path / "test"
 
 #! VIZUALIZACE - náhodné fotky z datasetu
 #todo Jak se to provede
-#_ získáme cety daných fotek
+#_ získáme cesty daných fotek
 #_ vybereme náhodnou fotku pomocí random.choice()
 #_ získáme jména složek pomocí pathlib.Path.parent.stem
 #_ otevřeme fotky pomocí PIL
@@ -64,7 +64,7 @@ random.seed(42)
 
 #? získáme cety daných fotek
 image_path_list = list(image_path.glob("*/*/*.jpg")) #? glob dá všechny cety dohromady * - cokoly
-print(image_path_list)
+#print(image_path_list)
 
 #? vybereme náhodnou fotku pomocí random.choice()
 random_image_path = random.choice(image_path_list)
@@ -90,3 +90,50 @@ plt.imshow(img_array)
 plt.title(f"Image class: {image_class} | Image shape: {img_array.shape} -> [height, width, color_channels] [HWC]")
 plt.axis("off")
 plt.show()
+
+#! Transfrmování dat
+#todo Postup
+#_ 1. Konvertování dat na PyTorch tensory - číselné znázornění fotky
+#_ 2. Převedení na torch.utils.data.Dataset => Dataset formát
+#_                 torch.utils.data.DataLoader => DataLoader formát 
+
+#! Transform
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+#? transform pro fotku
+data_transform = transforms.Compose([
+    #? změna velikosti fotky
+    transforms.Resize(size=(64,64)),
+    #? otočení fotek horizontálně
+    transforms.RandomHorizontalFlip(p=0.5),
+    #? převedení fotky na tensor
+    transforms.ToTensor()
+])
+print(data_transform(img).shape)
+
+def plot_transformed_images(image_paths, transform,n=3, seed=42):
+
+    
+    random.seed(seed)
+    random_image_paths = random.sample(image_paths,k=n)
+    for image_path in random_image_paths:
+        with Image.open(image_path) as f:
+            fig, ax = plt.subplots(1,2)
+            ax[0].imshow(f)
+            ax[0].set_title(f"Original\nSize: {f.size}")
+            ax[0].axis("off")
+
+
+        transformed_image = transform(f).permute(1,2,0)
+        ax[1].imshow(transformed_image)
+        ax[1].set_title(f"Transformovaná fotka\nShape: {transformed_image.shape}")
+        ax[1].axis("off")
+
+        fig.suptitle(f"Class: {image_path.parent.stem}", fontsize=16)
+        plt.show()
+
+plot_transformed_images(image_path_list,
+                        transform=data_transform,
+                        n=3,
+                        seed=42)
+                        
