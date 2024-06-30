@@ -182,3 +182,20 @@ plt.imshow(img_permute)
 plt.axis("off")
 plt.title(class_names[label], fontsize=16)
 plt.show()
+
+#! DtaLoader
+from torch.utils.data import DataLoader
+BATCH_SIZE = 1
+train_dataloader = DataLoader(dataset=train_data,
+                              batch_size=BATCH_SIZE,
+                              num_workers=os.cpu_count(),
+                              shuffle=True)
+
+test_dataloadr = DataLoader(dataset=test_data,
+                            batch_size=BATCH_SIZE,
+                            num_workers=os.cpu_count(),                            
+                            shuffle=False)
+
+img , label =next(iter(train_dataloader))
+print(f"Image shape: {img.shape} -> [batchsize,color_channels,height,width,]")
+print(f"Label shape: {label.shape}")

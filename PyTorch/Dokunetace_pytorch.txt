@@ -490,6 +490,7 @@ Computer vision (zkratka CV)
     Inputy a outputy
         Typcky se jedná o fotu nebo video které se převede na tensor s hodnotami pro výšku šířku a počet barev(3 - RGB)
         Shape toho tenzoru se často nazívý NHWC - number of batches, height, width, coulr channels   
+
 Batches - dávky
     Jedná se o počet dat (dávku) kterou modelu poskytneme.
     -> nejčastěji se velikost je 32 (bitu, obrazků ...)
@@ -566,3 +567,7 @@ Transforms
     Tyto transformace se  provadějí v -> data_transform = transforms.Compose([])
     kde se skládají dohromady
     => Augmentace dat
+
+DataLoader
+    Pomáhá nám přemněnit dataset na iterables -> malé kusi datasetu (batche) které lze jednonuše zprocovávat (opakovat v loopech)
+    -> menší kusi datasetu se spracovávají lépe než celý dataset nazarás
