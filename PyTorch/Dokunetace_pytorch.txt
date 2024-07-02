@@ -571,3 +571,10 @@ Transforms
 DataLoader
     Pomáhá nám přemněnit dataset na iterables -> malé kusi datasetu (batche) které lze jednonuše zprocovávat (opakovat v loopech)
     -> menší kusi datasetu se spracovávají lépe než celý dataset nazarás
+
+Augmentace dat
+    Jedná se o účelné zpestření dat, úpravou již existujících dat
+    -> pořád se jedná o stejná data jense naně díváme z jiné prespektivy
+    Idelně to vede k tomu že model se dá lépe použít pro více věcí a  těžších situacích
+
+Trivialaugment - https://pytorch.org/vision/main/generated/torchvision.transforms.TrivialAugmentWide.html

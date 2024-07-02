@@ -328,25 +328,48 @@ def display_random_images(dataset: torch.utils.data.Dataset,
         plt.title(title)
     plt.show()
 
+"""
 display_random_images(train_data_custom,
                       n=12,
                       classes=class_names,
                       seed=None)
-
+"""
 #! Datasety
 BATCH_SIZE = 32
 NUM_WORKERS = os.cpu_count()
 train_dataloader_custom = DataLoader(dataset=train_data_custom,
                                batch_size=BATCH_SIZE,
                                num_workers=NUM_WORKERS,
-                               shuffle=False)
+                               shuffle=True)
 
 test_dataloader_custom = DataLoader(dataset=test_data_custom,
                                batch_size=BATCH_SIZE,
                                num_workers=NUM_WORKERS,
                                shuffle=False)
 
-img_custom, label_custom = next(iter(train_dataloader_custom))
-print(img_custom.shape)
-print("----------------")
-print(label_custom.shape)
+#img_custom, label_custom = next(iter(train_dataloader_custom))     #! dělá problémy
+#print(img_custom.shape)
+#print("----------------")
+#print(label_custom.shape)
+
+#! Augmentace dat
+#todo O co se jedná:
+#_ Schválné zpestření datasetu
+#_  v případě fotem se může jednat o různé otáčení zmněnu barev ...
+
+train_transform =  transforms.Compose([
+                                    transforms.Resize(size=(224,224)),
+                                    transforms.TrivialAugmentWide(num_magnitude_bins=5),
+                                    transforms.ToTensor()
+])
+test_transform = transforms.Compose([
+                                    transforms.Resize(size=(224,224)),
+                                    transforms.TrivialAugmentWide(num_magnitude_bins=5),
+                                    transforms.ToTensor()
+])
+image_path_list_custom = list(image_path.glob("*/*/*.jpg"))
+image_path_list_custom[:10]
+plot_transformed_images(image_paths=image_path_list_custom,
+                        transform=train_transform,
+                        n=6,
+                        seed=None)
