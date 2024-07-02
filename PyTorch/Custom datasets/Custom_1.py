@@ -113,6 +113,7 @@ plt.axis("off")
 #_                 torch.utils.data.DataLoader => DataLoader formát 
 
 #! Transform
+import torch.utils
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 #? transform pro fotku
@@ -194,6 +195,16 @@ def find_classes(directory:str) -> Tuple[List[str], Dict[str,int]]:         #? t
 
 print(find_classes(target_directory))
 
+#! Nahrávání fote pomocí funkce ImageFolder
+from torchvision import datasets
+train_data = datasets.ImageFolder(root=train_dir,
+                                  transform=data_transform,         #? přemnění dat
+                                  target_transform=None)        #? pemnění nazve dat
+test_data = datasets.ImageFolder(root=test_dir,
+                                 transform=data_transform)
+class_names =train_data.classes
+class_dict = train_data.class_to_idx
+
 #! Vytvoření  vlastního "Datasetu"
 #todo Co bude potřeba:
 #_ 1. subclass torch.utils.data.Dataset
@@ -263,9 +274,79 @@ train_data_custom = ImageFolderCustom(targ_dir=train_dir,
 
 test_data_custom = ImageFolderCustom(targ_dir=test_dir,
                                      transform=test_transform)
-print(train_data_custom.classes)
-print("-------------------------------------------------------------------------------------------------------")
-print(test_data_custom.class_to_idx)
-print("-------------------------------------------------------------------------------------------------------")
+#print(train_data_custom.classes)
+#print("-------------------------------------------------------------------------------------------------------")
+#print(test_data_custom.class_to_idx)
+#print("-------------------------------------------------------------------------------------------------------")
 
 #! Vizualizace
+#todo Funkce na zobrazování náhodných fotek z datasetu:
+#_ 1. Ziskat dataset a informace o datech z něj
+#_ 2. Zobrazení maximálně 10 fotek
+#_ 3. Nastavení seedu
+#_ 4. Získat list náhodných idexu dat (fotek)
+#_ 5. Mathplot lib
+#_ 6. Porojet jednotlyvé fotky azobrazit je pomocí mathplotlib
+#_ 7. Přehodi dimenze tak aby seděli s mathplotlib
+
+#? Získání dat
+def display_random_images(dataset: torch.utils.data.Dataset,
+                          classes: List[str] = None,
+                          n: int = 10,
+                          display_shape : bool = True,
+                          seed : int = 42):
+    #? omezení 10
+    if n>10:
+        n = 10
+        display_shape=False
+        print(f"Kvůli zobrazení n zredukováno na 10 a display_shape nataven na False")
+
+    #? Seed
+    if seed:
+        random.seed(seed)
+    #? Náhodná data
+    random_sample_idx = random.sample(range(len(dataset)), k=n)
+    
+    #? Mathplotlib
+    plt.figure(figsize=(16,8))
+
+    #? Projetí dat
+    for i , targ_sampel in enumerate(random_sample_idx):
+        targ_image, targ_label = dataset[targ_sampel][0], dataset[targ_sampel][1]
+
+        #? Dimenze
+        targ_image_adjust = targ_image.permute(1,2,0)   #? [color_channels, height,width] -> [height,width,color_channels]
+
+        #? zobrazení upravené fotky
+        plt.subplot(1, n, i+1)
+        plt.imshow(targ_image_adjust)
+        plt.axis("off")
+        if classes:
+            title = f"Class: {classes[targ_label]}"
+            if display_shape:
+                title = title + f"\nShape: {targ_image_adjust.shape}"
+        plt.title(title)
+    plt.show()
+
+display_random_images(train_data_custom,
+                      n=12,
+                      classes=class_names,
+                      seed=None)
+
+#! Datasety
+BATCH_SIZE = 32
+NUM_WORKERS = os.cpu_count()
+train_dataloader_custom = DataLoader(dataset=train_data_custom,
+                               batch_size=BATCH_SIZE,
+                               num_workers=NUM_WORKERS,
+                               shuffle=False)
+
+test_dataloader_custom = DataLoader(dataset=test_data_custom,
+                               batch_size=BATCH_SIZE,
+                               num_workers=NUM_WORKERS,
+                               shuffle=False)
+
+img_custom, label_custom = next(iter(train_dataloader_custom))
+print(img_custom.shape)
+print("----------------")
+print(label_custom.shape)
