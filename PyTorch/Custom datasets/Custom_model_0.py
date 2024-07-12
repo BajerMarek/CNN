@@ -1,3 +1,4 @@
+import torch.utils
 if __name__ == '__main__':
     import torch
     from torch import nn
@@ -140,13 +141,13 @@ if __name__ == '__main__':
             )
         def forward(self,x):
             x = self.block1(x)
-            print(f"Shape of x: {x.shape}")
+            #print(f"Shape of x: {x.shape}")
             x = self.block2(x)
-            print(f"Shape of x: {x.shape}")
+            #print(f"Shape of x: {x.shape}")
             x = self.block3(x)
-            print(f"Shape of x: {x.shape}")
+            #print(f"Shape of x: {x.shape}")
             x = self.block4(x)
-            print(f"Shape of x: {x.shape}")
+            #print(f"Shape of x: {x.shape}")
             x = self.classifier(x)
             return x
     model_0 = TinyModelCustom(input_shape=3,
@@ -154,3 +155,125 @@ if __name__ == '__main__':
                     output_shape=len(class_names)).to(device)
     image_batch,label_batch = next(iter(train_dataloader_simple))
     print(model_0(image_batch))
+
+    #! Vizualizace - tabulka
+    """
+        from torchinfo import summary
+    summary(model=model_0,
+            input_size=(BATCH_SIZE,3,64,64))
+    """
+
+    
+    #!Trainig
+    def train_loop(model:torch.nn.Module,
+                   data_loader:torch.utils.data.DataLoader,
+                   loss_fn:torch.nn.Module,
+                   optimizer:torch.optim.Optimizer,
+                   device:torch.device=device):
+        """
+        Vytvoří trainig loop pro model
+        """
+        #! stejný popis pro test_s
+        #? Vyhodnocovací hodnoty: loss,acc
+        train_loss,train_acc = 0,0
+        model.train()
+        #!Loop
+        for batch,(X,y) in enumerate(data_loader):
+            X,y = X.to(device),y.to(device)
+            #? Forward pass -> vytvoření predikcí -> logitů
+            y_pred=model(X)
+            #? Loss
+            loss = loss_fn(y_pred,y)
+            #? Celková loss
+            train_loss +=loss
+           #? Optimizer
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            #? Acc
+            y_pred_class = torch.argmax(torch.softmax(y_pred,dim=1), dim=1)
+            #? Celková acc
+            train_acc +=(y_pred_class==y).sum().item()/len(y_pred) #? celkový počet správných predikcí / počet predikcí
+            if batch%400==0:
+                print(f"Looked at: {batch*len(X)}/{len(data_loader.dataset)} samples")
+        #? Průmerné hodnoty pro loss a acc
+        train_loss /= len(data_loader)
+        train_acc /= len(data_loader)
+        return train_loss, train_acc
+
+    def test_loop(model:torch.nn.Module,
+                  data_loader:torch.utils.data.DataLoader,
+                  loss_fn:torch.nn.Module,
+                  device:torch.device = device):
+        test_acc,test_loss =0,0
+        model.eval()
+        with torch.inference_mode():
+
+            for X_test, y_test in data_loader:
+                X_test,y_test = X_test.to(device), y_test.to(device)
+                test_pred =model(X_test)
+                test_loss += loss_fn(test_pred,y_test)
+                test_pred_class = test_pred.argmax(dim=1)
+                test_acc += (test_pred_class==y_test).sum().item()/len(test_pred)
+                test_loss /= len(data_loader)
+                test_acc/=len(data_loader)
+                print(f"\nTest loss: {test_loss} | Test acc: {test_acc}%")
+        return test_loss, test_acc
+    #! Inicializace treniku
+
+    from tqdm.auto import tqdm
+    
+    
+    def train(epochs:int,
+
+              model:torch.nn.Module,
+              train_data_loader:torch.utils.data.DataLoader,
+              test_data_loader:torch.utils.data.DataLoader,
+              loss_fn:torch.nn.Module,
+              optimizer:torch.optim.Optimizer,
+              # accuracy_fn
+              device:torch.device=device):
+        results = {"train_loss": [],
+                   "train_acc": [],
+                   "test_loss": [],
+                   "test_acc": []}
+        for epochs in tqdm(range(epochs)):
+            print(f" Epoch: {epochs}\n================")
+            train_loss, train_acc =train_loop(model=model,
+                                        data_loader=train_data_loader,
+                                        loss_fn=loss_fn,
+                                        optimizer=optimizer,
+                                        device=device)
+            test_loss,test_acc = test_loop(model=model,
+                                        data_loader= test_data_loader,
+                                        loss_fn=loss_fn,
+                                        device=device)
+            print(f"Epoch: {epochs} | Train loss: {train_loss:.4f} | Train acc: {train_acc:.4f} | Test loss: {test_loss:.4f} | Test acc: {test_acc:.4f}")
+            #? Update results
+            results["train_loss"].append(train_loss)
+            results["train_acc"].append(train_acc)
+            results["test_loss"].appedn(test_loss)
+            results["test_acc"].append(test_acc)
+            return results
+    torch.manual_seed(42)
+    NUM_EPOCHS = 5
+    """
+    model_0 = TinyModelCustom(input_shape=3,
+                hidden_units=10,
+                output_shape=len(class_names)).to(device)
+    """
+    loss_fn = nn.CrossEntropyLoss()
+    optimizer = torch.optim.SGD(params=model_0.parameters(),
+                                lr=0.001)         #! *******LR**********
+    from timeit import default_timer as timer
+    start_time = timer()
+    vysledek = train(model=model_0,
+                     epochs=NUM_EPOCHS,
+                     train_data_loader=train_dataloader_simple,
+                     test_data_loader=test_dataloader_simple,
+                     loss_fn=loss_fn,
+                     optimizer=optimizer,
+                     device=device)
+    end_time = timer()
+    print(f"Total trainig time: {end_time-start_time:.3f} seconds")
+    
