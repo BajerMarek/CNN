@@ -16,6 +16,9 @@ from torchvision import transforms
 from torchvision import datasets
 #! DtaLoader
 from torch.utils.data import DataLoader
+#todo  Změny o proti předchozí verzy:
+#_ jiná datatransformace
+
 if __name__ == '__main__':
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -62,36 +65,120 @@ if __name__ == '__main__':
     image_class = random_image_path.parent.stem #? stem = class dané fotky
     """
     #! Model TinyVGG
-    #todo Postup:
-    #_ 1. Transformace
+                                                            #!Trainig
+    def train_loop(model:torch.nn.Module,
+               dataloader:torch.utils.data.DataLoader,
+               loss_fn:torch.nn.Module,
+               optimizer:torch.optim.Optimizer,
+               device:torch.device=device):
+        #! stejný popis pro test_s
+        #? Vyhodnocovací hodnoty: loss,acc
+        model.train()
+        train_loss,train_acc = 0,0
+        #!Loop
+        for batch,(X,y) in enumerate(dataloader):
+            X,y = X.to(device),y.to(device)
+            #? Forward pass -> vytvoření predikcí -> logitů
+            y_pred=model(X)
+            #? Loss
+            loss = loss_fn(y_pred,y)
+            #? Celková loss
+            train_loss +=loss.item()
+           #? Optimizer
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            #? Acc
+            y_pred_class = torch.argmax(torch.softmax(y_pred,dim=1), dim=1)
+            #? Celková acc
+            train_acc +=(y_pred_class==y).sum().item()/len(y_pred) #? celkový počet správných predikcí / počet predikcí
+            #if batch%400==0:
+            #    print(f"Looked at: {batch*len(X)}/{len(data_loader.dataset)} samples")
+        #? Průmerné hodnoty pro loss a acc
+        train_loss /= len(dataloader)
+        train_acc /= len(dataloader)
+        return train_loss, train_acc
 
-    #! Transformace dat
-    simple_transform = transforms.Compose([
+    def test_loop(model:torch.nn.Module,
+                  dataloader:torch.utils.data.DataLoader,
+                  loss_fn:torch.nn.Module,
+                  device:torch.device = device):
+        
+        model.eval()
+        test_acc,test_loss =0,0
+        with torch.inference_mode():
+            for batch,(X,y) in enumerate(dataloader):
+                X,y = X.to(device), y.to(device)
+                test_pred_logits =model(X)
+                loss = loss_fn(test_pred_logits,y)
+                test_loss += loss.item()
+                test_pred_labels =test_pred_logits.argmax(dim=1)
+                test_acc += ((test_pred_labels==y).sum().item()/len(test_pred_logits))
+        test_loss /= len(dataloader)
+        test_acc/=len(dataloader)
+                #print(f"\nTest loss: {test_loss} | Test acc: {test_acc}%")
+        return test_loss, test_acc
+    #! Inicializace treniku
+
+    from tqdm.auto import tqdm
+    def train(model:torch.nn.Module,
+              train_data_loader:torch.utils.data.DataLoader,
+              test_data_loader:torch.utils.data.DataLoader,
+              loss_fn:torch.nn.Module,
+              optimizer:torch.optim.Optimizer,
+              # accuracy_fn
+              device:torch.device=device,
+              epochs: int =5):
+        results = {"train_loss": [],
+                   "train_acc": [],
+                   "test_loss": [],
+                   "test_acc": []}
+        for epoch in tqdm(range(epochs)):
+            print(f" Epoch: {epoch+1}\n================")
+            train_loss, train_acc =train_loop(model=model,
+                                        dataloader=train_data_loader,
+                                        loss_fn=loss_fn,
+                                        optimizer=optimizer,
+                                        device=device)
+            test_loss,test_acc = test_loop(model=model,
+                                        dataloader= test_data_loader,
+                                        loss_fn=loss_fn,
+                                        device=device)
+            print(f"Epoch: {epoch+1} | Train loss: {train_loss:.4f} | Train acc: {train_acc:.4f} | Test loss: {test_loss:.4f} | Test acc: {test_acc:.4f}")
+            #? Update results
+            results["train_loss"].append(train_loss)
+            results["train_acc"].append(train_acc)
+            results["test_loss"].append(test_loss)
+            results["test_acc"].append(test_acc)
+        return results
+    train_transform_trivial = transforms.Compose([
+        transforms.Resize(size=(64,64)),
+        transforms.TrivialAugmentWide(num_magnitude_bins=31),
+        transforms.ToTensor()])
+    test_transofrm_simple = transforms.Compose([
         transforms.Resize(size=(64,64)),
         transforms.ToTensor()
     ])
-
-    train_data_simple = datasets.ImageFolder(root=train_dir,
-                                      transform=simple_transform,
-                                      target_transform=None)
-    test_data_simple = datasets.ImageFolder(root=test_dir,
-                                     transform=simple_transform)
-
-    BATCH_SIZE = 32                             #! originalně 32
-    WORKERS= os.cpu_count()
-    train_dataloader_simple = DataLoader(dataset=train_data_simple,
-                                  batch_size=BATCH_SIZE,
-                                  num_workers=WORKERS,
-                                  shuffle=True)
-    test_dataloader_simple = DataLoader(dataset=test_data_simple,
-                                 batch_size=BATCH_SIZE,
-                                 num_workers=WORKERS,
-                                 shuffle=False)
-    class_names =train_data_simple.classes
-    class_dict = train_data_simple.class_to_idx
-    #! Baseline model
-    #! Architecture: conv62 - relu -> conv60 - relu60 - maxpool30 -> conv28 - relu28 -> conv26 - relu26 -maxpool13
-
+    #! Datasets, dataloaders
+    train_data_augment = datasets.ImageFolder(root=train_dir,
+                                              transform=train_transform_trivial,
+                                              target_transform=None)
+    test_data_augment = datasets.ImageFolder(root=test_dir,
+                                             transform=test_transofrm_simple,
+                                             target_transform=None)
+    BATCH_SIZE = 32
+    NUM_WORKERS = os.cpu_count()
+    torch.manual_seed(42)
+    train_dataloader_augmented = DataLoader(dataset=train_data_augment,
+                                          batch_size=BATCH_SIZE,
+                                          shuffle=True,
+                                          num_workers=NUM_WORKERS)
+    test_dataloader_augmented = DataLoader(dataset=test_data_augment,
+                                         batch_size=BATCH_SIZE,
+                                         shuffle=False,
+                                         num_workers=NUM_WORKERS)
+    class_names =train_data_augment.classes
+    class_dict = train_data_augment.class_to_idx
     class TinyModelCustom(nn.Module):
         def __init__(self, input_shape:int,hidden_units:int,output_shape:int):
             """
@@ -151,128 +238,27 @@ if __name__ == '__main__':
             #print(f"Shape of x: {x.shape}")
             x = self.classifier(x)
             return x
-    model_0 = TinyModelCustom(input_shape=3,
-                    hidden_units=10,
-                    output_shape=len(class_names)).to(device)
-    image_batch,label_batch = next(iter(train_dataloader_simple))
-    #print(model_0(image_batch))
 
-    #! Vizualizace - tabulka
-    """
-        from torchinfo import summary
-    summary(model=model_0,
-            input_size=(BATCH_SIZE,3,64,64))
-    """
-
-    
-    #!Trainig
-
-
-    def train_loop(model:torch.nn.Module,
-               dataloader:torch.utils.data.DataLoader,
-               loss_fn:torch.nn.Module,
-               optimizer:torch.optim.Optimizer,
-               device:torch.device=device):
-        #! stejný popis pro test_s
-        #? Vyhodnocovací hodnoty: loss,acc
-        model.train()
-        train_loss,train_acc = 0,0
-        #!Loop
-        for batch,(X,y) in enumerate(dataloader):
-            X,y = X.to(device),y.to(device)
-            #? Forward pass -> vytvoření predikcí -> logitů
-            y_pred=model(X)
-            #? Loss
-            loss = loss_fn(y_pred,y)
-            #? Celková loss
-            train_loss +=loss.item()
-           #? Optimizer
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-            #? Acc
-            y_pred_class = torch.argmax(torch.softmax(y_pred,dim=1), dim=1)
-            #? Celková acc
-            train_acc +=(y_pred_class==y).sum().item()/len(y_pred) #? celkový počet správných predikcí / počet predikcí
-            #if batch%400==0:
-            #    print(f"Looked at: {batch*len(X)}/{len(data_loader.dataset)} samples")
-        #? Průmerné hodnoty pro loss a acc
-        train_loss /= len(dataloader)
-        train_acc /= len(dataloader)
-        return train_loss, train_acc
-
-    def test_loop(model:torch.nn.Module,
-                  dataloader:torch.utils.data.DataLoader,
-                  loss_fn:torch.nn.Module,
-                  device:torch.device = device):
-        
-        model.eval()
-        test_acc,test_loss =0,0
-        with torch.inference_mode():
-            for batch,(X,y) in enumerate(dataloader):
-                X,y = X.to(device), y.to(device)
-                test_pred =model(X)
-                loss = loss_fn(test_pred,y)
-                test_loss += loss.item()
-                test_pred_class = torch.argmax(torch.softmax(test_pred,dim=1), dim=1)
-                test_acc += (test_pred_class==y).sum().item()/len(test_pred)
-        test_loss /= len(dataloader)
-        test_acc/=len(dataloader)
-                #print(f"\nTest loss: {test_loss} | Test acc: {test_acc}%")
-        return test_loss, test_acc
-    #! Inicializace treniku
-
-    from tqdm.auto import tqdm
-    def train(model:torch.nn.Module,
-              train_data_loader:torch.utils.data.DataLoader,
-              test_data_loader:torch.utils.data.DataLoader,
-              loss_fn:torch.nn.Module,
-              optimizer:torch.optim.Optimizer,
-              # accuracy_fn
-              device:torch.device=device,
-              epochs: int =5):
-        results = {"train_loss": [],
-                   "train_acc": [],
-                   "test_loss": [],
-                   "test_acc": []}
-        for epoch in tqdm(range(epochs)):
-            print(f" Epoch: {epoch+1}\n================")
-            train_loss, train_acc =train_loop(model=model,
-                                        dataloader=train_data_loader,
-                                        loss_fn=loss_fn,
-                                        optimizer=optimizer,
-                                        device=device)
-            test_loss,test_acc = test_loop(model=model,
-                                        dataloader= test_data_loader,
-                                        loss_fn=loss_fn,
-                                        device=device)
-            print(f"Epoch: {epoch+1} | Train loss: {train_loss:.4f} | Train acc: {train_acc:.4f} | Test loss: {test_loss:.4f} | Test acc: {test_acc:.4f}")
-            #? Update results
-            results["train_loss"].append(train_loss)
-            results["train_acc"].append(train_acc)
-            results["test_loss"].append(test_loss)
-            results["test_acc"].append(test_acc)
-        return results
-    torch.manual_seed(42)                         #! *******Epochy**********
-    NUM_EPOCHS = 10                             
-
+    model_01 = TinyModelCustom(input_shape=3,
+                               hidden_units=10,
+                               output_shape=len(class_names)).to(device)
     loss_fn = nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(params=model_0.parameters(),
-                                lr=0.1)         #! *******LR**********
+    optimizer = torch.optim.Adam(params=model_01.parameters(),  #! jiny optimizer nez model0
+                               lr=0.001)
+    torch.manual_seed(42)
+    NUM_EPOCHS = 5
     from timeit import default_timer as timer
     start_time = timer()
-    vysledek = train(model=model_0,
-                     epochs=NUM_EPOCHS,
-                     train_data_loader=train_dataloader_simple,
-                     test_data_loader=test_dataloader_simple,
-                     loss_fn=loss_fn,
-                     optimizer=optimizer,
-                     device=device)
+    vysledek =train(model=model_01,
+          train_data_loader=train_dataloader_augmented,
+          test_data_loader=test_dataloader_augmented,
+          loss_fn=loss_fn,
+          optimizer=optimizer,
+          device=device,
+          epochs=NUM_EPOCHS)
     end_time = timer()
-    print(f"Total trainig time: {end_time-start_time:.3f} seconds")
-    
-#! Vizualizace -> pomocí grafu - loss curve
-#? result keys
+    #! Vizualizace -> pomocí grafu - loss curve
+    #? result keys
     vysledek.keys()
     def plot_loss_curves(results:dict[str,list[float]]):
         """Zobrazí křivku loss funkce"""
@@ -303,5 +289,7 @@ if __name__ == '__main__':
         plt.legend()
         plt.show()
     plot_loss_curves(vysledek)
-    #! přečíst
-    # https://developers.google.com/machine-learning/testing-debugging/metrics/interpretic
+
+
+
+

@@ -552,12 +552,27 @@ Overfitting - https://aws.amazon.com/what-is/overfitting/
     Problém v modelu kdy docházi ktomu že model má dobré výsledky
     v datasetu ale v moment kdy mu jsou dána kdyzpozici nějáká
     realná data, tak jeho výsledek není dobrý
+    -> train loss je nižší než test loss
     Jak tomu zabránít? Pomocí těchto metod: 
         Early stopping - zastavení učení dřív než se model naučí šum (nepotřebná data) v datech
         Pruning - určí důležitá a neduležitá data a ty neduležitá eliminuje
         Regularization - řadí data podle významu pro výsledek
         Ensembling - konbinuje výsledky víse slabšich modelů
         Data augmentation - pokaždé co model data zúracuje se zpracovaná data trochu zmnění
+
+        Získání více dat - zvětšení datasetu
+        Získání kvalitněších data - data lépe rozeznatelná a co nejvíce podobní cíly 
+        Zjednodušit model -  méně vrstev a méně neuronů
+        Learnig rate decay - postupně snižovat lr 
+
+Underfitting
+    Problém kdy je křivka loss funkce příliš malá -> učí se moc pomalu a moc málo
+    Řešení:
+        Zvětšení modelu - více vrstev a neuronů
+        Zmněna learnig ratu - upravit lr dle potřeby
+        Trénovat déle - využít výce epoch
+        Méně regulovat model - omezit věci které pomáhají při overfittingu
+
 
 Transforms
     Jedná se o funkce které jsou schopné nějákým způsobem upravovat fotky (data) v datasetu ->
@@ -578,3 +593,4 @@ Augmentace dat
     Idelně to vede k tomu že model se dá lépe použít pro více věcí a  těžších situacích
 
 Trivialaugment - https://pytorch.org/vision/main/generated/torchvision.transforms.TrivialAugmentWide.html
+Loss curves - https://developers.google.com/machine-learning/testing-debugging/metrics/interpretic
