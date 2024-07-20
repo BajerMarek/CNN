@@ -594,3 +594,9 @@ Augmentace dat
 
 Trivialaugment - https://pytorch.org/vision/main/generated/torchvision.transforms.TrivialAugmentWide.html
 Loss curves - https://developers.google.com/machine-learning/testing-debugging/metrics/interpretic
+
+Vizualizace experimentů
+    Mlflow - https://mlflow.org/
+    Pytorch TensorBoard - https://pytorch.org/tutorials/recipes/recipes/tensorboard_with_pytorch.html
+    Weights & Biases - https://wandb.ai/site
+    Natvrdo to naprogramovat - matplotlib
