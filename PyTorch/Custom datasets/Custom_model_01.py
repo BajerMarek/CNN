@@ -1,26 +1,14 @@
-import torch.utils
-import torch
-from torch import nn
-#? Data
-import requests
-import zipfile
-from pathlib import Path
-import os
-#? vizualizace - fotek
-from PIL import Image
-import random
-import matplotlib.pyplot as plt
-import numpy as np
-import matplotlib.pyplot as plt
-from torchvision import transforms
-from torchvision import datasets
-#! DtaLoader
-from torch.utils.data import DataLoader
-#todo  Změny o proti předchozí verzy:
-#_ jiná datatransformace
 
 if __name__ == '__main__':
-
+    import os
+    import requests
+    import zipfile
+    from pathlib import Path
+    import torch
+    from torch.utils.data import DataLoader
+    from torchvision import datasets, transforms
+    from torch import nn
+    import matplotlib.pyplot as plt
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     #? připaví cestu pro data
@@ -33,29 +21,90 @@ if __name__ == '__main__':
     else:
         print(f"{image_path} data neexistují ... stahuji")
         image_path.mkdir(parents=True,exist_ok=True)
-
-    #? stahování dat
+        #? stahování dat
     with open(data_path / "pizza_steak_sushi.zip", "wb") as f:
         request = requests.get("https://github.com/mrdbourke/pytorch-deep-learning/raw/main/data/pizza_steak_sushi.zip")
         print("Downloading...")
         f.write(request.content)
-
-        with zipfile.ZipFile(data_path / "pizza_steak_sushi.zip","r") as zip_ref:
-            print("Odzipování")
-            zip_ref.extractall(image_path)
-
-
-    #! DATA - pokus porozumnět jim
-
-    def walk_through_dir(dir_path):
-        """ Projde dir_path a vrátí to co obsahuje"""
-        for dirpath, dirnames, filenames in os.walk(dir_path):
-            print(f"Tady je {len(dirnames)} složek a {len(filenames)} fotek v '{dirpath}'.")
-
-    #! Rozdělení dat na traing a testing části
+    with zipfile.ZipFile(data_path / "pizza_steak_sushi.zip","r") as zip_ref:
+        print("Odzipování")
+        zip_ref.extractall(image_path)
+        
     train_dir = image_path / "train"
     test_dir = image_path / "test"
+
+    transform_trivial = transforms.Compose([
+        transforms.Resize(size=(64,64)),
+        transforms.TrivialAugmentWide(num_magnitude_bins=31),
+        transforms.ToTensor()])
+
+    #! Datasets, dataloaders
+    train_data = datasets.ImageFolder(root=train_dir,
+                                              transform=transform_trivial,
+                                              target_transform=None)
+    test_data = datasets.ImageFolder(root=test_dir,
+                                             transform=transform_trivial,
+                                             target_transform=None)
+    class_names =train_data.classes
+    class_dict = train_data.class_to_idx
+    BATCH_SIZE = 16
+    train_dataloader = DataLoader(dataset=train_data,
+                                          batch_size=BATCH_SIZE,
+                                          num_workers=os.cpu_count(),
+                                          shuffle=True)
+    test_dataloader = DataLoader(dataset=test_data,
+                                         batch_size=BATCH_SIZE,
+                                         num_workers=os.cpu_count(),
+                                         shuffle=False)
+    class TinyModelCustom(nn.Module):
+        def __init__(self, input_shape,hidden_units,output_shape):
+            super().__init__()
+            self.block1=nn.Sequential(
+                nn.Conv2d(in_channels=input_shape,
+                      out_channels=hidden_units,
+                      kernel_size=3,
+                      stride=1,
+                      padding=1),
+                nn.ReLU(),
+                nn.Conv2d(in_channels=hidden_units,
+                      out_channels=hidden_units,
+                      kernel_size=3,
+                      stride=1,
+                      padding=1),
+                nn.ReLU(),
+                nn.MaxPool2d(kernel_size=2)
+            )
+            self.block2=nn.Sequential(
+                nn.Conv2d(in_channels=hidden_units,
+                        out_channels=hidden_units,
+                        kernel_size=3,
+                        stride=1,
+                        padding=1),
+                nn.ReLU(),
+                nn.Conv2d(
+                    in_channels=hidden_units,
+                    out_channels=hidden_units,
+                    kernel_size=3,
+                    stride=1,
+                    padding=1),
+                nn.ReLU(),
+                nn.MaxPool2d(kernel_size=2)
+            )
+            self.classifier=nn.Sequential(
+                nn.Flatten(),
+                nn.Linear(in_features=hidden_units*16*16,
+                        out_features=output_shape)
+            )
+        def forward(self,x):
+            x = self.block1(x)
+            #print(f"Shape of x: {x.shape}")
+            x = self.block2(x)
+            #print(f"Shape of x: {x.shape}")
+            x = self.classifier(x)
+            return x
+
     """
+    
     #! Pro vizualizaci
     #? získáme cety daných fotek
     image_path_list = list(image_path.glob("*/*/*.jpg")) #? glob dá všechny cety dohromady * - cokoly
@@ -64,20 +113,19 @@ if __name__ == '__main__':
     #? získání class fotky
     image_class = random_image_path.parent.stem #? stem = class dané fotky
     """
-    #! Model TinyVGG
+
                                                             #!Trainig
     def train_loop(model:torch.nn.Module,
                dataloader:torch.utils.data.DataLoader,
                loss_fn:torch.nn.Module,
-               optimizer:torch.optim.Optimizer,
-               device:torch.device=device):
+               optimizer:torch.optim.Optimizer):
         #! stejný popis pro test_s
         #? Vyhodnocovací hodnoty: loss,acc
         model.train()
         train_loss,train_acc = 0,0
         #!Loop
         for batch,(X,y) in enumerate(dataloader):
-            X,y = X.to(device),y.to(device)
+            X, y = X.to(device), y.to(device)
             #? Forward pass -> vytvoření predikcí -> logitů
             y_pred=model(X)
             #? Loss
@@ -91,18 +139,17 @@ if __name__ == '__main__':
             #? Acc
             y_pred_class = torch.argmax(torch.softmax(y_pred,dim=1), dim=1)
             #? Celková acc
-            train_acc +=(y_pred_class==y).sum().item()/len(y_pred) #? celkový počet správných predikcí / počet predikcí
+            train_acc += (y_pred_class == y).sum().item()/len(y_pred) #? celkový počet správných predikcí / počet predikcí
             #if batch%400==0:
             #    print(f"Looked at: {batch*len(X)}/{len(data_loader.dataset)} samples")
         #? Průmerné hodnoty pro loss a acc
-        train_loss /= len(dataloader)
-        train_acc /= len(dataloader)
+        train_loss = train_loss / len(dataloader)
+        train_acc = train_acc / len(dataloader)
         return train_loss, train_acc
 
     def test_loop(model:torch.nn.Module,
                   dataloader:torch.utils.data.DataLoader,
-                  loss_fn:torch.nn.Module,
-                  device:torch.device = device):
+                  loss_fn:torch.nn.Module):
         
         model.eval()
         test_acc,test_loss =0,0
@@ -114,154 +161,74 @@ if __name__ == '__main__':
                 test_loss += loss.item()
                 test_pred_labels =test_pred_logits.argmax(dim=1)
                 test_acc += ((test_pred_labels==y).sum().item()/len(test_pred_logits))
-        test_loss /= len(dataloader)
-        test_acc/=len(dataloader)
+        test_loss =test_loss / len(dataloader)
+        test_acc=test_acc / len(dataloader)
                 #print(f"\nTest loss: {test_loss} | Test acc: {test_acc}%")
         return test_loss, test_acc
     #! Inicializace treniku
 
     from tqdm.auto import tqdm
     def train(model:torch.nn.Module,
-              train_data_loader:torch.utils.data.DataLoader,
-              test_data_loader:torch.utils.data.DataLoader,
-              loss_fn:torch.nn.Module,
+              train_dataloader:torch.utils.data.DataLoader,
+              test_dataloader:torch.utils.data.DataLoader,
               optimizer:torch.optim.Optimizer,
-              # accuracy_fn
-              device:torch.device=device,
+              loss_fn:torch.nn.Module =nn.CrossEntropyLoss(),
               epochs: int =5):
         results = {"train_loss": [],
                    "train_acc": [],
                    "test_loss": [],
                    "test_acc": []}
         for epoch in tqdm(range(epochs)):
-            print(f" Epoch: {epoch+1}\n================")
             train_loss, train_acc =train_loop(model=model,
-                                        dataloader=train_data_loader,
+                                        dataloader=train_dataloader,
                                         loss_fn=loss_fn,
-                                        optimizer=optimizer,
-                                        device=device)
+                                        optimizer=optimizer)
             test_loss,test_acc = test_loop(model=model,
-                                        dataloader= test_data_loader,
-                                        loss_fn=loss_fn,
-                                        device=device)
-            print(f"Epoch: {epoch+1} | Train loss: {train_loss:.4f} | Train acc: {train_acc:.4f} | Test loss: {test_loss:.4f} | Test acc: {test_acc:.4f}")
-            #? Update results
+                                        dataloader= test_dataloader,
+                                        loss_fn=loss_fn)
+            print(f"Epoch: {epoch+1} | "
+                  f"train_loss: {train_loss:.4f} | "
+                  f"train_acc: {train_acc:.4f} | "
+                  f"test_loss: {test_loss:.4f} | "
+                  f"test_acc: {test_acc:.4f}"
+            )
+
+            # Update the results dictionary
             results["train_loss"].append(train_loss)
             results["train_acc"].append(train_acc)
             results["test_loss"].append(test_loss)
             results["test_acc"].append(test_acc)
         return results
-    train_transform_trivial = transforms.Compose([
-        transforms.Resize(size=(64,64)),
-        transforms.TrivialAugmentWide(num_magnitude_bins=31),
-        transforms.ToTensor()])
-    test_transofrm_simple = transforms.Compose([
-        transforms.Resize(size=(64,64)),
-        transforms.ToTensor()
-    ])
-    #! Datasets, dataloaders
-    train_data_augment = datasets.ImageFolder(root=train_dir,
-                                              transform=train_transform_trivial,
-                                              target_transform=None)
-    test_data_augment = datasets.ImageFolder(root=test_dir,
-                                             transform=test_transofrm_simple,
-                                             target_transform=None)
-    BATCH_SIZE = 32
-    NUM_WORKERS = os.cpu_count()
+    
     torch.manual_seed(42)
-    train_dataloader_augmented = DataLoader(dataset=train_data_augment,
-                                          batch_size=BATCH_SIZE,
-                                          shuffle=True,
-                                          num_workers=NUM_WORKERS)
-    test_dataloader_augmented = DataLoader(dataset=test_data_augment,
-                                         batch_size=BATCH_SIZE,
-                                         shuffle=False,
-                                         num_workers=NUM_WORKERS)
-    class_names =train_data_augment.classes
-    class_dict = train_data_augment.class_to_idx
-    class TinyModelCustom(nn.Module):
-        def __init__(self, input_shape:int,hidden_units:int,output_shape:int):
-            """
-            Kopie modelu TinyVGG 
-            """
-            super().__init__()
-            self.block1=nn.Sequential(
-                nn.Conv2d(in_channels=input_shape,
-                        out_channels=hidden_units,
-                        kernel_size=3,
-                        stride=1,
-                        padding=0),
-                nn.ReLU()
-            )
-            self.block2=nn.Sequential(
-                nn.Conv2d(in_channels=hidden_units,
-                        out_channels=hidden_units,
-                        kernel_size=3,
-                        stride=1,
-                        padding=0),
-                nn.ReLU(),
-                nn.MaxPool2d(kernel_size=2,
-                            stride=2)
-            )
-            self.block3=nn.Sequential(
-                nn.Conv2d(in_channels=hidden_units,
-                        out_channels=hidden_units,
-                        kernel_size=3,
-                        stride=1,
-                        padding=0),
-                nn.ReLU()
-            )
-            self.block4=nn.Sequential(
-                nn.Conv2d(
-                    in_channels=hidden_units,
-                    out_channels=hidden_units,
-                    kernel_size=3,
-                    stride=1,
-                    padding=0),
-                nn.ReLU(),
-                nn.MaxPool2d(kernel_size=2,
-                            stride=2)
-            )
-            self.classifier=nn.Sequential(
-                nn.Flatten(),
-                nn.Linear(in_features=hidden_units*13*13,
-                        out_features=output_shape)
-            )
-        def forward(self,x):
-            x = self.block1(x)
-            #print(f"Shape of x: {x.shape}")
-            x = self.block2(x)
-            #print(f"Shape of x: {x.shape}")
-            x = self.block3(x)
-            #print(f"Shape of x: {x.shape}")
-            x = self.block4(x)
-            #print(f"Shape of x: {x.shape}")
-            x = self.classifier(x)
-            return x
-
+    torch.cuda.manual_seed(42)
     model_01 = TinyModelCustom(input_shape=3,
-                               hidden_units=10,
-                               output_shape=len(class_names)).to(device)
+                          hidden_units=10,
+                          output_shape=len(class_names)).to(device)
     loss_fn = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(params=model_01.parameters(),  #! jiny optimizer nez model0
+    optimizer = torch.optim.Adam(model_01.parameters(),  #! jiny optimizer nez model0
                                lr=0.001)
-    torch.manual_seed(42)
-    NUM_EPOCHS = 5
+
+    NUM_EPOCHS = 3
     from timeit import default_timer as timer
     start_time = timer()
-    vysledek =train(model=model_01,
-          train_data_loader=train_dataloader_augmented,
-          test_data_loader=test_dataloader_augmented,
-          loss_fn=loss_fn,
-          optimizer=optimizer,
-          device=device,
+    vysledek_01 =train(model=model_01,
+            train_dataloader=train_dataloader,
+            test_dataloader=test_dataloader,
+            optimizer=optimizer,
+            loss_fn=loss_fn,
           epochs=NUM_EPOCHS)
+    img,label = next(iter(train_dataloader))
+    print(vysledek_01)
     end_time = timer()
+    print(f"Total time: {(end_time - start_time)/60}")
+    
+
     #! Vizualizace -> pomocí grafu - loss curve
     #? result keys
-    vysledek.keys()
+    vysledek_01.keys()
     def plot_loss_curves(results:dict[str,list[float]]):
-        """Zobrazí křivku loss funkce"""
+        
         #? získání dat
         loss = results["train_loss"]
         test_loss = results["test_loss"]
@@ -288,8 +255,11 @@ if __name__ == '__main__':
         plt.xlabel("Epochs")
         plt.legend()
         plt.show()
-    plot_loss_curves(vysledek)
+    plot_loss_curves(vysledek_01)   
+    import pandas as pd
+    model_01_df = pd.DataFrame(vysledek_01)
+    print(model_01_df)
+    fiel_path = "data/model_df/model_0_df"
+    model_0_df = pd.read_csv(fiel_path)
 
-
-
-
+    print(model_0_df)
