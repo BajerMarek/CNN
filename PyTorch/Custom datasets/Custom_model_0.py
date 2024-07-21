@@ -253,7 +253,7 @@ if __name__ == '__main__':
             results["test_acc"].append(test_acc)
         return results
     torch.manual_seed(42)                         #! *******Epochy**********
-    NUM_EPOCHS = 3                             
+    NUM_EPOCHS = 50                             
 
     loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(params=model_0.parameters(),

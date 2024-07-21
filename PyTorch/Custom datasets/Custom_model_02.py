@@ -1,4 +1,3 @@
-
 if __name__ == '__main__':
     import os
     import requests
@@ -210,13 +209,13 @@ if __name__ == '__main__':
     torch.manual_seed(42)
     torch.cuda.manual_seed(42)
     model_01 = TinyModelCustom(input_shape=3,
-                          hidden_units=32,
+                          hidden_units=10,
                           output_shape=len(class_names)).to(device)
     loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model_01.parameters(),  #! jiny optimizer nez model0
                                lr=0.001)
 
-    NUM_EPOCHS = 50
+    NUM_EPOCHS = 2
     from timeit import default_timer as timer
     start_time = timer()
 
@@ -264,45 +263,27 @@ if __name__ == '__main__':
         plt.legend()
         plt.show()
     plot_loss_curves(vysledek_01)   
-    import pandas as pd
-    model_01_df = pd.DataFrame(vysledek_01)
-    #print(model_01_df)
-    fiel_path = "data/model_df/model_0_df"
-    model_0_df = pd.read_csv(fiel_path)
-    #print(model_0_df)
+    #! Cíl ?
+    #todo Stáhnutí jedné specialní fotky a provedení predikce na ní
+    import requests
 
-    #! porovnávání výsledků modelů -> VIZUALIZACE
-    plt.figure(figsize=(15,30))
-    epochs = range(len(model_0_df))
-    #? train loss
-    plt.subplot(2,2,1)
-    plt.plot(epochs, model_0_df["train_loss"], label = "Model 0")
-    plt.plot(epochs, model_01_df["train_loss"], label="Model 1")
-    plt.title("Train Loss")
-    plt.xlabel("Epochs")
-    plt.legend()
- 
-    #? test loss
-    plt.subplot(2,2,2)
-    plt.plot(epochs, model_0_df["test_loss"], label = "Model 0")
-    plt.plot(epochs, model_01_df["test_loss"], label="Model 1")
-    plt.title("Test Loss")
-    plt.xlabel("Epochs")
-    plt.legend()
+    custom_image_path = data_path/"04-pizza-dad.jpeg"
+    if not custom_image_path.is_file():
+        with open(custom_image_path,"wb") as f:
+            request = requests.get("https://raw.githubusercontent.com/mrdbourke/pytorch-deep-learning/main/images/04-pizza-dad.jpeg")
+            print(f"Stahování {custom_image_path}...")
+            f.write(request.content)    #? stáhne tu forku
+    else:
+        print(f"{custom_image_path} je už stažená, přeskakuji stahování") 
 
-    #? train acc
-    plt.subplot(2,2,3)
-    plt.plot(epochs, model_0_df["train_acc"], label = "Model 0")
-    plt.plot(epochs, model_01_df["train_acc"], label="Model 1")
-    plt.title("Train Acc")
-    plt.xlabel("Epochs")
-    plt.legend()
-
-    #? test acc
-    plt.subplot(2,2,4)
-    plt.plot(epochs, model_0_df["test_acc"], label = "Model 0")
-    plt.plot(epochs, model_01_df["test_acc"], label="Model 1")
-    plt.title("Test Acc")
-    plt.xlabel("Epochs")
-    plt.legend()
+    #? převedení na správný formát -> stejný jako data ne kterých trénovala
+    #? + správný device
+    
+    #? přečtení fotky
+    import torchvision
+    custom_img_uint8 = torchvision.io.read_image(str(custom_image_path))
+    plt.imshow(custom_img_uint8.permute(1,2,0))
     plt.show()
+    print(f"Custom image tensor:\n {custom_img_uint8}")
+    print(f"Custom image shape:\n {custom_img_uint8.shape}")
+    print(f"Custom image datatype:\n {custom_img_uint8.dtype}")
