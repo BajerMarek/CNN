@@ -1,23 +1,22 @@
-import torch.utils
-import torch
-from torch import nn
-#? Data
-import requests
-import zipfile
-from pathlib import Path
-import os
-#? vizualizace - fotek
-from PIL import Image
-import random
-import matplotlib.pyplot as plt
-import numpy as np
-import matplotlib.pyplot as plt
-from torchvision import transforms
-from torchvision import datasets
-#! DtaLoader
-from torch.utils.data import DataLoader
 if __name__ == '__main__':
-
+    import torch.utils
+    import torch
+    from torch import nn
+    #? Data
+    import requests
+    import zipfile
+    from pathlib import Path
+    import os
+    #? vizualizace - fotek
+    from PIL import Image
+    import random
+    import matplotlib.pyplot as plt
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from torchvision import transforms
+    from torchvision import datasets
+    #! DtaLoader
+    from torch.utils.data import DataLoader
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     #? připaví cestu pro data
@@ -77,7 +76,7 @@ if __name__ == '__main__':
     test_data_simple = datasets.ImageFolder(root=test_dir,
                                      transform=simple_transform)
 
-    BATCH_SIZE = 32                             #! originalně 32
+    BATCH_SIZE = 1                             #! originalně 32
     WORKERS= os.cpu_count()
     train_dataloader_simple = DataLoader(dataset=train_data_simple,
                                   batch_size=BATCH_SIZE,
@@ -254,14 +253,14 @@ if __name__ == '__main__':
             results["test_acc"].append(test_acc)
         return results
     torch.manual_seed(42)                         #! *******Epochy**********
-    NUM_EPOCHS = 10                             
+    NUM_EPOCHS = 50                             
 
     loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(params=model_0.parameters(),
                                 lr=0.001)         #! *******LR**********
     from timeit import default_timer as timer
     start_time = timer()
-    vysledek = train(model=model_0,
+    vysledek_0 = train(model=model_0,
                      epochs=NUM_EPOCHS,
                      train_data_loader=train_dataloader_simple,
                      test_data_loader=test_dataloader_simple,
@@ -273,7 +272,7 @@ if __name__ == '__main__':
     
 #! Vizualizace -> pomocí grafu - loss curve
 #? result keys
-    vysledek.keys()
+    vysledek_0.keys()
     def plot_loss_curves(results:dict[str,list[float]]):
         """Zobrazí křivku loss funkce"""
         #? získání dat
@@ -302,6 +301,16 @@ if __name__ == '__main__':
         plt.xlabel("Epochs")
         plt.legend()
         plt.show()
-    plot_loss_curves(vysledek)
+    plot_loss_curves(vysledek_0)
     #! přečíst
     # https://developers.google.com/machine-learning/testing-debugging/metrics/interpretic
+    import pandas as pd
+    model_0_df = pd.DataFrame(vysledek_0)
+    print(model_0_df)
+
+    directory_path = Path("data/model_df/")
+    filename = "model_0_df"
+    
+    full_path = os.path.join(directory_path,filename)
+    model_0_df.to_csv(full_path, index=False)
+
