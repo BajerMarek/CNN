@@ -257,8 +257,8 @@ if __name__ == '__main__':
     NUM_EPOCHS = 10                             
 
     loss_fn = nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(params=model_0.parameters(),
-                                lr=0.1)         #! *******LR**********
+    optimizer = torch.optim.Adam(params=model_0.parameters(),
+                                lr=0.001)         #! *******LR**********
     from timeit import default_timer as timer
     start_time = timer()
     vysledek = train(model=model_0,

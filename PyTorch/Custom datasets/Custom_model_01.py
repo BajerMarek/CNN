@@ -55,15 +55,16 @@ if __name__ == '__main__':
     #! Rozdělení dat na traing a testing části
     train_dir = image_path / "train"
     test_dir = image_path / "test"
-    """
+    
     #! Pro vizualizaci
     #? získáme cety daných fotek
     image_path_list = list(image_path.glob("*/*/*.jpg")) #? glob dá všechny cety dohromady * - cokoly
+    print(image_path_list[0])
     #? vybereme náhodnou fotku pomocí random.choice()
-    random_image_path = random.choice(image_path_list)
+    #random_image_path = random.choice(image_path_list)
     #? získání class fotky
-    image_class = random_image_path.parent.stem #? stem = class dané fotky
-    """
+    #image_class = random_image_path.parent.stem #? stem = class dané fotky
+    
     #! Model TinyVGG
                                                             #!Trainig
     def train_loop(model:torch.nn.Module,
