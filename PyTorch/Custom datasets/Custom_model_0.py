@@ -30,15 +30,15 @@ if __name__ == '__main__':
         print(f"{image_path} data neexistují ... stahuji")
         image_path.mkdir(parents=True,exist_ok=True)
 
-    #? stahování dat
-    with open(data_path / "pizza_steak_sushi.zip", "wb") as f:
-        request = requests.get("https://github.com/mrdbourke/pytorch-deep-learning/raw/main/data/pizza_steak_sushi.zip")
-        print("Downloading...")
-        f.write(request.content)
+        #? stahování dat
+        with open(data_path / "pizza_steak_sushi.zip", "wb") as f:
+            request = requests.get("https://github.com/mrdbourke/pytorch-deep-learning/raw/main/data/pizza_steak_sushi.zip")
+            print("Downloading...")
+            f.write(request.content)
 
-        with zipfile.ZipFile(data_path / "pizza_steak_sushi.zip","r") as zip_ref:
-            print("Odzipování")
-            zip_ref.extractall(image_path)
+            with zipfile.ZipFile(data_path / "pizza_steak_sushi.zip","r") as zip_ref:
+                print("Odzipování")
+                zip_ref.extractall(image_path)
 
 
     #! DATA - pokus porozumnět jim
@@ -253,7 +253,7 @@ if __name__ == '__main__':
             results["test_acc"].append(test_acc)
         return results
     torch.manual_seed(42)                         #! *******Epochy**********
-    NUM_EPOCHS = 50                             
+    NUM_EPOCHS = 5                            
 
     loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(params=model_0.parameters(),

@@ -23,13 +23,13 @@ if __name__ == '__main__':
         print(f"{image_path} data neexistují ... stahuji")
         image_path.mkdir(parents=True,exist_ok=True)
         #? stahování dat
-    with open(data_path / "pizza_steak_sushi.zip", "wb") as f:
-        request = requests.get("https://github.com/mrdbourke/pytorch-deep-learning/raw/main/data/pizza_steak_sushi.zip")
-        print("Downloading...")
-        f.write(request.content)
-    with zipfile.ZipFile(data_path / "pizza_steak_sushi.zip","r") as zip_ref:
-        print("Odzipování")
-        zip_ref.extractall(image_path)
+        with open(data_path / "pizza_steak_sushi.zip", "wb") as f:
+            request = requests.get("https://github.com/mrdbourke/pytorch-deep-learning/raw/main/data/pizza_steak_sushi.zip")
+            print("Downloading...")
+            f.write(request.content)
+            with zipfile.ZipFile(data_path / "pizza_steak_sushi.zip","r") as zip_ref:
+                print("Odzipování")
+                zip_ref.extractall(image_path)
         
     train_dir = image_path / "train"
     test_dir = image_path / "test"
@@ -215,7 +215,7 @@ if __name__ == '__main__':
     optimizer = torch.optim.Adam(model_01.parameters(),  #! jiny optimizer nez model0
                                lr=0.001)
 
-    NUM_EPOCHS = 2
+    NUM_EPOCHS = 5
     from timeit import default_timer as timer
     start_time = timer()
 
@@ -230,6 +230,15 @@ if __name__ == '__main__':
     end_time = timer()
     print(f"Total time: {(end_time - start_time)/60}")
     
+    import pandas as pd
+    model_02_df = pd.DataFrame(vysledek_01)
+    print(model_02_df)
+
+    directory_path = Path("data/model_df/")
+    filename = "model_02_df"
+    
+    full_path = os.path.join(directory_path,filename)
+    model_02_df.to_csv(full_path, index=False)
 
     #! Vizualizace -> pomocí grafu - loss curve
     #? result keys

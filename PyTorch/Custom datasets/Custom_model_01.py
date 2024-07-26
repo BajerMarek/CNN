@@ -24,13 +24,13 @@ if __name__ == '__main__':
         print(f"{image_path} data neexistují ... stahuji")
         image_path.mkdir(parents=True,exist_ok=True)
         #? stahování dat
-    with open(data_path / "pizza_steak_sushi.zip", "wb") as f:
-        request = requests.get("https://github.com/mrdbourke/pytorch-deep-learning/raw/main/data/pizza_steak_sushi.zip")
-        print("Downloading...")
-        f.write(request.content)
-    with zipfile.ZipFile(data_path / "pizza_steak_sushi.zip","r") as zip_ref:
-        print("Odzipování")
-        zip_ref.extractall(image_path)
+        with open(data_path / "pizza_steak_sushi.zip", "wb") as f:
+            request = requests.get("https://github.com/mrdbourke/pytorch-deep-learning/raw/main/data/pizza_steak_sushi.zip")
+            print("Downloading...")
+            f.write(request.content)
+            with zipfile.ZipFile(data_path / "pizza_steak_sushi.zip","r") as zip_ref:
+                print("Odzipování")
+                zip_ref.extractall(image_path)
         
     train_dir = image_path / "train"
     test_dir = image_path / "test"
@@ -217,7 +217,7 @@ if __name__ == '__main__':
     optimizer = torch.optim.Adam(model_01.parameters(),  #! jiny optimizer nez model0
                                lr=0.001)
 
-    NUM_EPOCHS = 50
+    NUM_EPOCHS = 5
     from timeit import default_timer as timer
     start_time = timer()
 
@@ -265,8 +265,16 @@ if __name__ == '__main__':
         plt.legend()
         plt.show()
     plot_loss_curves(vysledek_01)   
+
     import pandas as pd
     model_01_df = pd.DataFrame(vysledek_01)
+
+    directory_path = Path("data/model_df/")
+    filename = "model_01_df"
+    
+    full_path = os.path.join(directory_path,filename)
+    model_01_df.to_csv(full_path, index=False)
+
     #print(model_01_df)
     fiel_path = "data/model_df/model_0_df"
     model_0_df = pd.read_csv(fiel_path)
