@@ -2,6 +2,7 @@ import os
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 from torch import nn
+import torch
 #!prestavka 11 25
 class TinyVgg(nn.Module):
     """Replika modelu TinyVgg z webu CNN explainer -> https://poloclub.github.io/cnn-explainer/"""
@@ -44,14 +45,12 @@ class TinyVgg(nn.Module):
         )
         self.classifier = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(in_features=hidden_units,         #! tady bude error
+            nn.Linear(in_features=hidden_units*13*13,         #! tady bude error
                       out_features=output_shape)
         )
-    def forward(self,x):
-        x = self.block1(x)
-        print(f"Shape of x: {x.shape}")
+    def forward(self,x:torch.Tensor):
+        x = self.block1(x)  
         x = self.block2(x)
-        print(f"Shape of x: {x.shape}")
         x = self.classifier(x)
         return x
     
