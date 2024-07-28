@@ -11,7 +11,7 @@ def save_model(model:torch.nn.Module,
     target_dir_path.mkdir(parents=True,
                           exist_ok=True)
     
-    assert model.endswith(".pth") or model_name.endswith(".pt"),"Koncovka modelu musí bít .pth nebo .pt"
+    assert model_name.endswith(".pth") or model_name.endswith(".pt"),"Koncovka modelu musí být .pth nebo .pt"
     model_save_path = target_dir_path / model_name
     print(f"[INFO] stahuji model do {model_save_path}")
     torch.save(obj=model.state_dict(),
