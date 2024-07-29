@@ -215,7 +215,11 @@ if __name__ == '__main__':
     optimizer = torch.optim.Adam(model_01.parameters(),  #! jiny optimizer nez model0
                                lr=0.001)
 
+<<<<<<< Updated upstream
     NUM_EPOCHS = 5
+=======
+    NUM_EPOCHS = 1
+>>>>>>> Stashed changes
     from timeit import default_timer as timer
     start_time = timer()
 
@@ -291,8 +295,103 @@ if __name__ == '__main__':
     #? přečtení fotky
     import torchvision
     custom_img_uint8 = torchvision.io.read_image(str(custom_image_path))
-    plt.imshow(custom_img_uint8.permute(1,2,0))
-    plt.show()
+    #plt.imshow(custom_img_uint8.permute(1,2,0))
+    #plt.show()
     print(f"Custom image tensor:\n {custom_img_uint8}")
     print(f"Custom image shape:\n {custom_img_uint8.shape}")
     print(f"Custom image datatype:\n {custom_img_uint8.dtype}")
+    custom_image = torchvision.io.read_image(str(custom_image_path)).type(torch.float32) /255    #? standartně jsou hodnoty RGB v rozmezí 0 -255
+                                                                                                #?  -> výsledek mezi 1 a 0
+    print(custom_image)
+
+
+    custom_image = torchvision.io.read_image(str(custom_image_path)).type(torch.float32) /255    #? standartně jsou hodnoty RGB v rozmezí 0 -255 + zmnění na tensor
+                                                                                                 #?  -> výsledek mezi 1 a 0
+    custom_image_transformed = transforms.Compose([
+        transforms.Resize(size=(64,64))
+        ])
+    custom_image_transformed = custom_image_transformed(custom_image)
+    print(f"Originalní shape: {custom_img_uint8.shape}")
+    print(f"Transformed shape: {custom_image_transformed.shape}")
+    #! Vizualizace zobrazované fotky po transformaci
+    plt.imshow(custom_image_transformed.permute(1,2,0))
+    plt.show()
+    model_01.eval()
+    with torch.inference_mode():
+        custom_image_pred = model_01(custom_image_transformed.unsqueeze(dim=0).to(device))
+        print(custom_image_pred)
+
+    #! Co sem udělali :
+    #? převedení fotky na tensor
+    #? převedení na správný data typ (float32)
+    #? převední na správný shape (64,64)
+
+    #! Funkcionalizace + zobrazení výspedků
+
+    #? pravděpodobnost správného výspedku
+    custom_image_pred_probs = torch.softmax(custom_image_pred,dim=1)
+    print(custom_image_pred_probs)
+
+    #? přeměna pravděpoděpodobnosti na název
+    custom_image_pred_labels = torch.argmax(custom_image_pred_probs,dim=1)
+    print(custom_image_pred_labels)
+    print(class_names[custom_image_pred_labels])
+
+    #! Funkce
+    #todo Idelní výsledek:
+    #_ Dáme naší funkci image_path a ona nám zobrazí danou fotku + naní provede predikci
+
+    def zobraz_fotku(image_path:str):
+        #? příprava fotky
+        image = torchvision.io.read_image(str(image_path)).type(torch.float32)/255
+        transformed_image = transforms.Compose([transforms.Resize(size=(64,64))])
+        transformed_image = transformed_image(image)
+        #? predikce na fotce
+        model_01.eval()
+        with torch.inference_mode():
+            image_pred = model_01(transformed_image.unsqueeze(dim=0).to(device))
+        #? Dekodacce predikce
+        image_pred_probs = torch.softmax(image_pred,dim=1)
+        image_pred_labels = torch.argmax(image_pred_probs)
+        #!Vizualizace
+        image_vizualizace = torchvision.io.read_image(str(image_path)) 
+        plt.imshow(image_vizualizace.permute(1,2,0))
+        plt.title(f"Jnémo jídla je: {class_names[image_pred_labels]}")
+        plt.show()
+    zobraz_fotku(custom_image_path)
+    #!Nefunguje -> Cast error details: Unable to cast Python instance of type <class 'pathlib.WindowsPath'> to C++ type '?' (#define PYBIND11_DETAILED_ERROR_MESSAGES or compile in debug mode for details)
+"""
+
+    def zobraz_fotku_2(model:torch.nn.Module,
+                 image_path:str,
+                 class_names: list[str] = None,
+                 transform = None,
+                 device=device):
+        #? příprava fotky
+        image= torchvision.io.read_image(image_path).type(torch.float32)/255
+        if transform:
+            image = transform(image)
+        #? predikce na fotce
+        model.to(device)
+        model.eval()
+        with torch.inference_mode():
+            image_pred = model(image.unsqueeze(dim=0).to(device))   #? přídá dimenzi pro batche v nulté dimezi -> .unsqueeze(dim=0)
+        #? Dekodacce predikce
+        image_pred_probs = torch.softmax(image_pred,dim=1)
+        image_pred_labels = torch.argmax(image_pred_probs)
+        #!Vizualizace
+        image_vizualizace = torchvision.io.read_image(image_path) 
+        plt.imshow(image_vizualizace.permute(1,2,0))
+        if class_names:
+            plt.title(f"Jnémo jídla je(2): {class_names[image_pred_labels]} s pravděpodobností: {image_pred_probs.max():.3f}")
+        else:
+            plt.title(f"Predikce: {image_pred_labels} | Pravděpoobnost: {image_pred_probs.max():.3f}")
+        plt.axis(False)
+        plt.show()
+    transform = transforms.Resize(size=(64,64))
+    zobraz_fotku_2(model=model_01,
+                 image_path=custom_image_path,
+                 transform=transform,
+                 device=device,
+                 class_names=class_names)
+       """ 
