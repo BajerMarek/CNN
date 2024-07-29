@@ -21,17 +21,17 @@ def get_data_github(target_dir:str,
         image_path.mkdir(parents=True,exist_ok=True)
 
         if zip_True == True:
-            with open(data_path / data_name+"zip", "wb") as f:
+            with open(data_path / data_name, "wb") as f:        #+"zip"
                 request = requests.get(github_link)
                 print("Stahování...")
                 f.write(request.content)
 
-                with zipfile.ZipFile(data_path / data_name+"zip") as zip_ref:
+                with zipfile.ZipFile(data_path / data_name) as zip_ref:       #+"zip"
                     print("odzipovani")
                     zip_ref.extractall(image_path)
-                os.remove(data_path / data_name+"zip")
+                os.remove(data_path / data_name)        #+"zip"
         else:
-            with open(data_path / data_name+"zip", "wb") as f:
+            with open(data_path / data_name, "wb") as f:        #+"zip"
                 request = requests.get(github_link)
                 print("Stahování...")
                 f.write(request.content)

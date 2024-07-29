@@ -215,11 +215,7 @@ if __name__ == '__main__':
     optimizer = torch.optim.Adam(model_01.parameters(),  #! jiny optimizer nez model0
                                lr=0.001)
 
-<<<<<<< Updated upstream
     NUM_EPOCHS = 5
-=======
-    NUM_EPOCHS = 1
->>>>>>> Stashed changes
     from timeit import default_timer as timer
     start_time = timer()
 
@@ -360,7 +356,7 @@ if __name__ == '__main__':
         plt.show()
     zobraz_fotku(custom_image_path)
     #!Nefunguje -> Cast error details: Unable to cast Python instance of type <class 'pathlib.WindowsPath'> to C++ type '?' (#define PYBIND11_DETAILED_ERROR_MESSAGES or compile in debug mode for details)
-"""
+    """
 
     def zobraz_fotku_2(model:torch.nn.Module,
                  image_path:str,
@@ -394,4 +390,4 @@ if __name__ == '__main__':
                  transform=transform,
                  device=device,
                  class_names=class_names)
-       """ 
+    """

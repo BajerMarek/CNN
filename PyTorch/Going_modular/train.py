@@ -5,26 +5,29 @@ if __name__ == '__main__':      #! problem s ukladanim modelu -> koncoky modelu 
     from torchvision import transforms
     from pathlib import Path
     from torch import nn
-    """    
+    
     import argparse
+
+
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))) #! umožňuje tahat data ze složky
+
+    from Going_modular import model_builder,data_setup, engine, utils, get_data, predict
+
     praser = argparse.ArgumentParser(description="Tento program spusti PyTorch model",
                                      add_help="je potřeba zadat tyto argumenty:\nBATCH_SIZE\nNUM_EPOCHS\nHIDDEN_UNITIS\nLR")
     praser.add_argument("-BATCH_SIZE","--BATCH_SIZE",type=int,required=True,help="určí batchsize modelu")
     praser.add_argument("-NUM_EPOCHS","--NUM_EPOCHS",type=int,required=True,help="určí kolikrat se bude opakovat ucení modelu -> pocet opakováni v loopu ")
-    praser.add_argument("-HIDDEN_UNITIS","--HIDDEN_UNITIS",type=int,required=True,help="určí s kolikati neurony bude síť pracovat -> bude je mít")
-    praser.add_argument("-LR","--LR",type=int,required=True,help="určí s jakou rychlostí se bude model ucit v jednom opakování")"""
+    praser.add_argument("-HIDDEN_UNITS","--HIDDEN_UNITS",type=int,required=True,help="určí s kolikati neurony bude síť pracovat -> bude je mít")
+    praser.add_argument("-LR","--LR",type=float,required=True,help="určí s jakou rychlostí se bude model ucit v jednom opakování")
     device = "cuda" if torch.cuda.is_available() else "cpu"
+    args = praser.parse_args()
 
-    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))) #! umožňuje tahat data ze složky
+    BATCH_SIZE = args.BATCH_SIZE
+    NUM_EPOCHS = args.NUM_EPOCHS
+    HIDDEN_UNITS = args.HIDDEN_UNITS
+    LR = args.LR
 
-    from Going_modular import model_builder,data_setup, engine, utils, get_data
-
-    BATCH_SIZE = 32
-    NUM_EPOCHS = 5
-    HIDDEN_UNITIS = 10
-    LR = 0.001
-
-    target_dir = "data/"
+    target_dir = "C:\\Users\\Gamer\\Desktop\\111\\Programování\CNN\data\\"
     data_name = "pizza_steak_sushi"
     github_link="https://github.com/mrdbourke/pytorch-deep-learning/raw/main/data/pizza_steak_sushi.zip"
 
@@ -49,7 +52,7 @@ if __name__ == '__main__':      #! problem s ukladanim modelu -> koncoky modelu 
                                                                                 num_workers=os.cpu_count())  #? doplnit
 
     model = model_builder.TinyVgg(input_shape=3,
-                                hidden_units=HIDDEN_UNITIS,
+                                hidden_units=HIDDEN_UNITS,
                                 output_shape=len(class_names))
 
     loss_fn = nn.CrossEntropyLoss()
@@ -67,3 +70,12 @@ if __name__ == '__main__':      #! problem s ukladanim modelu -> koncoky modelu 
     utils.save_model(model=model,
                     target_dir="models",
                     model_name="Model_goi_mod_00.pth")
+    model_name = "Model_goi_mod_00.pth"
+    model_dir = f"C:\\Users\\Gamer\\Desktop\\111\\Programování\\CNN\\PyTorch\\Going_modular\\models\\{model_name}"
+
+    predict.zobraz_fotku(image_path=data_path/"04-pizza-dad.jpeg",
+                     model=model,    
+                     model_save_path=model_dir,
+                     class_names=class_names,
+                     device=device)
+    

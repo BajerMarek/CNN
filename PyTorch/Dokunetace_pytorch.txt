@@ -361,7 +361,7 @@ Ukládání a nahrávání modelů v pytorch - https://pytorch.org/tutorials/beg
     pth -> formát pro pythorch
 
 Postup Ukládání + nahrávání (state_dict -> parametry)
-    1. Je nutné importovat knihonu pathlib a následně zní pathlib
+    1. Je nutné importovat knihonu pathlib a následně zní Path
         import pathlib 
         from pathlib import Path
     2. Vytvoří se a pojmenuje místo kam se bude model ukládat (pomocí Path)
