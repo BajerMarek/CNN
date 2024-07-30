@@ -1,3 +1,6 @@
+# pro spuštění kodu z přikazového řádku
+#! python train.py -BATCH_SIZE 32 -NUM_EPOCHS 10 -HIDDEN_UNITS 10 -LR 0.001
+
 if __name__ == '__main__':      #! problem s ukladanim modelu -> koncoky modelu vyřešit!!!
     import sys
     import os

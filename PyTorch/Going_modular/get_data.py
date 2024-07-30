@@ -10,7 +10,10 @@ def get_data_github(target_dir:str,
              data_name:str,
              github_link:str,
              zip_True: bool = True):
-    #! """Target dir ->Going_modular/data/"""
+    """Target dir -> Z jake složky brát data
+    Data name -> název stahovaného souboru
+    Github_link -> odkaz na github odkud se budou data stahovat
+    Zip_True -> jestli se jedná o zip"""
     data_path = Path(target_dir)
     image_path = data_path / data_name
 
