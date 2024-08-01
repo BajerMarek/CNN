@@ -6,7 +6,9 @@ if __name__ == '__main__':
     import torchvision
     from torchvision import transforms
     import torchinfo
+    from torchvision import datasets, transforms
     from torchinfo import summary
+    #! ***************************** Získání modulů *****************************
     device = "cuda" if torch.cuda.is_available() else "cpu"
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))) #! umožňuje tahat data ze složky
     from Going_modular import data_setup, get_data, engine, utils, predict
@@ -51,22 +53,22 @@ if __name__ == '__main__':
     loss_fn = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(params=model.parameters(),
                                 lr=0.001)
-    torch.manual_seed(42)
+
     from timeit import default_timer as timer
     start_time = timer()
-    vysledek = engine.train(model=model,
+    vysledek, confmat_preds = engine.train_for_confmat(model=model,
                             train_dataloader=train_dataloader,
                             test_dataloadeer=test_dataloader,
                             loss_fn=loss_fn,
                             optimizer=optimizer,
-                            epochs=5,
+                            epochs=10,
                             device=device)
     end_time = timer()
     print(f"[INFO] Celkový čas: {end_time-start_time:.3f} [s]")
     utils.plot_loss_curves(results=vysledek)
 
     import random
-    pocet_random_fotek = 3
+    pocet_random_fotek = 1
     random_test_image_list = list(Path(test_dir).glob("*/*.jpg")) #? zíká všechny cetsy fotek do listu
     random_test_images = random.sample(population=random_test_image_list,
                                        k=pocet_random_fotek)
@@ -92,12 +94,26 @@ if __name__ == '__main__':
                      model_save_path=model_dir,
                      class_names=class_names,
                      device=device)
-    #! confusional metrix
+    #! confusional metrix           ******************************* dokončit ***********************************
+    print(confmat_preds)
+
     from torchmetrics import ConfusionMatrix
     from mlxtend.plotting import plot_confusion_matrix
     import matplotlib.pyplot as plt
+
+
+    test_data = datasets.ImageFolder(root=test_dir,
+                                     transform=auto_transform,
+                                     target_transform=None)
+    confmat_preds_tensor = torch.cat(confmat_preds)
     confmat = ConfusionMatrix(task="multiclass",num_classes=len(class_names))
-    fig, ax = plot_confusion_matrix(conf_mat=confmat,
+    print(confmat_preds_tensor.shape)
+    print(type(confmat_preds_tensor))
+    print(test_data.targets)
+    print(type(test_data.targets))
+    confmat_tensor = confmat(preds=confmat_preds_tensor,
+                         target=torch.tensor(test_data.targets))
+    fig, ax = plot_confusion_matrix(conf_mat=confmat_tensor.numpy(),
                                     class_names=class_names,
                                     figsize=(10,7))
     plt.show()
