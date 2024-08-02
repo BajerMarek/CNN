@@ -1,0 +1,24 @@
+
+
+ 10%|████████▎                                                                          | 1/10 [00:07<01:06,  7.39s/it]
+Epocha: 1 | Train_loss: 1.0933692157268524 | Test_loss: 1.11751389503479 | Train_acc: 0.42578125 | Test_acc: 0.2604166666666667
+
+ 20%|████████████████▌                                                                  | 2/10 [00:14<00:59,  7.47s/it]
+
+
+ 40%|█████████████████████████████████▏                                                 | 4/10 [00:29<00:44,  7.43s/it]
+
+ 50%|█████████████████████████████████████████▌                                         | 5/10 [00:37<00:37,  7.43s/it]
+Epocha: 5 | Train_loss: 1.090770736336708 | Test_loss: 1.030500094095866 | Train_acc: 0.28125 | Test_acc: 0.5416666666666666
+
+ 60%|█████████████████████████████████████████████████▊                                 | 6/10 [00:44<00:29,  7.49s/it]
+
+ 70%|██████████████████████████████████████████████████████████                         | 7/10 [00:52<00:23,  7.71s/it]
+
+ 80%|██████████████████████████████████████████████████████████████████▍                | 8/10 [01:00<00:15,  7.73s/it]
+
+100%|██████████████████████████████████████████████████████████████████████████████████| 10/10 [01:15<00:00,  7.56s/it]
+C:\Users\Gamer\AppData\Roaming\Python\Python311\site-packages\torchvision\transforms\functional.py:1603: UserWarning: The default value of the antialias parameter of all the resizing transforms (Resize(), RandomResizedCrop(), etc.) will change from None to True in v0.17, in order to be consistent across the PIL and Tensor backends. To suppress this warning, directly pass antialias=True (recommended, future default), antialias=None (current default, which means False for Tensors and True for PIL), or antialias=False (only works on Tensors - PIL will still use antialiasing). This also applies if you are using the inference transforms from the models weights: update the call to weights.transforms(antialias=True).
+  warnings.warn(
+Epocha: 10 | Train_loss: 0.9269720613956451 | Test_loss: 1.230303406715393 | Train_acc: 0.5625 | Test_acc: 0.2604166666666667
+[INFO] stahuji model do models\Model_goi_mod_00.pth

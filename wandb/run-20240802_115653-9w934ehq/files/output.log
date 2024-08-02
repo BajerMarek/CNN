@@ -1,0 +1,7 @@
+False
+cpu
+data\pizza_steak_sushi data uz máš... přeskakuji stahování
+Traceback (most recent call last):
+  File "C:\Users\Gamer\Desktop\111\Programování\CNN\PyTorch\Tracking\Tracking_00.py", line 172, in <module>
+    from tqdm.auto import tqdm
+ModuleNotFoundError: No module named 'tqdm'

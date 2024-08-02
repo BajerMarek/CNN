@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\models"
+    "\\models",
+    "\\PyTorch",
+    "\\PyTorch\\Tracking"
   ],
-  "SelectedNode": "\\models\\CNN_2.pth",
+  "SelectedNode": "\\PyTorch\\Tracking\\Tracking_00.py",
   "PreviewInSolutionExplorer": false
 }

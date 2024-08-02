@@ -1,4 +1,5 @@
 # pro spuštění kodu z přikazového řádku
+#! cd C:\Users\Gamer\Desktop\111\Programování\CNN\PyTorch\Going_modular
 #! python train.py -BATCH_SIZE 32 -NUM_EPOCHS 10 -HIDDEN_UNITS 10 -LR 0.001
 
 if __name__ == '__main__':      #! problem s ukladanim modelu -> koncoky modelu vyřešit!!!
@@ -8,7 +9,7 @@ if __name__ == '__main__':      #! problem s ukladanim modelu -> koncoky modelu 
     from torchvision import transforms
     from pathlib import Path
     from torch import nn
-    
+    import wandb
     import argparse
 
 

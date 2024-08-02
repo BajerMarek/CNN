@@ -1,0 +1,4 @@
+False
+cpu
+data\pizza_steak_sushi data uz máš... přeskakuji stahování
+[34m[1mwandb[39m[22m: logging graph, to disable use `wandb.watch(log_graph=False)`
