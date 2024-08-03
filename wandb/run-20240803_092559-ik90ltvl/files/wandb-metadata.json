@@ -1,0 +1,53 @@
+{
+    "os": "Windows-10-10.0.22631-SP0",
+    "python": "3.11.4",
+    "heartbeatAt": "2024-08-03T07:26:00.475678",
+    "startedAt": "2024-08-03T07:25:59.789114",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "C:\\Users\\Gamer\\Desktop\\111\\Programov\u00e1n\u00ed\\CNN\\PyTorch\\Tracking\\Tracking_00.py",
+    "codePathLocal": "PyTorch\\Tracking\\Tracking_00.py",
+    "codePath": "PyTorch\\Tracking\\Tracking_00.py",
+    "git": {
+        "remote": "https://github.com/BajerMarek/CNN.git",
+        "commit": "f15bc8d1451379f35d59cfada5dc02314972a68a"
+    },
+    "email": "marekbajer07@seznam.cz",
+    "root": "C:/Users/Gamer/Desktop/111/Programov\u00e1n\u00ed/CNN",
+    "host": "Gaming_PC",
+    "username": "Gamer",
+    "executable": "c:\\Program Files\\Python311\\python.exe",
+    "cpu_count": 6,
+    "cpu_count_logical": 12,
+    "cpu_freq": {
+        "current": 4701.0,
+        "min": 0.0,
+        "max": 4701.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 4701.0,
+            "min": 0.0,
+            "max": 4701.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 1862.2900352478027,
+            "used": 979.1411514282227
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 3060",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 3060",
+            "memory_total": 12884901888
+        }
+    ],
+    "memory": {
+        "total": 31.740402221679688
+    }
+}

@@ -9,12 +9,13 @@ if __name__ == '__main__':
     from torch import nn
     import matplotlib.pyplot as plt
     import wandb
-    cislo_pokusu = 5
+    cislo_pokusu = 7
     wandb.init(project="Tracking_00",
                name=f"RUN-{cislo_pokusu}",
                
                config={"NUM_EPOCHS":10,
                        "BATCH_SIZE":32,
+                       "HIDDEN_UNITS":20,
                        "lr":0.001})
     
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -150,7 +151,7 @@ if __name__ == '__main__':
     def test_loop(model:torch.nn.Module,
                   dataloader:torch.utils.data.DataLoader,
                   loss_fn:torch.nn.Module):
-        
+        model.to(device)                                                        #!###############################################################
         model.eval()
         test_acc,test_loss =0,0
         with torch.inference_mode():
@@ -209,7 +210,7 @@ if __name__ == '__main__':
     
 
     model_01 = TinyModelCustom(input_shape=3,
-                          hidden_units=20,
+                          hidden_units=wandb.config["HIDDEN_UNITS"],
                           output_shape=len(class_names)).to(device)
     loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model_01.parameters(),  #! jiny optimizer nez model0
