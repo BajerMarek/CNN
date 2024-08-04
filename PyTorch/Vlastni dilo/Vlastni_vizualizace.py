@@ -22,64 +22,60 @@ print(f"Data type: {label.dtype}")
 print(label)
 print(data.shape[0]/100*20)
 
+def save_and_move(i:int,
+                  train_or_test:str,
+                  type:str):
+    image_array = data[i]
+    image = Image.fromarray(image_array)
+    directory = 'C:\\Users\\Gamer\\Desktop\\111\\Programování\\CNN\\'
+    file_name = f"image_{i}.jpg"
+    file_path = os.path.join(directory,file_name)
+    image.save(file_path)
+    destination_dir =f"C:\\Users\\Gamer\\Desktop\\111\\Programování\\datasety\\Kostky_dataset\\{train_or_test}\\{type}\\"
+    shutil.move(file_path,destination_dir)
+
 for i in range(480000):
     file_name = f"image_{i}.jpg"
-    directory ="C:\\Users\\Gamer\\Desktop\\111\\Programování\\CNN\\data\\"
     if i <= 24000:
-        train = Image.fromarray(data[i])
-        local_file =train.save(f"{directory}{file_name}")
-        destination_dir ="C:\\Users\\Gamer\Desktop\\111\\Programování\\CNN\data\\Kostky_dataset\\train\\CUBE\\"
-        destination_full = os.path.join(destination_dir,local_file)
-        shutil.move(data_path,destination_full)
+        save_and_move(i=i,
+                    train_or_test="train",
+                    type="CUBE")
+
 
     if i>24000 and i<=120000:
-        train = Image.fromarray(data[i])
-        train.save(f"image_{i}.jpg")
-        destination_dir ="C:\\Users\\Gamer\\Desktop\\111\\Programování\\CNN\\data\\Kostky_dataset\\test\\CUBE\\"
-        destination_full = os.path.join(destination_dir,f"image_{i}.jpg")
-        shutil.move(data_path,destination_full)
+        save_and_move(i=i,
+                   train_or_test="test",
+                   type="CUBE")   
 
-    if i <= 164000:
-        train = Image.fromarray(data[i])
-        train.save(f"image_{i}.jpg")
-        destination_dir ="C:\\Users\\Gamer\\Desktop\\111\\Programování\\CNN\\data\\Kostky_dataset\\train\\CONE\\"
-        destination_full = os.path.join(destination_dir,f"image_{i}.jpg")
-        shutil.move(data_path,destination_full)
-        
-    if i>24000 and i<=240000:
-        train = Image.fromarray(data[i])
-        train.save(f"image_{i}.jpg")
-        destination_dir ="C:\\Users\\Gamer\\Desktop\\111\\Programování\\CNN\\data\\Kostky_dataset\\test\\CONE\\"
-        destination_full = os.path.join(destination_dir,f"image_{i}.jpg")
-        shutil.move(data_path,destination_full)
+    if i>120000 and i <= 164000:
+        save_and_move(i=i,
+                    train_or_test="train",
+                    type="SPHERE")      
+       
+    if i>164000 and i<=240000:
+        save_and_move(i=i,
+                   train_or_test="test",
+                   type="SPHERE")        
 
-    if i <= 26400:
-        train = Image.fromarray(data[i])
-        train.save(f"image_{i}.jpg")
-        destination_dir ="C:\\Users\\Gamer\\Desktop\\111\\Programování\\CNN\\data\\Kostky_dataset\\train\\SPHERE\\"
-        destination_full = os.path.join(destination_dir,f"image_{i}.jpg")
-        shutil.move(data_path,destination_full)
-        
-    if i>24000 and i<=360000:
-        train = Image.fromarray(data[i])
-        train.save(f"image_{i}.jpg")
-        destination_dir ="C:\\Users\\Gamer\\Desktop\\111\\Programování\\CNN\\data\\Kostky_dataset\\test\\SPHERE\\"
-        destination_full = os.path.join(destination_dir,f"image_{i}.jpg")
-        shutil.move(data_path,destination_full)
+    if i <= 264000 and i>240000:
+        save_and_move(i=i,
+                  train_or_test="train",
+                  type="CONE")       
+   
+    if i>264000 and i<=360000:
+        save_and_move(i=i,
+                train_or_test="test",
+                type="CONE")          
 
-    if i <= 384000:
-        train = Image.fromarray(data[i])
-        train.save(f"image_{i}.jpg")
-        destination_dir ="C:\\Users\\Gamer\\Desktop\\111\\Programování\\CNN\\data\\Kostky_dataset\\train\\TORUS\\"
-        destination_full = os.path.join(destination_dir,f"image_{i}.jpg")
-        shutil.move(data_path,destination_full)
-        
-    if i>24000 and i<=480000:
-        train = Image.fromarray(data[i])
-        train.save(f"image_{i}.jpg")
-        destination_dir ="C:\\Users\\Gamer\\Desktop\\111\\Programování\\CNN\\data\\Kostky_dataset\\test\\TORUS\\"
-        destination_full = os.path.join(destination_dir,f"image_{i}.jpg")
-        shutil.move(data_path,destination_full)
+    if i <= 384000 and i>360000:
+        save_and_move(i=i,
+              train_or_test="train",
+              type="TORUS")       
+   
+    if i>384000 and i<=480000:
+       save_and_move(i=i,
+          train_or_test="test",
+          type="TORUS")    
 
 print("hotovo")
 
