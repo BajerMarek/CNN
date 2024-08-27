@@ -1,0 +1,53 @@
+{
+    "os": "Windows-10-10.0.22631-SP0",
+    "python": "3.10.10",
+    "heartbeatAt": "2024-08-06T18:46:59.479113",
+    "startedAt": "2024-08-06T18:46:58.860171",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "C:\\Users\\Gamer\\Desktop\\111\\Programov\u00e1n\u00ed\\CNN\\PyTorch\\Vlastni dilo\\zpracovani_dat.py",
+    "codePathLocal": "PyTorch\\Vlastni dilo\\zpracovani_dat.py",
+    "codePath": "PyTorch\\Vlastni dilo\\zpracovani_dat.py",
+    "git": {
+        "remote": "https://github.com/BajerMarek/CNN.git",
+        "commit": "3d29aa3d63a4d106cc4a5ccaa15d3981081e3d04"
+    },
+    "email": "marekbajer07@seznam.cz",
+    "root": "C:/Users/Gamer/Desktop/111/Programov\u00e1n\u00ed/CNN",
+    "host": "Gaming_PC",
+    "username": "Gamer",
+    "executable": "c:\\Users\\Gamer\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+    "cpu_count": 6,
+    "cpu_count_logical": 12,
+    "cpu_freq": {
+        "current": 4701.0,
+        "min": 0.0,
+        "max": 4701.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 4701.0,
+            "min": 0.0,
+            "max": 4701.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 1862.2900352478027,
+            "used": 1019.0929565429688
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 3060",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 3060",
+            "memory_total": 12884901888
+        }
+    ],
+    "memory": {
+        "total": 31.740402221679688
+    }
+}

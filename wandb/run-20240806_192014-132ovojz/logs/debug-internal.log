@@ -1,0 +1,42 @@
+2024-08-06 19:20:14,552 INFO    StreamThr :27216 [internal.py:wandb_internal():85] W&B internal server running at pid: 27216, started at: 2024-08-06 19:20:14.551093
+2024-08-06 19:20:14,552 DEBUG   HandlerThread:27216 [handler.py:handle_request():158] handle_request: status
+2024-08-06 19:20:14,559 INFO    WriterThread:27216 [datastore.py:open_for_write():87] open: C:\Users\Gamer\Desktop\111\Programování\CNN\wandb\run-20240806_192014-132ovojz\run-132ovojz.wandb
+2024-08-06 19:20:14,559 DEBUG   SenderThread:27216 [sender.py:send():379] send: header
+2024-08-06 19:20:14,605 DEBUG   SenderThread:27216 [sender.py:send():379] send: run
+2024-08-06 19:20:15,039 INFO    SenderThread:27216 [dir_watcher.py:__init__():211] watching files in: C:\Users\Gamer\Desktop\111\Programování\CNN\wandb\run-20240806_192014-132ovojz\files
+2024-08-06 19:20:15,040 INFO    SenderThread:27216 [sender.py:_start_run_threads():1188] run started: 132ovojz with start time 1722964814.552089
+2024-08-06 19:20:15,052 DEBUG   HandlerThread:27216 [handler.py:handle_request():158] handle_request: check_version
+2024-08-06 19:20:15,052 DEBUG   SenderThread:27216 [sender.py:send_request():406] send_request: check_version
+2024-08-06 19:20:15,178 DEBUG   HandlerThread:27216 [handler.py:handle_request():158] handle_request: run_start
+2024-08-06 19:20:15,204 DEBUG   HandlerThread:27216 [system_info.py:__init__():26] System info init
+2024-08-06 19:20:15,204 DEBUG   HandlerThread:27216 [system_info.py:__init__():41] System info init done
+2024-08-06 19:20:15,204 INFO    HandlerThread:27216 [system_monitor.py:start():194] Starting system monitor
+2024-08-06 19:20:15,204 INFO    SystemMonitor:27216 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-08-06 19:20:15,204 INFO    HandlerThread:27216 [system_monitor.py:probe():214] Collecting system info
+2024-08-06 19:20:15,208 INFO    SystemMonitor:27216 [interfaces.py:start():188] Started cpu monitoring
+2024-08-06 19:20:15,208 INFO    SystemMonitor:27216 [interfaces.py:start():188] Started disk monitoring
+2024-08-06 19:20:15,209 INFO    SystemMonitor:27216 [interfaces.py:start():188] Started gpu monitoring
+2024-08-06 19:20:15,209 INFO    SystemMonitor:27216 [interfaces.py:start():188] Started memory monitoring
+2024-08-06 19:20:15,216 INFO    SystemMonitor:27216 [interfaces.py:start():188] Started network monitoring
+2024-08-06 19:20:15,223 DEBUG   HandlerThread:27216 [system_info.py:probe():152] Probing system
+2024-08-06 19:20:15,224 DEBUG   HandlerThread:27216 [system_info.py:_probe_git():137] Probing git
+2024-08-06 19:20:15,302 DEBUG   HandlerThread:27216 [system_info.py:_probe_git():145] Probing git done
+2024-08-06 19:20:15,303 DEBUG   HandlerThread:27216 [system_info.py:probe():200] Probing system done
+2024-08-06 19:20:15,303 DEBUG   HandlerThread:27216 [system_monitor.py:probe():223] {'os': 'Windows-10-10.0.22631-SP0', 'python': '3.11.4', 'heartbeatAt': '2024-08-06T17:20:15.223905', 'startedAt': '2024-08-06T17:20:14.541086', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': 'C:\\Users\\Gamer\\Desktop\\111\\Programování\\CNN\\PyTorch\\Tracking\\Tracking_00.py', 'codePathLocal': 'PyTorch\\Tracking\\Tracking_00.py', 'codePath': 'PyTorch\\Tracking\\Tracking_00.py', 'git': {'remote': 'https://github.com/BajerMarek/CNN.git', 'commit': '3d29aa3d63a4d106cc4a5ccaa15d3981081e3d04'}, 'email': 'marekbajer07@seznam.cz', 'root': 'C:/Users/Gamer/Desktop/111/Programování/CNN', 'host': 'Gaming_PC', 'username': 'Gamer', 'executable': 'c:\\Program Files\\Python311\\python.exe', 'cpu_count': 6, 'cpu_count_logical': 12, 'cpu_freq': {'current': 4701.0, 'min': 0.0, 'max': 4701.0}, 'cpu_freq_per_core': [{'current': 4701.0, 'min': 0.0, 'max': 4701.0}], 'disk': {'/': {'total': 1862.2900352478027, 'used': 1015.1646575927734}}, 'gpu': 'NVIDIA GeForce RTX 3060', 'gpu_count': 1, 'gpu_devices': [{'name': 'NVIDIA GeForce RTX 3060', 'memory_total': 12884901888}], 'memory': {'total': 31.740402221679688}}
+2024-08-06 19:20:15,303 INFO    HandlerThread:27216 [system_monitor.py:probe():224] Finished collecting system info
+2024-08-06 19:20:15,303 INFO    HandlerThread:27216 [system_monitor.py:probe():227] Publishing system info
+2024-08-06 19:20:15,303 INFO    HandlerThread:27216 [system_monitor.py:probe():229] Finished publishing system info
+2024-08-06 19:20:15,310 DEBUG   SenderThread:27216 [sender.py:send():379] send: files
+2024-08-06 19:20:15,310 INFO    SenderThread:27216 [sender.py:_save_file():1454] saving file wandb-metadata.json with policy now
+2024-08-06 19:20:15,392 DEBUG   HandlerThread:27216 [handler.py:handle_request():158] handle_request: python_packages
+2024-08-06 19:20:15,392 DEBUG   HandlerThread:27216 [handler.py:handle_request():158] handle_request: stop_status
+2024-08-06 19:20:15,392 DEBUG   SenderThread:27216 [sender.py:send_request():406] send_request: python_packages
+2024-08-06 19:20:15,393 DEBUG   HandlerThread:27216 [handler.py:handle_request():158] handle_request: internal_messages
+2024-08-06 19:20:15,393 DEBUG   SenderThread:27216 [sender.py:send_request():406] send_request: stop_status
+2024-08-06 19:20:15,640 DEBUG   SenderThread:27216 [sender.py:send():379] send: telemetry
+2024-08-06 19:20:15,641 DEBUG   SenderThread:27216 [sender.py:send():379] send: telemetry
+2024-08-06 19:20:16,011 INFO    wandb-upload_0:27216 [upload_job.py:push():130] Uploaded file C:\Users\Gamer\AppData\Local\Temp\tmpjfmo2258wandb\vw7clzb5-wandb-metadata.json
+2024-08-06 19:20:16,052 INFO    Thread-16 :27216 [dir_watcher.py:_on_file_created():271] file/dir created: C:\Users\Gamer\Desktop\111\Programování\CNN\wandb\run-20240806_192014-132ovojz\files\requirements.txt
+2024-08-06 19:20:16,053 INFO    Thread-16 :27216 [dir_watcher.py:_on_file_created():271] file/dir created: C:\Users\Gamer\Desktop\111\Programování\CNN\wandb\run-20240806_192014-132ovojz\files\wandb-metadata.json
+2024-08-06 19:20:16,053 INFO    Thread-16 :27216 [dir_watcher.py:_on_file_created():271] file/dir created: C:\Users\Gamer\Desktop\111\Programování\CNN\wandb\run-20240806_192014-132ovojz\files\output.log
+2024-08-06 19:20:16,397 DEBUG   HandlerThread:27216 [handler.py:handle_request():158] handle_request: internal_messages

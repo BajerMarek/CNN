@@ -1,0 +1,29 @@
+2024-08-06 20:46:58,862 INFO    MainThread:8372 [wandb_setup.py:_flush():76] Current SDK version is 0.17.5
+2024-08-06 20:46:58,862 INFO    MainThread:8372 [wandb_setup.py:_flush():76] Configure stats pid to 8372
+2024-08-06 20:46:58,862 INFO    MainThread:8372 [wandb_setup.py:_flush():76] Loading settings from C:\Users\Gamer\.config\wandb\settings
+2024-08-06 20:46:58,862 INFO    MainThread:8372 [wandb_setup.py:_flush():76] Loading settings from C:\Users\Gamer\Desktop\111\Programování\CNN\wandb\settings
+2024-08-06 20:46:58,862 INFO    MainThread:8372 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-08-06 20:46:58,862 INFO    MainThread:8372 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-08-06 20:46:58,863 INFO    MainThread:8372 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'PyTorch\\Vlastni dilo\\zpracovani_dat.py', 'program_abspath': 'C:\\Users\\Gamer\\Desktop\\111\\Programování\\CNN\\PyTorch\\Vlastni dilo\\zpracovani_dat.py', 'program': 'C:\\Users\\Gamer\\Desktop\\111\\Programování\\CNN\\PyTorch\\Vlastni dilo\\zpracovani_dat.py'}
+2024-08-06 20:46:58,863 INFO    MainThread:8372 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-08-06 20:46:58,863 INFO    MainThread:8372 [wandb_init.py:_log_setup():529] Logging user logs to C:\Users\Gamer\Desktop\111\Programování\CNN\wandb\run-20240806_204658-rag29k46\logs\debug.log
+2024-08-06 20:46:58,863 INFO    MainThread:8372 [wandb_init.py:_log_setup():530] Logging internal logs to C:\Users\Gamer\Desktop\111\Programování\CNN\wandb\run-20240806_204658-rag29k46\logs\debug-internal.log
+2024-08-06 20:46:58,863 INFO    MainThread:8372 [wandb_init.py:init():569] calling init triggers
+2024-08-06 20:46:58,863 INFO    MainThread:8372 [wandb_init.py:init():576] wandb.init called with sweep_config: {}
+config: {'NUM_EPOCHS': 10, 'BATCH_SIZE': 32, 'HIDDEN_UNITS': 20, 'lr': 0.001}
+2024-08-06 20:46:58,863 INFO    MainThread:8372 [wandb_init.py:init():619] starting backend
+2024-08-06 20:46:58,863 INFO    MainThread:8372 [wandb_init.py:init():623] setting up manager
+2024-08-06 20:46:58,864 INFO    MainThread:8372 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=spawn, using: spawn
+2024-08-06 20:46:58,865 INFO    MainThread:8372 [wandb_init.py:init():631] backend started and connected
+2024-08-06 20:46:58,867 INFO    MainThread:8372 [wandb_init.py:init():720] updated telemetry
+2024-08-06 20:46:58,890 INFO    MainThread:8372 [wandb_init.py:init():753] communicating run to backend with 90.0 second timeout
+2024-08-06 20:46:59,317 INFO    MainThread:8372 [wandb_run.py:_on_init():2435] communicating current version
+2024-08-06 20:46:59,431 INFO    MainThread:8372 [wandb_run.py:_on_init():2444] got version response 
+2024-08-06 20:46:59,431 INFO    MainThread:8372 [wandb_init.py:init():804] starting run threads in backend
+2024-08-06 20:46:59,562 INFO    MainThread:8372 [wandb_run.py:_console_start():2413] atexit reg
+2024-08-06 20:46:59,562 INFO    MainThread:8372 [wandb_run.py:_redirect():2255] redirect: wrap_raw
+2024-08-06 20:46:59,562 INFO    MainThread:8372 [wandb_run.py:_redirect():2320] Wrapping output streams.
+2024-08-06 20:46:59,562 INFO    MainThread:8372 [wandb_run.py:_redirect():2345] Redirects installed.
+2024-08-06 20:46:59,563 INFO    MainThread:8372 [wandb_init.py:init():847] run started, returning control to user process
+2024-08-06 20:47:22,966 INFO    MainThread:8372 [wandb_watch.py:watch():51] Watching
+2024-08-06 20:47:33,786 WARNING MsgRouterThr:8372 [router.py:message_loop():77] message_loop has been closed

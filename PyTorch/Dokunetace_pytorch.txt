@@ -459,7 +459,8 @@ Sigmoid function
     v každém bodě nezápornou derivaci a přesně jeden inflexní bod
 
 Přechod z čistích logitu -> předpovězené šance -> předpovězené popisy
-Going from raw lgits -> prediction prapabilitiess -> prediction labels 
+
+Going from raw logits -> prediction prapabilitiess -> prediction labels 
     Výsledky našeho modelu budou čisté /raw logity
     Logity mužeme převést na prediction prapabilitiess (předpovězené šance) použitím 
      nějáké aktivační funkce (Sigmoid -> binarní klasifikace a softmax -> multiclass klasifikace)

@@ -188,7 +188,7 @@ Parametr keepdims=True
     Zaručí že hodnota z dané funkce bude ve stejném tvaru jako její imput.
     Tedy pokud do funkce zadáme 2D list ta zní získame znovu 2D list.
 
-Zabránění přsicení
+Zabránění přesicení
     Aby se zabránilo přesicení funkce je potřeba převést nejvýší hodnotu
     ze zadaných hodnot na 0 a a všechny ostatní hodnoty na menší než nula.
     Př.  X = [1,2,3] hodnoty v funkci před upravou

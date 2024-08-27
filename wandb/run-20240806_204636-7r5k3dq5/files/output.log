@@ -1,0 +1,11 @@
+
+Using cache found in C:\Users\Gamer/.cache\torch\hub\ultralytics_yolov5_master
+[31m[1mrequirements:[39m[22m Ultralytics requirement ['setuptools>=70.0.0'] not found, attempting AutoUpdate...
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: setuptools>=70.0.0 in c:\users\gamer\appdata\roaming\python\python311\site-packages (72.1.0)
+[31m[1mrequirements:[39m[22m AutoUpdate success ✅ 0.6s, installed 1 package: ['setuptools>=70.0.0']
+[31m[1mrequirements:[39m[22m ⚠️ [1mRestart runtime or rerun command for updates to take effect
+YOLOv5  2024-8-6 Python-3.10.10 torch-2.4.0+cpu CPU
+Downloading https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5l.pt to yolov5l.pt...
+
+

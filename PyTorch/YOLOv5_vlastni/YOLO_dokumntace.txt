@@ -1,0 +1,77 @@
+Cíl:
+    Cílem tohoto projektu je vytvořit object detection model, který si budu moct dále upravovat podle svých potřeb
+    Cíl dokumentace: Zapsat sem vše co bych jinak zapoměl, nebo co nového sem se naučil, nebo vše cemu norozumím.
+
+Tensors / listy
+    Jedná se o číselné hodnoty v různých formátech.
+    V této knihovně se tensory vytváří pomocí příkazu -> torch.tensor()
+    Existují 3 základní typy :
+
+    Scalar / Skalár
+        Bez žádných dimenzí čistě jedno číslo.
+            Bod
+        Je potřeba použít metodu .item() abych získali scalar jako normální číslov Pythonu
+
+    Vector / 1D lyst / Vector / 1D
+        Má jednu dimenzi -> jakoby jeden směr.
+            Čára
+        Klasický lyst v Pythonu.
+        Slkádá se z vícce čísel v hrantých závorkách.
+        Např. [1, 2, 3]
+    
+    Matrix / 2D list / 2D
+    Má dvě dimenze -> dva různé směry
+        čtverec
+
+    Tensor / 3D list / 3D
+    Má tři dimenze -> má tři různé směry
+        Krychle
+
+torch.nn:
+
+    torch.nn -> vše co pytorch nabízí pro neuronové sítě
+    https://pytorch.org/docs/stable/nn.html#normalization-layers -> odkaz na pytoch dokumetaci pro torch.nn
+
+    nn.Sequential:
+        syntax:
+            self.Blok_modelu = nn.Sequential(...)
+        Blok modelu -> část modelus určitými vrstvami
+        Do nn.Sequential se vkládají vrsvy modelu které budou v daném bloku modelu
+    Aktivační funkce:
+        Funkce přes kterou upravujeme output neuronu.
+        Využívají se proto že samotný output nemusí vyhovovat požadavkum na danou CNN.
+        Aktivační funkce tedy output upravý tak aby vyhovoval požadavkům lépe
+        a přispůsobyl se.
+
+        nn.SiLU:
+            Známá také jako swish function.
+            Vysvětlivka: Aplikuje na všechny elemnty(vstupy do funkce) Linearní Sigmoidní funkcy
+
+        nn.ReLu:
+            Pokud je vstupní elemnt větší než 0 tak output je elemnt.
+            Ale pokud je menší než 0 tak se rovná nule
+
+    Vrstvy:
+        Modele se skládá z vrstev které nějákým způsobem operují s daty
+
+        BatchNorm2d:
+            Vysvětlivka: Jedná se o vyrsvu která provede Batch Normalization na vstupech o 4 dimenzích(4D)
+                         4D je minidávka 2D vstupů s dalším  rozměrem kanálu. přesně popsáno v prvním odkazu 
+            https://arxiv.org/pdf/1502.03167 -> odkaz na vysvětlení co je batch normalization
+            https://pytorch.org/docs/stable/generated/torch.nn.BatchNorm2d.html -> odkaz na pytorch dokumetaci
+
+        Conv2d:
+            Vysvětlivka: Jedná se o konvolucionální vrstvu -> využívá dvě funkce pro vznik třetí s výsledkem
+                         Tato vrsva přijímá 2D batche dat a provádí konvoluci více v prvním odkazu
+            https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html#torch.nn.Conv2d -> odkaz na pytorch dokumetaci
+            https://machinelearningmastery.com/convolutional-layers-for-deep-learning-neural-networks/  -> vše ptřebné k kernelelu a convolutionalním vrstvám
+        
+
+kernel        
+    https://machinelearningmastery.com/convolutional-layers-for-deep-learning-neural-networks/  -> vše ptřebné k kernelelu a convolutionalním vrstvám
+                     
+
+
+https://chatgpt.com/c/971c7996-f75b-41ab-97ab-23921e4ff800 - > chatgpt otazky ke každou
+
+        
