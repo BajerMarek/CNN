@@ -1,0 +1,45 @@
+{
+    "os": "Windows-10-10.0.19045-SP0",
+    "python": "3.12.4",
+    "heartbeatAt": "2024-08-02T06:57:41.241870",
+    "startedAt": "2024-08-02T06:57:37.942332",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "c:\\Users\\User99\\Documents\\GitHub\\CNN\\Numpy_s\u00ed\u0165(matematika)\\hledani.py",
+    "codePathLocal": "Numpy_s\u00ed\u0165(matematika)\\hledani.py",
+    "codePath": "Numpy_s\u00ed\u0165(matematika)\\hledani.py",
+    "git": {
+        "remote": "https://github.com/BajerMarek/CNN.git",
+        "commit": "2676b31257616567de064e9823eaa1cd6b58e60e"
+    },
+    "email": "marekbajer07@seznam.cz",
+    "root": "C:/Users/User99/Documents/GitHub/CNN",
+    "host": "Home",
+    "username": "User99",
+    "executable": "c:\\Users\\User99\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 1400.0,
+        "min": 0.0,
+        "max": 2401.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1400.0,
+            "min": 0.0,
+            "max": 2401.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 930.5351524353027,
+            "used": 168.73274993896484
+        }
+    },
+    "memory": {
+        "total": 7.957942962646484
+    }
+}
