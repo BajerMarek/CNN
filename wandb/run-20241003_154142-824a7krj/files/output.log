@@ -1,0 +1,74 @@
+
+Freezing layer 'model.23.dfl.conv.weight'
+[34m[1mtrain: [39m[22mScanning C:\Users\User99\Documents\GitHub\CNN\datasets\coco8\labels\train.cache... 4 images, 0 backgrounds, 0 corrupt: 100%|██████████
+[34m[1mval: [39m[22mScanning C:\Users\User99\Documents\GitHub\CNN\datasets\coco8\labels\val.cache... 4 images, 0 backgrounds, 0 corrupt: 100%|██████████| 4/
+Plotting labels to runs\detect\train2\labels.jpg...
+[34m[1moptimizer:[39m[22m 'optimizer=auto' found, ignoring 'lr0=0.01' and 'momentum=0.937' and determining best 'optimizer', 'lr0' and 'momentum' automatically...
+[34m[1moptimizer:[39m[22m AdamW(lr=0.000119, momentum=0.9) with parameter groups 81 weight(decay=0.0), 88 weight(decay=0.0005), 87 bias(decay=0.0)
+Image sizes 640 train, 640 val
+Using 0 dataloader workers
+Logging results to [1mruns\detect\train2
+Starting training for 10 epochs...
+Closing dataloader mosaic
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       1/10         0G     0.8446      1.871      1.164         13        640: 100%|██████████| 1/1 [00:12<00:00, 12.50s/it]
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 1/1 [00:03<00:00,  3.64s/it]
+                   all          4         17      0.573       0.85      0.878      0.635
+  0%|          | 0/1 [00:00<?, ?it/s]
+       2/10         0G      1.055      1.976      1.435         13        640: 100%|██████████| 1/1 [00:06<00:00,  6.65s/it]
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 1/1 [00:01<00:00,  1.56s/it]
+                   all          4         17      0.569       0.85      0.886      0.636
+  0%|          | 0/1 [00:00<?, ?it/s]
+       3/10         0G     0.8993      1.769      1.122         13        640: 100%|██████████| 1/1 [00:04<00:00,  4.97s/it]
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 1/1 [00:01<00:00,  1.75s/it]
+                   all          4         17      0.596       0.85      0.849      0.633
+  0%|          | 0/1 [00:00<?, ?it/s]
+       4/10         0G     0.8326      1.496     0.9967         13        640: 100%|██████████| 1/1 [00:04<00:00,  4.79s/it]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 1/1 [00:01<00:00,  1.50s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]
+                   all          4         17      0.627       0.85       0.85       0.65
+       5/10         0G     0.9969       2.01       1.16         13        640: 100%|██████████| 1/1 [00:04<00:00,  4.30s/it]
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 1/1 [00:01<00:00,  1.64s/it]
+                   all          4         17      0.649       0.85      0.853      0.651
+  0%|          | 0/1 [00:00<?, ?it/s]
+       6/10         0G     0.9779      1.605      1.236         13        640: 100%|██████████| 1/1 [00:04<00:00,  4.82s/it]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 1/1 [00:01<00:00,  1.54s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]
+                   all          4         17      0.686      0.891      0.903      0.656
+       7/10         0G     0.9341      2.788      1.376         13        640: 100%|██████████| 1/1 [00:04<00:00,  4.71s/it]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 1/1 [00:01<00:00,  1.40s/it]
+                   all          4         17      0.724      0.933      0.929      0.661
+  0%|          | 0/1 [00:00<?, ?it/s]
+       8/10         0G      0.861      1.798       1.26         13        640: 100%|██████████| 1/1 [00:03<00:00,  3.97s/it]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 1/1 [00:01<00:00,  1.65s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]
+                   all          4         17      0.731      0.933      0.931      0.645
+       9/10         0G     0.9372      1.805      1.193         13        640: 100%|██████████| 1/1 [00:04<00:00,  4.13s/it]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 1/1 [00:01<00:00,  1.26s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]
+                   all          4         17       0.73      0.933      0.936      0.639
+      10/10         0G       0.88      2.176      1.261         13        640: 100%|██████████| 1/1 [00:03<00:00,  3.79s/it]
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 1/1 [00:01<00:00,  1.28s/it]
+                   all          4         17      0.654       0.85      0.862      0.632
+10 epochs completed in 0.024 hours.
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95):   0%|          | 0/1 [00:00<?, ?it/s]
+Optimizer stripped from runs\detect\train2\weights\last.pt, 5.5MB
+Optimizer stripped from runs\detect\train2\weights\best.pt, 5.5MB
+Validating runs\detect\train2\weights\best.pt...
+Ultralytics 8.3.3 🚀 Python-3.12.6 torch-2.2.0+cpu CPU (Intel Core(TM) i7-2760QM 2.40GHz)
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 1/1 [00:01<00:00,  1.39s/it]
+                   all          4         17      0.654       0.85      0.855      0.654
+                person          3         10      0.654        0.6        0.6      0.298
+                   dog          1          1      0.581          1      0.995      0.796
+                 horse          1          2      0.765          1      0.995      0.674
+              elephant          1          2      0.417        0.5      0.548      0.263
+              umbrella          1          1      0.609          1      0.995      0.995
+          potted plant          1          1      0.898          1      0.995      0.895
+Speed: 3.0ms preprocess, 319.3ms inference, 0.0ms loss, 4.2ms postprocess per image
+Results saved to [1mruns\detect\train2

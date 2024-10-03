@@ -249,7 +249,7 @@ Derivace - zjednodušeně
     pokud by se nic nezmněnilo.
     Čím blíže jsou k sbě body potřebmné pro vytvoření této přímky tím krátkodobější je náš
     předpoklad.
-    => Pímku lze také udělat ze dvou od sebe vzdálenějších bodů.
+    => Přímku lze také udělat ze dvou od sebe vzdálenějších bodů.
     V tom případě platí že čím dále odsebe budoubody potřebné pro vytvoření přímky 
     tím nepřesnější přímka bude v ten moment ale tím přisněší bude její odhad 
     vývoje grafu.

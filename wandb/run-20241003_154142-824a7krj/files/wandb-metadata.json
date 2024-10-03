@@ -1,0 +1,45 @@
+{
+    "os": "Windows-10-10.0.19045-SP0",
+    "python": "3.12.6",
+    "heartbeatAt": "2024-10-03T13:41:45.578206",
+    "startedAt": "2024-10-03T13:41:42.307205",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "C:\\Users\\User99\\Documents\\GitHub\\CNN\\PyTorch\\YOLO_ULTRA\\Init.py",
+    "codePathLocal": "PyTorch\\YOLO_ULTRA\\Init.py",
+    "codePath": "PyTorch\\YOLO_ULTRA\\Init.py",
+    "git": {
+        "remote": "https://github.com/BajerMarek/CNN.git",
+        "commit": "8fac23b636174c164196ce3552ffd6d2b3206d5f"
+    },
+    "email": "marekbajer07@seznam.cz",
+    "root": "C:/Users/User99/Documents/GitHub/CNN",
+    "host": "Home",
+    "username": "User99",
+    "executable": "c:\\Users\\User99\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 2401.0,
+        "min": 0.0,
+        "max": 2401.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2401.0,
+            "min": 0.0,
+            "max": 2401.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 930.5351524353027,
+            "used": 195.92620468139648
+        }
+    },
+    "memory": {
+        "total": 7.957942962646484
+    }
+}
